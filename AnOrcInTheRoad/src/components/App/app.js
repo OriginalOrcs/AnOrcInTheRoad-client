@@ -7,6 +7,7 @@ import Geolocation from '../../containers/geolocation';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise';
 import createLogger from 'redux-logger';
+import LoadingMap from '../Map/map'
 
 const logger = createLogger();
 const store = createStore(
@@ -23,6 +24,7 @@ class App extends Component {
           An Orc In The Road!
         </Text>
         <Geolocation />
+        <LoadingMap />
       </View>
       </Provider>
     );
