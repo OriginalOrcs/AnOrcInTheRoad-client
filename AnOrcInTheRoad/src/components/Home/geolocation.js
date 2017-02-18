@@ -1,40 +1,22 @@
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import React, { Component, PropTypes } from 'react';
+import { View, Text, Button } from 'react-native';
 
-class GeolocationExample extends Component {
-  constructor(props) {
-    super(props);
+const GeolocationExample = ({ geolocation, sendLocation }) => (
+  <View style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <Text>Latitude: {geolocation.latitude}</Text>
+    <Text>Longitude: {geolocation.longitude}</Text>
+    <Button
+      onPress={sendLocation}
+      title="Get GPS Location"
+      color="#841584"
+      accessibilityLabel="Learn more about this purple button"
+    />
+  </View>
+)
 
-    this.state = {
-      latitude: null,
-      longitude: null,
-      error: null,
-    };
-  }
-
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          error: null,
-        });
-      },
-      (error) => this.setState({ error: error.message }),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    );
-  }
-
-  render() {
-    return (
-      <View style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Latitude: {this.state.latitude}</Text>
-        <Text>Longitude: {this.state.longitude}</Text>
-        {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
-      </View>
-    );
-  }
+GeolocationExample.propTypes = {
+  geolocation: PropTypes.object.isRequired,
+  sendLocation: PropTypes.func.isRequired
 }
 
 export default GeolocationExample;
