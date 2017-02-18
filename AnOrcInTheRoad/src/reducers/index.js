@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import currentLocation from './geolocation';
+import geolocation from './geolocation';
 
 
 const combinedReducers = combineReducers({
-	currentLocation
+	coordinates: geolocation
 });
 
 export default combinedReducers;

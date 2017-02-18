@@ -1,9 +1,14 @@
-const geolocation = (state = {}, action) => {
+const initialState = {
+  latitude: 0,
+  longitude: 0
+}
+
+const geolocation = (state = initialState, action) => {
 	switch (action.type) {
 		case 'SET_CURRENT_LOCATION':
 			return {
-				id: action.id,
-				coordinates: action.coodinates
+				latitude: action.latitude,
+        longitude: action.longitude
 			}
 		default:
 			return state;

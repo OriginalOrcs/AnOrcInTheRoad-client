@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import reducers from '../../reducers/index';
-import Geolocation from '../Home/geolocation'
+import Geolocation from '../../containers/geolocation';
+import thunk from 'redux-thunk';
+import promise from 'redux-promise';
+import createLogger from 'redux-logger';
 
-let store = createStore(reducers)
+const logger = createLogger();
+const store = createStore(
+  reducers,
+  applyMiddleware(thunk, promise, logger)
+);
 
 class App extends Component {
   render() {
