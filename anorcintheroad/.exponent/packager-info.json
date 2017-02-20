@@ -1,0 +1,8 @@
+{
+  "exponentServerPort": 19002,
+  "packagerPort": 19003,
+  "packagerPid": 18833,
+  "exponentServerNgrokUrl": "https://ka-mrx.woobianca.anorcintheroad.exp.direct",
+  "packagerNgrokUrl": "https://packager.ka-mrx.woobianca.anorcintheroad.exp.direct",
+  "ngrokPid": 18849
+}
