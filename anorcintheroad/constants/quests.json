@@ -1,0 +1,74 @@
+[
+  {
+    name: 'Journey to the Mysterious Mall',
+    experience: 1400,
+    creator_id: 5,
+    lat: 37.784661, 
+    lng: -122.406424,
+    type: 'addFetchQuest',
+    item_id: '4'
+  },
+  {
+    name: 'Explore the Great Dry Cleaners',
+    experience: 500,
+    creator_id: 9,
+    lat: 37.789307,
+    lng:  -122.413248,
+    type: 'addFetchQuest',
+    item_id: '7'
+  },
+  {
+    name: 'Visit the Dungeon',
+    experience: 1500,
+    creator_id: 1,
+    lat: 37.783712, 
+    lng: -122.408914,
+    type: 'addFetchQuest',
+    item_id: '12'
+  },
+  {
+    name: 'Discover The Island',
+    experience: 5000,
+    creator_id: 52,
+    lat: 37.826612, 
+    lng: -122.422849,
+    type: 'addFetchQuest',
+    item_id: '1'
+  },
+  {
+    name: 'test',
+    experience: 1400,
+    creator_id: 5,
+    lat: 37.7230803166757, 
+    lng: -122.452331546842,
+    type: 'addFetchQuest',
+    item_id: '2'
+  },
+  {
+    name: 'test',
+    experience: 500,
+    creator_id: 9,
+    lat: 37.7229614211437,
+    lng:  -122.449558686932,
+    type: 'addFetchQuest',
+    item_id: '8'
+  },
+  {
+    name: 'test',
+    experience: 1500,
+    creator_id: 1,
+    lat: 37.766814022028, 
+    lng: -122.419187412446,
+    type: 'addFetchQuest',
+    item_id: '11'
+  },
+  {
+    name: 'test',
+    experience: 5000,
+    creator_id: 52,
+    lat: 37.7862480963577, 
+    lng: -122.402025278101,
+    type: 'addFetchQuest',
+    item_id: '5'
+  },
+]
