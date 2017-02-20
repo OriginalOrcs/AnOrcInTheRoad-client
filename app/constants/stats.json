@@ -1,0 +1,87 @@
+[
+  {
+    user_id: 0,
+    quests: {
+      created: 14,
+      completed: 73,
+      accepted: 114,
+      statsByType: {
+        addFetchQuest: {
+          created: 12,
+          completed: 60,
+          accepted: 90,
+        },
+        battleSolo: {
+          created: 2,
+          completed: 11,
+          accepted: 17,
+        },
+        battleTeam: {
+          created: 0,
+          completed: 2,
+          accepted: 7,
+        },
+      },
+    },
+    items: {
+      total: 200,
+      created: 73,
+      quest_receive: 127,
+      quest_give: 14,
+    },
+    acheivements: {
+      total: 14,
+      badges: [
+        {
+          name: 'Quest Master',
+          image: '../assets/images/badge-quest-master.png',
+        },
+        {
+          name: 'Noob Strength',
+          image: '../assets/images/1.png',
+        },
+      ]
+    },
+  },
+  {
+    user_id: 1,
+    quests: {
+      created: 3,
+      completed: 25,
+      accepted: 77,
+      statsByType: {
+        addFetchQuest: {
+          created: 2,
+          completed: 12,
+          accepted: 59,
+        },
+        battleSolo: {
+          created: 1,
+          completed: 13,
+          accepted: 15,
+        },
+        battleTeam: {
+          created: 0,
+          completed: 0,
+          accepted: 3,
+        },
+      }
+    },
+    items: {
+      total: 90,
+      created: 13,
+      quest_receive: 77,
+      quest_give: 3,
+    },
+    acheivements: {
+      total: 3,
+      badges: [
+        {
+          name: 'Noob Strength',
+          image: '../assets/images/1.png',
+        },
+      ]
+    },
+  },
+
+]

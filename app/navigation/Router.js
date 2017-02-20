@@ -6,9 +6,10 @@ import HomeScreen from '../screens/HomeScreen';
 import QuestListScreen from '../screens/QuestListScreen';
 import MapScreen from '../screens/MapScreen';
 import RootNavigation from './RootNavigation';
+import UserScreen from '../screens/UserScreen';
 
 export default createRouter(() => ({
-  home: () => HomeScreen,
+  home: () => UserScreen,
   quests: () => QuestListScreen,
   map: () => MapScreen,
   rootNavigation: () => RootNavigation,
