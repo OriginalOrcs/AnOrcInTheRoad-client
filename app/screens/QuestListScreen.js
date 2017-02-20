@@ -3,11 +3,10 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import {
-  ExponentLinksView,
-} from '@exponent/samples';
+import QuestList from '../components/QuestList'
+import quests from '../constants/quests.json'
 
-export default class LinksScreen extends React.Component {
+export default class QuestListScreen extends React.Component {
   static route = {
     navigationBar: {
       title: 'Quests',
@@ -20,9 +19,7 @@ export default class LinksScreen extends React.Component {
         style={styles.container}
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
 
-        { /* Go ahead and delete ExponentLinksView and replace it with your
-           * content, we just wanted to provide you with some helpful links */ }
-        <ExponentLinksView />
+        <QuestList quests={quests} />
 
       </ScrollView>
     );
