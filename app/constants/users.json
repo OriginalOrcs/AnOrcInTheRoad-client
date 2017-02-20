@@ -1,0 +1,15 @@
+[
+  {
+    name: 'Andrew Hsu',
+    level: 9000,
+    experience: 23576,
+    experienceToNext: 24000,
+    class: 'orc',
+    avatar: '../assets/icons/app-icon.png'
+  },
+  {
+    name: 'Bianca Woo',
+    level: 8999,
+    class: 'orc',
+  }
+]
