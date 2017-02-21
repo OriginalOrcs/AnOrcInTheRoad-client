@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, ListView, StyleSheet, Text, TouchableHighlight } from 'react-native';
 import QuestRow from './QuestRow';
+import QuestCreate from './QuestCreate';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,6 +23,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
   },
+  createQuest: {
+    paddingBottom: 20,
+  },
 });
 
 class QuestList extends React.Component {
@@ -32,6 +36,7 @@ class QuestList extends React.Component {
     });
     this.state = {
       dataSource: ds.cloneWithRows(props.quests),
+      modalVisible: true,
     };
   }
 
@@ -52,21 +57,20 @@ class QuestList extends React.Component {
   
   render() {
     return (
-      <View style={styles.container}>
-        <TouchableHighlight
-          onPress={this.pressNewQuest}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>
-            Create New Quest
-          </Text>
-        </TouchableHighlight>
-        <ListView
-          key={this.state.quests}
-          dataSource={this.state.dataSource}
-          renderRow={this.renderRow}
-          renderSeperator={this.renderSeperator}
-        />
+      <View>
+        <View style={styles.createQuest}>
+          <QuestCreate />
+        </View>
+        <View style={styles.container}>
+          <View style={styles.createQuest}>
+            <ListView
+              key={this.state.quests}
+              dataSource={this.state.dataSource}
+              renderRow={this.renderRow}
+              renderSeperator={this.renderSeperator}
+            />
+          </View>
+        </View>
       </View>
     );
   }

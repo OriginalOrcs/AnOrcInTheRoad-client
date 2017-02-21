@@ -1,0 +1,196 @@
+import React from 'react';
+import { View, Text, StyleSheet, Modal, TouchableHighlight, TextInput, Slider, Picker } from 'react-native';
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#F7F7F7',
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
+  heading: {
+    fontSize: 30,
+    fontWeight: '300',
+  },
+  heading2: {
+    fontSize: 20,
+    fontWeight: '200',
+  },
+  subtitle: {
+    fontSize: 12,
+    fontWeight: '100',
+    color: 'gray',
+  },
+  label: {
+    marginLeft: 20,
+    marginBottom: 0,
+    fontSize: 16,
+    fontWeight: '200',
+  },
+  image: {
+    width: 200,
+    height: 200,
+  },
+  group: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginLeft: 20,
+  },
+  button: {
+    height: 60,
+    borderColor: '#05A5D1',
+    borderWidth: 2,
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addButton: {
+    backgroundColor: '#333',
+    height: 60,
+    borderColor: '#05A5D1',
+    borderWidth: 2,
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  submitButton: {
+    backgroundColor: 'green',
+    height: 60,
+    borderColor: '#05A5D1',
+    borderWidth: 2,
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeButton: {
+    backgroundColor: '#333',
+    height: 60,
+    borderColor: '#05A5D1',
+    borderWidth: 2,
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#FAFAFA',
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    paddingLeft: 10,
+  },
+  modal: {
+    paddingTop: 20,
+  },
+  picker: {
+    padding: 20,
+  },
+});
+
+class QuestCreate extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalVisible: false,
+      name: null,
+      location: null,
+      experience: null,
+      type: null,
+      reward: null,
+    };
+  }
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+  render() {
+    return (
+      <View style={styles.container}>
+        <Modal
+          animationType={"slide"}
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => { alert("Modal has been closed.") }}
+          style={styles.modal}
+        >
+          <View style={styles.modal}>
+            <TextInput
+              style={styles.input}
+              onChangeText={(name) => this.setState({name})}
+              placeholder="Quest Name"
+              value={this.state.name}
+            />
+            <TextInput
+              style={styles.input}
+              onChangeText={(location) => this.setState({location})}
+              placeholder="Location"
+              value={this.state.location}
+            />
+            <Text style={styles.label}>Experience</Text>
+            <Slider
+              style={styles.input}
+              onChangeText={(experience) => this.setState({experience})}
+              minimumValue={0}
+              maximumValue={99999}
+            />
+            <TextInput
+              style={styles.input}
+              onChangeText={(reward) => this.setState({reward})}
+              placeholder="Reward"
+              value={this.state.reward}
+            />
+            <Picker
+              selectedValue={this.state.type}
+              onValueChange={(type) => this.setState({type: type})}
+              style={styles.picker}
+            >
+              <Picker.Item label="Fetch Quest" value="addFetchQuest" />
+              <Picker.Item label="Battle - Solo" value="addBattleSoloQuest" />
+              <Picker.Item label="Battle - Co-op" value="addCoopSoloQuest" />
+            </Picker>
+            <TouchableHighlight
+              onPress={() => {
+                this.setModalVisible(!this.state.modalVisible);
+              }}
+              style={styles.submitButton}
+            >
+              <Text style={styles.buttonText}>Submit Quest</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              onPress={() => {
+                this.setModalVisible(!this.state.modalVisible);
+              }}
+              style={styles.closeButton}
+            >
+              <Text style={styles.buttonText}>Close Menu</Text>
+            </TouchableHighlight>
+          </View>
+        </Modal>
+        <View>
+          <TouchableHighlight
+            onPress={() => {
+              this.setModalVisible(true);
+            }}
+            style={styles.addButton}
+          >
+            <Text style={styles.buttonText}>Create New Quest</Text>
+          </TouchableHighlight>
+        </View>
+      </View>
+    );
+  }
+}
+
+export default QuestCreate;
