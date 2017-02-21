@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Modal, TouchableHighlight, TextInput, Slider, Picker } from 'react-native';
 
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F7F7F7',
@@ -108,14 +109,19 @@ class QuestCreate extends React.Component {
       name: null,
       location: null,
       experience: null,
-      type: null,
-      reward: null,
+      questType: null,
+      item_id: null,
+      creator_id: null,
+      lat: null,
+      lng: null,
     };
   }
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
+
   render() {
+    console.log('QUEST CREATE PROPS', JSON.stringify(this.props));
     return (
       <View style={styles.container}>
         <Modal
@@ -144,16 +150,17 @@ class QuestCreate extends React.Component {
               onChangeText={(experience) => this.setState({experience})}
               minimumValue={0}
               maximumValue={99999}
+              value={this.state.experience}
             />
             <TextInput
               style={styles.input}
-              onChangeText={(reward) => this.setState({reward})}
+              onChangeText={(item_id) => this.setState({item_id})}
               placeholder="Reward"
-              value={this.state.reward}
+              value={this.state.item_id}
             />
             <Picker
-              selectedValue={this.state.type}
-              onValueChange={(type) => this.setState({type: type})}
+              selectedValue={this.state.questType}
+              onValueChange={(questType) => this.setState({questType})}
               style={styles.picker}
             >
               <Picker.Item label="Fetch Quest" value="addFetchQuest" />
@@ -161,9 +168,7 @@ class QuestCreate extends React.Component {
               <Picker.Item label="Battle - Co-op" value="addCoopSoloQuest" />
             </Picker>
             <TouchableHighlight
-              onPress={() => {
-                this.setModalVisible(!this.state.modalVisible);
-              }}
+              onPress={() => this.props.onSubmitQuest(this.state.name, this.state.location, this.state.questType, this.state.experience, this.state.creator_id, this.state.lat, this.state.lng, this.state.item_id)}
               style={styles.submitButton}
             >
               <Text style={styles.buttonText}>Submit Quest</Text>

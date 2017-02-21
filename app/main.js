@@ -7,6 +7,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { createStore } from 'redux';
 import {
   NavigationProvider,
   StackNavigation,
@@ -17,6 +18,13 @@ import {
 
 import Router from './navigation/Router';
 import cacheAssetsAsync from './utilities/cacheAssetsAsync';
+
+import { Provider } from 'react-redux';
+import reducers from './reducers/index'
+
+const store = createStore(
+  reducers
+);
 
 class AppContainer extends React.Component {
   state = {
@@ -53,14 +61,16 @@ class AppContainer extends React.Component {
   render() {
     if (this.state.appIsReady) {
       return (
-        <View style={styles.container}>
-          <NavigationProvider router={Router}>
-            <StackNavigation id="root" initialRoute={Router.getRoute('rootNavigation')} />
-          </NavigationProvider>
+        <Provider store={store}>
+          <View style={styles.container}>
+            <NavigationProvider router={Router}>
+              <StackNavigation id="root" initialRoute={Router.getRoute('rootNavigation')} />
+            </NavigationProvider>
 
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
-        </View>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
+          </View>
+        </Provider>
       );
     } else {
       return (
