@@ -51,7 +51,7 @@ class QuestRow extends React.Component {
         </Text>
         {this.props.showDetails ?
           <View onPress={this.toggleQuestDetails}>
-            <Text style={styles.subtitle}>{this.props.quest.type}</Text>
+            <Text style={styles.subtitle}>{this.props.quest.questType}</Text>
             <Text style={styles.label}>Distance: 0.04 Miles</Text>
             <Text style={styles.subtitle}>Lat: {this.props.quest.lat} | Lng: {this.props.quest.lng} </Text>
             <Text style={styles.label}>Rewards: {this.props.quest.experience} EXP</Text>

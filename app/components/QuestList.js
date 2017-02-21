@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, ListView, StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { View, ListView, StyleSheet } from 'react-native';
 import QuestRow from './QuestRow';
 import QuestCreate from './QuestCreate';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -40,34 +41,35 @@ class QuestList extends React.Component {
     };
   }
 
-  rowPress() {
-    console.log('You have pressed row');
-  }
-
-
-  pressNewQuest() {
-    console.log('You have pressed the New Quest button');
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.quests !== this.props.quests) {
+      this.setState({
+        elements: nextProps.quests,
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.quests),
+      });
+    }
   }
 
   renderRow(quest) {
     return (
-      <QuestRow quest={quest} rowPress={this.rowPress} showDetails={true} />
+      <QuestRow quest={quest} showDetails={true} />
     );
   }
-  
   render() {
+    console.log('quest list component PROPS', this.props);
     return (
       <View>
         <View style={styles.createQuest}>
-          <QuestCreate />
+          <QuestCreate onSubmitQuest={this.props.onSubmitQuest} />
         </View>
         <View style={styles.container}>
           <View style={styles.createQuest}>
             <ListView
-              key={this.state.quests}
+              key={this.props.quests}
               dataSource={this.state.dataSource}
               renderRow={this.renderRow}
               renderSeperator={this.renderSeperator}
+              enableEmptySections={true}
             />
           </View>
         </View>

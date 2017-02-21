@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import QuestList from '../components/QuestList'
 import quests from '../constants/quests.json'
+import VisibleQuestList from '../containers/VisibleQuestList'
 
 export default class QuestListScreen extends React.Component {
   static route = {
@@ -18,13 +19,10 @@ export default class QuestListScreen extends React.Component {
       <ScrollView
         style={styles.container}
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
-
-        <QuestList quests={quests} />
-
+        <VisibleQuestList />
       </ScrollView>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
