@@ -7,7 +7,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import {
   NavigationProvider,
   StackNavigation,
@@ -22,9 +22,25 @@ import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 import { Provider } from 'react-redux';
 import reducers from './reducers/index'
 
-const store = createStore(
-  reducers
-);
+import createSocketIoMiddleware from 'redux-socket.io';
+import io from 'socket.io-client';
+
+let socket = io('http://10.7.24.229:3000');
+let socketIoMiddleware = createSocketIoMiddleware(socket, "server/");
+function reducer(state = {}, action){
+  switch(action.type){
+    case 'message':
+      return Object.assign({}, {message:action.data});
+    default:
+      return state;
+  }
+}
+let store = applyMiddleware(socketIoMiddleware)(createStore)(reducers);
+store.subscribe(()=>{
+  console.log('new client state', store.getState());
+});
+store.dispatch({type:'server/hello', data:'Hello!'});
+console.log('store dispatched');
 
 class AppContainer extends React.Component {
   state = {

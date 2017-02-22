@@ -33,8 +33,6 @@ async function getLocationAsync(cb) {
 const mapDispatchToProps = (dispatch) => {
   return {
     onSubmitQuest: (name, location, questType, experience, creator_id, item_id) => {
-      let dist;
-
       getLocationAsync((result) => {
         console.log('MY RESULT', result.coords);
         dispatch(addQuest(name, location, questType, experience, creator_id, result.coords.latitude, result.coords.longitude, item_id));
