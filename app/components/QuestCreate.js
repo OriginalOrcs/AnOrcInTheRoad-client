@@ -147,10 +147,9 @@ class QuestCreate extends React.Component {
             <Text style={styles.label}>Experience</Text>
             <Slider
               style={styles.input}
-              onChangeText={(experience) => this.setState({experience})}
+              onSlidingComplete={(experience) => this.setState({experience})}
               minimumValue={0}
               maximumValue={99999}
-              value={this.state.experience}
             />
             <TextInput
               style={styles.input}
@@ -159,8 +158,7 @@ class QuestCreate extends React.Component {
               value={this.state.item_id}
             />
             <Picker
-              selectedValue={this.state.questType}
-              onValueChange={(questType) => this.setState({questType})}
+              onValueChange={(itemValue) => this.setState({questType: itemValue})}
               style={styles.picker}
             >
               <Picker.Item label="Fetch Quest" value="addFetchQuest" />

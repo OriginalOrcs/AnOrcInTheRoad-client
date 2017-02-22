@@ -44,6 +44,7 @@ class QuestRow extends React.Component {
     const rowPress = () => {
       console.log('You have pressed row');
     };
+    console.log(this.props);
     return (
       <View style={styles.container} >
         <Text style={styles.title} onPress={rowPress}>
@@ -65,7 +66,7 @@ class QuestRow extends React.Component {
 QuestRow.propTypes = {
   quest: React.PropTypes.shape({
     name: React.PropTypes.string.isRequired,
-    type: React.PropTypes.string.isRequired,
+    questType: React.PropTypes.string.isRequired,
     experience: React.PropTypes.number.isRequired,
     lat: React.PropTypes.number.isRequired,
     lng: React.PropTypes.number.isRequired,
