@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   modal: {
-    paddingTop: 20,
+    paddingTop: 40,
   },
   picker: {
     padding: 20,
@@ -109,7 +109,7 @@ class QuestCreate extends React.Component {
       name: null,
       location: null,
       experience: null,
-      questType: null,
+      questType: 'addFetchQuest',
       item_id: null,
       creator_id: null,
       lat: null,
@@ -125,7 +125,7 @@ class QuestCreate extends React.Component {
     return (
       <View style={styles.container}>
         <Modal
-          animationType={"slide"}
+          animationType="slide"
           transparent={false}
           visible={this.state.modalVisible}
           onRequestClose={() => { alert("Modal has been closed.") }}
@@ -134,31 +134,32 @@ class QuestCreate extends React.Component {
           <View style={styles.modal}>
             <TextInput
               style={styles.input}
-              onChangeText={(name) => this.setState({name})}
+              onChangeText={(name) => this.setState({ name })}
               placeholder="Quest Name"
               value={this.state.name}
             />
             <TextInput
               style={styles.input}
-              onChangeText={(location) => this.setState({location})}
+              onChangeText={(location) => this.setState({ location })}
               placeholder="Location"
               value={this.state.location}
             />
-            <Text style={styles.label}>Experience</Text>
+            <Text style={styles.label}>Experience: {this.state.experience}</Text>
             <Slider
               style={styles.input}
-              onSlidingComplete={(experience) => this.setState({experience})}
               minimumValue={0}
               maximumValue={99999}
+              onSlidingComplete={(experience) => this.setState({ experience })}
             />
             <TextInput
               style={styles.input}
-              onChangeText={(item_id) => this.setState({item_id})}
-              placeholder="Reward"
+              onChangeText={(item_id) => this.setState({ item_id })}
+              placeholder="Item Reward"
               value={this.state.item_id}
             />
             <Picker
-              onValueChange={(itemValue) => this.setState({questType: itemValue})}
+              selectedValue={this.state.questType}
+              onValueChange={(itemValue) => this.setState({ questType: itemValue })}
               style={styles.picker}
             >
               <Picker.Item label="Fetch Quest" value="addFetchQuest" />
@@ -167,8 +168,18 @@ class QuestCreate extends React.Component {
             </Picker>
             <TouchableHighlight
               onPress={() => {
-                this.props.onSubmitQuest(this.state.name, this.state.location, this.state.questType, this.state.experience, this.state.creator_id, this.state.lat, this.state.lng, this.state.item_id);
-                this.setModalVisible(false);}}
+                this.props.onSubmitQuest(
+                  this.state.name,
+                  this.state.location,
+                  this.state.questType,
+                  this.state.experience,
+                  this.state.creator_id,
+                  this.state.lat,
+                  this.state.lng,
+                  this.state.item_id,
+                );
+                this.setModalVisible(false);
+              }}
               style={styles.submitButton}
             >
               <Text style={styles.buttonText}>Submit Quest</Text>
