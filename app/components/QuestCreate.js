@@ -166,7 +166,9 @@ class QuestCreate extends React.Component {
               <Picker.Item label="Battle - Co-op" value="addCoopSoloQuest" />
             </Picker>
             <TouchableHighlight
-              onPress={() => this.props.onSubmitQuest(this.state.name, this.state.location, this.state.questType, this.state.experience, this.state.creator_id, this.state.lat, this.state.lng, this.state.item_id)}
+              onPress={() => {
+                this.props.onSubmitQuest(this.state.name, this.state.location, this.state.questType, this.state.experience, this.state.creator_id, this.state.lat, this.state.lng, this.state.item_id);
+                this.setModalVisible(false);}}
               style={styles.submitButton}
             >
               <Text style={styles.buttonText}>Submit Quest</Text>
