@@ -27,14 +27,7 @@ import io from 'socket.io-client';
 
 let socket = io('http://10.7.24.229:3000');
 let socketIoMiddleware = createSocketIoMiddleware(socket, "server/");
-function reducer(state = {}, action){
-  switch(action.type){
-    case 'message':
-      return Object.assign({}, {message:action.data});
-    default:
-      return state;
-  }
-}
+
 let store = applyMiddleware(socketIoMiddleware)(createStore)(reducers);
 store.subscribe(()=>{
   console.log('new client state', store.getState());
@@ -106,5 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.2)',
   },
 });
+
+export default socket;
 
 Exponent.registerRootComponent(AppContainer);
