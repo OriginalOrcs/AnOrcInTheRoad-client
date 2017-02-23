@@ -22,18 +22,10 @@ import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 import { Provider } from 'react-redux';
 import reducers from './reducers/index'
 
-import createSocketIoMiddleware from 'redux-socket.io';
 import io from 'socket.io-client';
 
 let socket = io('http://10.7.24.229:3000');
-let socketIoMiddleware = createSocketIoMiddleware(socket, "server/");
-
-let store = applyMiddleware(socketIoMiddleware)(createStore)(reducers);
-store.subscribe(()=>{
-  console.log('new client state', store.getState());
-});
-store.dispatch({type:'server/hello', data:'Hello!'});
-console.log('store dispatched');
+const store = createStore(reducers);
 
 class AppContainer extends React.Component {
   state = {

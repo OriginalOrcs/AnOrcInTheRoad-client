@@ -1,12 +1,5 @@
 let nextQuestId = 0;
 
-export const setVisibilityFilter = (filter) => {
-  return {
-    type: 'SET_VISIBILITY_FILTER',
-    filter,
-  };
-};
-
 export const addQuest = (name, location, questType, experience, creator_id, lat, lng, item_id) => {
   return {
     type: 'ADD_QUEST',
