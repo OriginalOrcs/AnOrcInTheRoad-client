@@ -10,6 +10,19 @@ const msg = (state = {}, action) => {
   }
 };
 
+const quest = (state = {}, action) => {
+  switch (action.type) {
+    case 'server/addQuest':
+      console.log('server quest reducer hit');
+      return {
+        newQuest: action.data,
+      };
+    default:
+      return quest;
+  }
+};
+
+
 const server = (state = [], action) => {
   switch (action.type) {
     case 'server/hello':
@@ -17,6 +30,12 @@ const server = (state = [], action) => {
       return [
         ...state,
         msg(undefined, action),
+      ];
+    case 'server/addQuest':
+      console.log('server reducer addQuest hit');
+      return [
+        ...state,
+        quest(undefined, action),
       ];
     default:
       return state;
