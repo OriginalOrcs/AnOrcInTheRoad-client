@@ -61,7 +61,7 @@ class AppContainer extends React.Component {
     const redirectionURL = `${auth0Domain}/authorize` + this._toQueryString({
       client_id: auth0ClientId,
       response_type: 'token',
-      scope: 'openid name',
+      scope: 'openid nickname picture user_id',
       redirect_uri: redirectUri,
       state: redirectUri,
     });
@@ -84,6 +84,7 @@ class AppContainer extends React.Component {
     const username = decodedToken.nickname;
     const user_pic = decodedToken.picture;
     const auth_id = decodedToken.user_id;
+    console.log(decodedToken)
     this.setState({username});
     store.dispatch(userLogin(username, user_pic, auth_id));
 
