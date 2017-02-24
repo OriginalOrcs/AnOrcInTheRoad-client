@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
+import Logout from '../containers/Logout';
 
 const styles = StyleSheet.create({
   container: {
@@ -110,6 +111,7 @@ class UserProfile extends React.Component {
             </View>
           ))}
         </View>
+        <Logout />
       </View>
     );
   }
