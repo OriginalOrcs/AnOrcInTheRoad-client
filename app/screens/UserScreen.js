@@ -12,7 +12,8 @@ import {
 
 import { MonoText } from '../components/StyledText';
 import { Font } from 'exponent';
-import UserProfile from '../components/UserProfile'
+import UserProfile from '../components/UserProfile';
+// import Logout from '../containers/Logout';
 import users from '../constants/users';
 import stats from '../constants/stats';
 
@@ -35,6 +36,7 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView>
           <UserProfile users={users} stats={stats} />
+  
         </ScrollView>
       </View>
     )

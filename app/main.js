@@ -24,6 +24,7 @@ import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 
 import { Provider } from 'react-redux';
 import reducers from './reducers/index'
+import { userLogin } from './actions/actions';
 
 import io from 'socket.io-client';
 
@@ -80,8 +81,12 @@ class AppContainer extends React.Component {
     }, {});
     const encodedToken = responseObj.id_token;
     const decodedToken = jwtDecoder(encodedToken);
-    const username = decodedToken.name;
-    this.setState({ username });
+    const username = decodedToken.nickname;
+    const user_pic = decodedToken.picture;
+    const auth_id = decodedToken.user_id;
+    this.setState({username});
+    store.dispatch(userLogin(username, user_pic, auth_id));
+
   }
 
   _toQueryString(params) {
