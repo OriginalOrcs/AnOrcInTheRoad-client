@@ -18,7 +18,7 @@ const quest = (state = {}, action) => {
   }
 };
 
-const quests = (state = [], action) => {
+export const quests = (state = [], action) => {
   switch (action.type) {
     case 'ADD_QUEST':
       return [
@@ -30,4 +30,17 @@ const quests = (state = [], action) => {
   }
 };
 
-export default quests;
+export const updateQuests = (state = [], action) => {
+  switch (action.type) {
+    case 'UPDATE_QUESTS':
+      const myQuests = action.quests.map((myQuest) => {
+        return myQuest;
+      });
+      console.log('update quest reducer hit', state, action);
+      return [
+        ...state,
+      ].concat(myQuests);
+    default:
+      return state;
+  }
+};

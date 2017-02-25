@@ -25,13 +25,25 @@ import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 
 import { Provider } from 'react-redux';
 import reducers from './reducers/index'
-import { userLogin } from './actions/actions';
 
+import { userLogin, updateQuests } from './actions/actions';
+
+export const store = createStore(reducers);
+
+import jwtDecoder from 'jwt-decode';
+
+import socket from './socket/socket.js';
 import io from 'socket.io-client';
 
-let socket = io('http://10.6.20.151:3000');
-// let socket = io('http://169.254.64.83:3000');
-const store = createStore(reducers);
+let redirectUri;
+if (Exponent.Constants.manifest.xde) {
+  redirectUri = `exp://rv-ukf.rewhsu.app.exp.direct/+/redirect`;
+} else {
+  redirectUri = `${Exponent.Constants.linkingUri}/redirect`;
+}
+
+const auth0ClientId = 'vDeBBemEERpMdpAG24zlAdIg2CCIWiQ2';
+const auth0Domain = 'https://originalorcs.auth0.com';
 
 import jwtDecoder from 'jwt-decode';
 
@@ -48,6 +60,7 @@ const auth0ClientId = 'vDeBBemEERpMdpAG24zlAdIg2CCIWiQ2';
 const auth0Domain = 'https://originalorcs.auth0.com';
 
 class AppContainer extends React.Component {
+
   state = {
     appIsReady: false, 
     name: undefined,
@@ -69,7 +82,7 @@ class AppContainer extends React.Component {
       redirect_uri: redirectUri,
       state: redirectUri,
     });
-    console.log('REDIRECTION URL: ', redirectionURL)
+
     Exponent.WebBrowser.openBrowserAsync(redirectionURL);
   }
 
@@ -100,6 +113,7 @@ class AppContainer extends React.Component {
     socket.on('update character', function(result) {
       console.log('RESULT FROM GET CHAR: ', result)
     });
+
   }
 
   _toQueryString(params) {
@@ -177,7 +191,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.2)',
   },
 });
-
-export default socket;
 
 Exponent.registerRootComponent(AppContainer);

@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import Logout from '../containers/Logout';
 
+import CreateCharacter from '../containers/CreateCharacter';
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
@@ -49,6 +51,7 @@ class UserProfile extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <CreateCharacter onQuestCreate={this.onQuestCreate} />
         <View style={styles.group}>
           <Text style={styles.heading}>
             {this.props.users[0].name}

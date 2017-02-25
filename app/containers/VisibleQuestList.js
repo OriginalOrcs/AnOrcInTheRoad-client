@@ -3,7 +3,8 @@ import { addQuest } from '../actions/actions';
 import quests from '../constants/quests.json';
 import QuestList from '../components/QuestList';
 import * as Exponent from 'exponent';
-import socket from '../main';
+
+import socket from '../socket/socket';
 
 const mapStateToProps = (state) => {
   return {
@@ -42,31 +43,12 @@ const mapDispatchToProps = (dispatch) => {
       })
       .then((result) => {
         console.log('FINAL RESULT', result);
-
-        dispatch(result);
+        dispatch(result)
         
         socket.emit('create quest', result);
-        // dispatch({ type: 'server/addQuest', data: result });
-        socket.on('trigger update quests', function(newQuests) {
-          console.log('New Quests after create quest ', newQuests);
 
         });
       });
-
-      // navigator.geolocation.getCurrentPosition((data, error) => {
-      //   if (error) {
-      //     throw error;
-      //   } else {
-      //     console.log(data.coords);
-      //     currentLocation = data.coords;
-      //     dispatch(addQuest(name, location, questType, experience, creator_id, currentLocation.latitude, currentLocation.longitude, item_id));
-      //   }
-      // });
-      // console.log(myCoord);
-
-      // console.log('RESULTS', myCoord, dist);
-
-      // console.log('Visible quest list: ADDING QUEST');
     },
   };
 };
