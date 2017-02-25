@@ -37,9 +37,6 @@ class QuestRow extends React.Component {
       showDetails: false,
     };
   }
-  toggleQuestDetails() {
-    console.log('toggleQuestDetails');
-  }
   render() {
     const rowPress = () => {
       console.log('You have pressed row');
@@ -51,7 +48,7 @@ class QuestRow extends React.Component {
           {this.props.quest.name}
         </Text>
         {this.props.showDetails ?
-          <View onPress={this.toggleQuestDetails}>
+          <View onPress={this.props.toggleQuest(this.props.quest.id)}>
             <Text style={styles.subtitle}>{this.props.quest.questType}</Text>
             <Text style={styles.label}>Distance: 0.04 Miles</Text>
             <Text style={styles.subtitle}>Lat: {this.props.quest.lat} | Lng: {this.props.quest.lng} </Text>

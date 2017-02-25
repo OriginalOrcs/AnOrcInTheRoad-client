@@ -15,12 +15,12 @@ export const addQuest = (name, location, questType, experience, creator_id, lat,
   };
 };
 
-export const toggleQuest = (id) => {
-  return {
-    type: 'TOGGLE_QUEST',
-    id,
-  };
-};
+// export const toggleQuest = (id) => {
+//   return {
+//     type: 'TOGGLE_QUEST',
+//     id,
+//   };
+// };
 
 export const userLogin = (username, user_pic, auth_id) => {
   console.log('ACTIONS USERNAME: ', username)
@@ -59,6 +59,33 @@ export const updateQuests = (quests) => {
   };
 };
 
+export const updateLocation = (location) => {
+  return {
+    type: 'UPDATE_LOCATION',
+    location,
+  };
+};
+
+export const addWatcher = (watcherSub) => {
+  return {
+    type: 'ADD_WATCHER',
+    watcherSub,
+  };
+};
+
+export const toggleQuest = (id, active) => {
+  return {
+    type: 'TOGGLE_QUEST',
+    id,
+    active,
+  };
+};
+
+// export const removeWatcher = () => {
+//   return {
+//     type: 'REMOVE_WATCHER',
+//   };
+// };
 
 // export const setSelect = (questType) => {
 //   return {

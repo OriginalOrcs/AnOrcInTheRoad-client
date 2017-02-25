@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { addQuest } from '../actions/actions';
-import quests from '../constants/quests.json';
+import { addQuest, updateLocation, addWatcher, toggleQuest } from '../actions/actions';
+// import quests from '../constants/quests.json';
 import QuestList from '../components/QuestList';
 import * as Exponent from 'exponent';
 
@@ -9,18 +9,34 @@ import socket from '../socket/socket';
 
 
 const mapStateToProps = (state) => {
+  console.log('visible quest list state', state);
   return {
     quests: state.quests,
-    // quests: quests,
+    location: state.location,
+    watcherSub: state.watcherSub,
   };
 };
+
+function createLocationWatcher() {
+  console.log('createLocationWatcher');
+  const intervalId = setInterval(() => {
+    return getLocationAsync((result) => {
+      console.log('*** RESULT', result);
+    });
+  }, 1000);
+  return intervalId;
+}
+
+function removeLocationWatcher(intervalId) {
+  clearInterval(intervalId);
+}
 
 async function getLocationAsync(cb) {
   const { Location, Permissions } = Exponent;
   const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
   if (status === 'granted') {
-    return Location.getCurrentPositionAsync()
+    return Location.getCurrentPositionAsync({ enableHighAccuracy: true })
       .then((result) => {
         console.log('RESULT COORD', result);
         // return dispatch(addQuest(name, location, questType, experience, creator_id, result.coords.latitude, result.coords.longitude, item_id));
@@ -35,6 +51,8 @@ async function getLocationAsync(cb) {
 }
 
 const mapDispatchToProps = (dispatch) => {
+  console.log('VISIBLE QUEST PROPS', this.props);
+  var that = this;
   return {
     onSubmitQuest: (name, location, questType, experience, creator_id, item_id) => {
       getLocationAsync((result) => {
@@ -48,6 +66,28 @@ const mapDispatchToProps = (dispatch) => {
         // dispatch({ type: 'server/addQuest', data: result });
       });
     },
+    pingLocation: () => {
+      getLocationAsync((location) => {
+        console.log('ping location', location);
+        return updateLocation(location);
+      })
+      .then((location) => {
+        console.log('ping update location', location);
+        dispatch(location);
+      });
+    },
+    createLocationWatcher: () => {
+      const result = createLocationWatcher();
+      console.log('Watcher Interval Id', result);
+      dispatch(addWatcher(result));
+    },
+    removeLocationWatcher: (intervalId) => {
+      removeLocationWatcher(intervalId);
+    },
+    // toggleActiveQuest: (id) => {
+    //   console.log('id', id);
+    //   dispatch(toggleQuest(id));
+    // },
   };
 };
 

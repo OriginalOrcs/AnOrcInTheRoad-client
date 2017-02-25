@@ -44,3 +44,15 @@ export const updateQuests = (state = [], action) => {
       return state;
   }
 };
+
+export const toggleQuest = (state = {}, action) => {
+  switch (action.type) {
+    case 'TOGGLE_QUEST':
+      return {
+        id: action.id,
+        active: action.active,
+      };
+    default:
+      return state;
+  }
+};

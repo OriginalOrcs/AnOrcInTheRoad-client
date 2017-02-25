@@ -3,7 +3,7 @@ import { updateQuests } from '../actions/actions';
 
 import { store } from '../main';
 
-const socket = io('http://10.6.20.234:3000');
+const socket = io('10.7.37.58:3000');
 
 socket.on('trigger update quests', () => {
   console.log('trigger');
