@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ListView, StyleSheet } from 'react-native';
+import { View, ListView, StyleSheet, TouchableHighlight, Text } from 'react-native';
 import QuestRow from './QuestRow';
 import QuestCreate from './QuestCreate';
 
@@ -52,13 +52,46 @@ class QuestList extends React.Component {
 
   renderRow(quest) {
     return (
-      <QuestRow quest={quest} showDetails={true} />
+      <QuestRow quest={quest} showDetails={true} toggleQuest={this.props.toggleActiveQuest} />
     );
   }
   render() {
     console.log('quest list component PROPS', this.props);
     return (
       <View>
+        <View> 
+          <TouchableHighlight
+            onPress={() => {
+              this.props.pingLocation();
+            }}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Ping Location</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            onPress={() => {
+              console.log('create watcher on press', this.props);
+              if (this.props.watcherSub.watcherSub) {
+                return;
+              } else {
+                this.props.createLocationWatcher();
+              }
+              // this.props.createLocationWatcher();
+            }}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Create Location Watcher</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            onPress={() => {
+              console.log('remove watcher on press', this.props);
+              this.props.removeLocationWatcher(this.props.watcherSub.watcherSub);
+            }}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Remove Location Watcher</Text>
+          </TouchableHighlight>
+        </View>
         <View style={styles.createQuest}>
           <QuestCreate onSubmitQuest={this.props.onSubmitQuest} />
         </View>

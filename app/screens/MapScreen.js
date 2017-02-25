@@ -13,7 +13,8 @@ import { Components } from 'exponent';
 import { MonoText } from '../components/StyledText';
 import Router from '../navigation/Router';
 import icons from '../constants/icons';
-import data from '../constants/quests.json';
+import { store } from '../main.js';
+// import data from '../constants/quests.json';
 
 export default class MapScreen extends React.Component {
   static route = {
@@ -41,7 +42,8 @@ export default class MapScreen extends React.Component {
           initialRegion={region}
           onRegionChangeComplete={this._onRegionChange}>
           {
-            data.map(quest =>
+            store.quests ?
+            store.quests.map(quest =>
               <Components.MapView.Marker
                 draggable
                 onDragEnd={(e) => {console.log('DRAG END: ', e.nativeEvent.coordinate)}}
@@ -61,7 +63,7 @@ export default class MapScreen extends React.Component {
 
               </Components.MapView.Marker>
             )
-          }
+          : null}
         </Components.MapView>
       </View>
     );
