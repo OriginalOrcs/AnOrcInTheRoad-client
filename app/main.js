@@ -9,6 +9,7 @@ import {
   Linking,
   Text,
   Button,
+  Image,
 } from 'react-native';
 import { createStore, applyMiddleware } from 'redux';
 import {
@@ -28,15 +29,18 @@ import { userLogin } from './actions/actions';
 
 import io from 'socket.io-client';
 
-let socket = io('http://10.7.24.229:3000');
+let socket = io('http://10.6.20.151:3000');
+// let socket = io('http://169.254.64.83:3000');
 const store = createStore(reducers);
 
 import jwtDecoder from 'jwt-decode';
 
 let redirectUri;
 if (Exponent.Constants.manifest.xde) {
+  console.log('CONSTANTS MANIFEST ',Exponent.Constants.manifest.xde)
   redirectUri = `exp://u3-8hi.woobianca.app.exp.direct/+/redirect`;
 } else {
+    console.log('CONSTANTS MANIFEST ',Exponent.Constants.linkingUri)
   redirectUri = `${Exponent.Constants.linkingUri}/redirect`;
 }
 
@@ -46,7 +50,7 @@ const auth0Domain = 'https://originalorcs.auth0.com';
 class AppContainer extends React.Component {
   state = {
     appIsReady: false, 
-    username: undefined,
+    name: undefined,
   }
 
   componentDidMount() {
@@ -65,6 +69,7 @@ class AppContainer extends React.Component {
       redirect_uri: redirectUri,
       state: redirectUri,
     });
+    console.log('REDIRECTION URL: ', redirectionURL)
     Exponent.WebBrowser.openBrowserAsync(redirectionURL);
   }
 
@@ -81,13 +86,20 @@ class AppContainer extends React.Component {
     }, {});
     const encodedToken = responseObj.id_token;
     const decodedToken = jwtDecoder(encodedToken);
-    const username = decodedToken.nickname;
+    const name = decodedToken.nickname;
     const user_pic = decodedToken.picture;
-    const auth_id = decodedToken.user_id;
+    const user_id = decodedToken.user_id;
     console.log(decodedToken)
-    this.setState({username});
-    store.dispatch(userLogin(username, user_pic, auth_id));
-
+    console.log('AUTHID: ', user_id)
+    this.setState({name});
+    store.dispatch(userLogin(name, user_pic, user_id));
+    socket.emit('get character', user_id);
+    socket.on('make character', function(result) {
+      socket.emit('create character', {name, user_id});
+    });
+    socket.on('update character', function(result) {
+      console.log('RESULT FROM GET CHAR: ', result)
+    });
   }
 
   _toQueryString(params) {
@@ -120,11 +132,11 @@ class AppContainer extends React.Component {
   }
 
   render() {
-    if (!this.state.username) {
+    if (!this.state.name) {
       return (
         <View style={styles.container}>
-          <Text style={styles.title}>Example: Auth0 login</Text>
-          <Button title="Login with Auth0" onPress={this._loginWithAuth0} />
+        <Image source={require('./assets/icons/orc-attack-large.gif')} />
+          <Button title="Login if you dare" onPress={this._loginWithAuth0} />
         </View>
       )
     } else if (this.state.appIsReady) {

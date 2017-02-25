@@ -14,6 +14,7 @@ import { MonoText } from '../components/StyledText';
 import Router from '../navigation/Router';
 import icons from '../constants/icons';
 import data from '../constants/quests.json';
+import socket from '../main';
 
 export default class MapScreen extends React.Component {
   static route = {
@@ -22,6 +23,12 @@ export default class MapScreen extends React.Component {
     },
   }
   
+  componentDidMount() {
+    socket.on('update quests', function(result) {
+      console.log('UPDATED QUESTS', result);
+    })
+  }
+
   _onMarkerPress = (e) => {
     // this.props.navigator.push(Router.getRoute('links'));
     console.log('Marker Pressed: ', e)

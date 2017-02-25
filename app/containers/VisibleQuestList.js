@@ -3,15 +3,12 @@ import { addQuest } from '../actions/actions';
 import quests from '../constants/quests.json';
 import QuestList from '../components/QuestList';
 import * as Exponent from 'exponent';
-
-// import io from 'socket.io-client';
-// let socket = io('http://10.7.24.229:3000');
-
 import socket from '../main';
 
 const mapStateToProps = (state) => {
   return {
     quests: state.quests,
+    auth: state.auth[0],
     // quests: quests,
   };
 };
@@ -35,18 +32,25 @@ async function getLocationAsync(cb) {
   }
 }
 
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onSubmitQuest: (name, location, questType, experience, creator_id, item_id) => {
       getLocationAsync((result) => {
         console.log('MY RESULT', result.coords);
-        return addQuest(name, location, questType, experience, creator_id, result.coords.latitude, result.coords.longitude, item_id);
+        return addQuest(name, location, questType, experience, creator_id, result.coords.latitude, result.coords.longitude);
       })
       .then((result) => {
         console.log('FINAL RESULT', result);
+
         dispatch(result);
-        socket.emit('add quest', result);
+        
+        socket.emit('create quest', result);
         // dispatch({ type: 'server/addQuest', data: result });
+        socket.on('trigger update quests', function(newQuests) {
+          console.log('New Quests after create quest ', newQuests);
+
+        });
       });
 
       // navigator.geolocation.getCurrentPosition((data, error) => {
