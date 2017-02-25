@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import Logout from '../containers/Logout';
-// import CharacterCreate from './CharacterCreate';
+
 import CreateCharacter from '../containers/CreateCharacter';
 
 const styles = StyleSheet.create({
