@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import quests from './quests';
+import { quests, updateQuests } from './quests';
 import auth from './auth';
+import character from './character';
 
 const App = combineReducers({
-  quests: quests,
+  quests: updateQuests,
   auth: auth,
+  character: character,
 });
 
 export default App;

@@ -4,10 +4,9 @@ import quests from '../constants/quests.json';
 import QuestList from '../components/QuestList';
 import * as Exponent from 'exponent';
 
-// import io from 'socket.io-client';
-// let socket = io('http://10.7.24.229:3000');
+// import socket from '../main';
+import socket from '../socket/socket';
 
-import socket from '../main';
 
 const mapStateToProps = (state) => {
   return {
@@ -44,25 +43,10 @@ const mapDispatchToProps = (dispatch) => {
       })
       .then((result) => {
         console.log('FINAL RESULT', result);
-        dispatch(result);
-        socket.emit('add quest', result);
+        // dispatch(result);
+        socket.emit('create quest', result);
         // dispatch({ type: 'server/addQuest', data: result });
       });
-
-      // navigator.geolocation.getCurrentPosition((data, error) => {
-      //   if (error) {
-      //     throw error;
-      //   } else {
-      //     console.log(data.coords);
-      //     currentLocation = data.coords;
-      //     dispatch(addQuest(name, location, questType, experience, creator_id, currentLocation.latitude, currentLocation.longitude, item_id));
-      //   }
-      // });
-      // console.log(myCoord);
-
-      // console.log('RESULTS', myCoord, dist);
-
-      // console.log('Visible quest list: ADDING QUEST');
     },
   };
 };
