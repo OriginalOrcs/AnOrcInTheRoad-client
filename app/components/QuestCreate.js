@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, Modal, TouchableHighlight, TextInput, Slider, Picker } from 'react-native';
-
+import { View, Text, StyleSheet, Modal, TouchableHighlight, TextInput, Slider, Picker, ScrollView } from 'react-native';
+import CreateQuestMap from '../screens/MapScreen';
 
 const styles = StyleSheet.create({
   container: {
@@ -94,10 +94,14 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   modal: {
-    paddingTop: 40,
+    paddingTop: 80,
+    paddingBottom: 50,
   },
   picker: {
-    padding: 20,
+    padding: 50,
+  },
+  map: {
+    paddingTop: 100,
   },
 });
 
@@ -131,18 +135,24 @@ class QuestCreate extends React.Component {
           onRequestClose={() => { alert("Modal has been closed.") }}
           style={styles.modal}
         >
-          <View style={styles.modal}>
+          <ScrollView contentContainerStyle={styles.modal}>
             <TextInput
               style={styles.input}
               onChangeText={(name) => this.setState({ name })}
               placeholder="Quest Name"
               value={this.state.name}
+              maxLength = {60}
+              autoCorrect = {false}
+              returnKeyType = {'done'}
             />
             <TextInput
               style={styles.input}
               onChangeText={(location) => this.setState({ location })}
               placeholder="Location"
               value={this.state.location}
+              maxLength = {150}
+              autoCorrect = {false}
+              returnKeyType = {'done'}
             />
             <Text style={styles.label}>Experience: {this.state.experience}</Text>
             <Slider
@@ -156,7 +166,10 @@ class QuestCreate extends React.Component {
               onChangeText={(item_id) => this.setState({ item_id })}
               placeholder="Item Reward"
               value={this.state.item_id}
-            />
+              maxLength = {60}
+              autoCorrect = {false}
+              returnKeyType = {'done'}
+            />            
             <Picker
               selectedValue={this.state.questType}
               onValueChange={(itemValue) => this.setState({ questType: itemValue })}
@@ -192,7 +205,7 @@ class QuestCreate extends React.Component {
             >
               <Text style={styles.buttonText}>Close Menu</Text>
             </TouchableHighlight>
-          </View>
+          </ScrollView>
         </Modal>
         <View>
           <TouchableHighlight

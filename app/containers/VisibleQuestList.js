@@ -3,8 +3,6 @@ import { addQuest, updateLocation, addWatcher, toggleQuest } from '../actions/ac
 // import quests from '../constants/quests.json';
 import QuestList from '../components/QuestList';
 import * as Exponent from 'exponent';
-
-// import socket from '../main';
 import socket from '../socket/socket';
 
 
@@ -14,6 +12,8 @@ const mapStateToProps = (state) => {
     quests: state.quests,
     location: state.location,
     watcherSub: state.watcherSub,
+    auth: state.auth[0],
+    // quests: quests,
   };
 };
 
@@ -50,6 +50,7 @@ async function getLocationAsync(cb) {
   }
 }
 
+
 const mapDispatchToProps = (dispatch) => {
   console.log('VISIBLE QUEST PROPS', this.props);
   var that = this;
@@ -57,10 +58,11 @@ const mapDispatchToProps = (dispatch) => {
     onSubmitQuest: (name, location, questType, experience, creator_id, item_id) => {
       getLocationAsync((result) => {
         console.log('MY RESULT', result.coords);
-        return addQuest(name, location, questType, experience, creator_id, result.coords.latitude, result.coords.longitude, item_id);
+        return addQuest(name, location, questType, experience, creator_id, result.coords.latitude, result.coords.longitude);
       })
       .then((result) => {
         console.log('FINAL RESULT', result);
+        dispatch(result);
         socket.emit('create quest', result);
       });
     },
