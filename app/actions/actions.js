@@ -80,24 +80,3 @@ export const toggleQuest = (id, active) => {
     active,
   };
 };
-
-// export const removeWatcher = () => {
-//   return {
-//     type: 'REMOVE_WATCHER',
-//   };
-// };
-
-// export const setSelect = (questType) => {
-//   return {
-//     type: 'SET_SELECT',
-//     questType,
-//   };
-// };
-
-// export const setCurrentLocation = (coordinate) => {
-//   return {
-//     type: 'SET_CURRENT_LOCATION',
-//     latitude: coordinate.latitude,
-//     longitude: coordinate.longitude,
-//   };
-// };
