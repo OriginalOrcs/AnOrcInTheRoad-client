@@ -61,9 +61,7 @@ const mapDispatchToProps = (dispatch) => {
       })
       .then((result) => {
         console.log('FINAL RESULT', result);
-        // dispatch(result);
         socket.emit('create quest', result);
-        // dispatch({ type: 'server/addQuest', data: result });
       });
     },
     pingLocation: () => {
@@ -83,11 +81,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     removeLocationWatcher: (intervalId) => {
       removeLocationWatcher(intervalId);
+      dispatch(addWatcher(''));
     },
-    // toggleActiveQuest: (id) => {
-    //   console.log('id', id);
-    //   dispatch(toggleQuest(id));
-    // },
+    toggleActiveQuest: (id) => {
+      console.log('id', id);
+      dispatch(toggleQuest(id));
+    },
   };
 };
 
