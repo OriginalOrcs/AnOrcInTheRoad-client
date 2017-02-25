@@ -38,6 +38,27 @@ export const userLogout = () => {
   };
 };
 
+export const createCharacter = (character) => {
+  return {
+    type: 'CREATE_CHARACTER',
+    character,
+  };
+};
+
+export const updateCharacter = (character) => {
+  return {
+    type: 'CREATE_CHARACTER',
+    character,
+  };
+};
+
+export const updateQuests = (quests) => {
+  return {
+    type: 'UPDATE_QUESTS',
+    quests,
+  };
+};
+
 
 // export const setSelect = (questType) => {
 //   return {

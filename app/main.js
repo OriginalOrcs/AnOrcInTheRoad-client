@@ -24,18 +24,18 @@ import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 
 import { Provider } from 'react-redux';
 import reducers from './reducers/index'
-import { userLogin } from './actions/actions';
+import { userLogin, updateQuests } from './actions/actions';
 
-import io from 'socket.io-client';
-
-let socket = io('http://10.7.24.229:3000');
-const store = createStore(reducers);
+export const store = createStore(reducers);
 
 import jwtDecoder from 'jwt-decode';
 
+import socket from './socket/socket.js';
+import io from 'socket.io-client';
+
 let redirectUri;
 if (Exponent.Constants.manifest.xde) {
-  redirectUri = `exp://u3-8hi.woobianca.app.exp.direct/+/redirect`;
+  redirectUri = `exp://rv-ukf.rewhsu.app.exp.direct/+/redirect`;
 } else {
   redirectUri = `${Exponent.Constants.linkingUri}/redirect`;
 }
@@ -44,7 +44,7 @@ const auth0ClientId = 'vDeBBemEERpMdpAG24zlAdIg2CCIWiQ2';
 const auth0Domain = 'https://originalorcs.auth0.com';
 
 class AppContainer extends React.Component {
-  state = {
+  state = { 
     appIsReady: false, 
     username: undefined,
   }
@@ -120,14 +120,14 @@ class AppContainer extends React.Component {
   }
 
   render() {
-    if (!this.state.username) {
+    {/*if (!this.state.username) {
       return (
         <View style={styles.container}>
           <Text style={styles.title}>Example: Auth0 login</Text>
           <Button title="Login with Auth0" onPress={this._loginWithAuth0} />
         </View>
       )
-    } else if (this.state.appIsReady) {
+    } else*/} if (this.state.appIsReady) {
       return (
         <Provider store={store}>
           <View style={styles.container}>
@@ -165,7 +165,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.2)',
   },
 });
-
-export default socket;
 
 Exponent.registerRootComponent(AppContainer);
