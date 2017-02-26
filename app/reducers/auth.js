@@ -5,7 +5,7 @@ const user = (state = {}, action) => {
       return {
         username: action.username,
         user_pic: action.user_pic,
-        auth_id: action.auth_id,
+        user_id: action.user_id,
       };
     case 'USER_LOGOUT':
       console.log('LOGOUT auth reducer hit', state, action);

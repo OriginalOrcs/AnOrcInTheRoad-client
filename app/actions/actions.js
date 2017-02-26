@@ -22,13 +22,13 @@ export const addQuest = (name, location, questType, experience, creator_id, lat,
 //   };
 // };
 
-export const userLogin = (username, user_pic, auth_id) => {
+export const userLogin = (username, user_pic, user_id) => {
   console.log('ACTIONS USERNAME: ', username)
   return {
     type: 'USER_LOGIN',
     username,
     user_pic,
-    auth_id,
+    user_id,
   };
 };
 

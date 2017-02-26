@@ -129,7 +129,7 @@ class CharacterCreate extends React.Component {
   }
 
   render() {
-    console.log('CHARACTER CREATE PROPS', JSON.stringify(this.props));
+    console.log('CHARACTER CREATE PROPS', this.props);
     return (
       <View style={styles.container}>
         <Modal
@@ -161,8 +161,9 @@ class CharacterCreate extends React.Component {
             <TouchableHighlight
               onPress={() => {
                 this.props.onCreateCharacter(
+                  this.props.user_id.user_id,
                   this.state.name,
-                  this.state.classType,
+                  // this.state.classType,
                 );
                 this.setModalVisible(false);
               }}
@@ -184,7 +185,7 @@ class CharacterCreate extends React.Component {
           <TouchableHighlight
             onPress={() => {
               this.setModalVisible(true);
-            }}
+            }}     
             style={styles.addButton}
           >
             <Text style={styles.buttonText}>Create New Character</Text>

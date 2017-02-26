@@ -39,7 +39,7 @@ import { Font } from 'exponent';
 
 let redirectUri;
 if (Exponent.Constants.manifest.xde) {
-  redirectUri = `exp://u3-8hi.woobianca.app.exp.direct/+/redirect`;
+  redirectUri = `exp://66-j7v.woobianca.app.exp.direct/+/redirect`;
 } else {
     console.log('CONSTANTS MANIFEST ',Exponent.Constants.linkingUri)
   redirectUri = `${Exponent.Constants.linkingUri}/redirect`;
@@ -94,13 +94,6 @@ class AppContainer extends React.Component {
     console.log('AUTHID: ', user_id)
     this.setState({name});
     store.dispatch(userLogin(name, user_pic, user_id));
-    socket.emit('get character', user_id);
-    socket.on('make character', function(result) {
-      socket.emit('create character', {name, user_id});
-    });
-    socket.on('update character', function(result) {
-      console.log('RESULT FROM GET CHAR: ', result)
-    });
   }
 
   _toQueryString(params) {
@@ -114,7 +107,6 @@ class AppContainer extends React.Component {
       await cacheAssetsAsync({
         images: [
           require('./assets/images/exponent-wordmark.png'),
-          require('./assets/images/background.png'),
         ],
         fonts: [
           FontAwesome.font,
