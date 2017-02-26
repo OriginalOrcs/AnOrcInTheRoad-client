@@ -10,6 +10,8 @@ import {
   Text,
   Button,
   Image,
+  Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import { createStore, applyMiddleware } from 'redux';
 import {
@@ -33,6 +35,7 @@ import jwtDecoder from 'jwt-decode';
 
 import socket from './socket/socket.js';
 import io from 'socket.io-client';
+import { Font } from 'exponent';
 
 let redirectUri;
 if (Exponent.Constants.manifest.xde) {
@@ -111,11 +114,13 @@ class AppContainer extends React.Component {
       await cacheAssetsAsync({
         images: [
           require('./assets/images/exponent-wordmark.png'),
+          require('./assets/images/background.png'),
         ],
         fonts: [
           FontAwesome.font,
           {'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf')},
           {'livingst': require('./assets/fonts/Livingst.ttf')},
+          {'elixia': require('./assets/fonts/ELIXIA.ttf')},
         ],
       });
     } catch(e) {
@@ -133,8 +138,16 @@ class AppContainer extends React.Component {
     if (!this.state.name) {
       return (
         <View style={styles.container}>
-        <Image source={require('./assets/icons/orc-attack-large.gif')} />
-          <Button title="Login if you dare" onPress={this._loginWithAuth0} />
+          <Image source={require('./assets/images/orc-background.gif')} style={styles.backgroundImage}>
+            <View style={styles.title}>
+              <Image style={styles.titleImg} source={require('./assets/images/title.png')} />
+            </View>
+            <View style={styles.loginBtn}>
+              <TouchableOpacity onPress={() => this._loginWithAuth0()}>
+                  <Image style={styles.imagestyle} source= {require('./assets/buttons/login-button.png')} />
+              </TouchableOpacity>
+            </View>
+          </Image>
         </View>
       )
     } else if (this.state.appIsReady) {
@@ -158,21 +171,43 @@ class AppContainer extends React.Component {
   }
 }
 
+let { height, width } = Dimensions.get('window')
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   title: {
-    fontSize: 20,
-    textAlign: 'center',
-    marginTop: 40,
+    alignItems:'center',
+    marginTop: 80,
+    borderRadius: 10,
+    width: width,
+  },
+  titleImg: {
+    resizeMode: 'contain',
   },
   statusBarUnderlay: {
     height: 24,
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    // backgroundColor: 'rgba(0,0,0,0.2)',
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    alignSelf: 'stretch'
+  },
+  loginBtn: {
+    marginTop: 30,
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignItems: 'center',
+    width: width,
+  },
+  headline: {
+    fontSize: 20,
+    textAlign: 'center',
+    backgroundColor: 'rgba(0,0,0,0)',
+    color: 'white'
   },
 });
 

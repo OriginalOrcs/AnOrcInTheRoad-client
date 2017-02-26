@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Modal, TouchableHighlight, TextInput, Slider, Picker, Image } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableHighlight, TextInput, ScrollView, Slider, Picker, Image } from 'react-native';
 
 
 const styles = StyleSheet.create({
@@ -94,7 +94,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   modal: {
-    paddingTop: 40,
+    paddingTop: 80,
+    paddingBottom: 50,
   },
   picker: {
     padding: 20,
@@ -138,7 +139,7 @@ class CharacterCreate extends React.Component {
           onRequestClose={() => { alert("Modal has been closed.") }}
           style={styles.modal}
         >
-          <View style={styles.modal}>
+          <ScrollView contentContainerStyle={styles.modal}>
             <Text style={styles.title} >Create A Character</Text>
             <TextInput
               style={styles.input}
@@ -177,7 +178,7 @@ class CharacterCreate extends React.Component {
             >
               <Text style={styles.buttonText}>Close Menu</Text>
             </TouchableHighlight>
-          </View>
+          </ScrollView>
         </Modal>
         <View>
           <TouchableHighlight

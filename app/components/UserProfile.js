@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import Logout from '../containers/Logout';
 // import CharacterCreate from './CharacterCreate';
 import CreateCharacter from '../containers/CreateCharacter';
+import { Font } from 'exponent';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,19 +17,23 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   heading: {
-    fontSize: 30,
-    fontWeight: '300',
+    ...Font.style('elixia'),
+    fontSize: 50,
+    fontWeight: '600',
   },
   heading2: {
+    ...Font.style('elixia'),
     fontSize: 20,
     fontWeight: '200',
   },
   subtitle: {
+    ...Font.style('elixia'),
     fontSize: 12,
     fontWeight: '100',
     color: 'gray',
   },
   label: {
+    ...Font.style('elixia'),
     fontSize: 16,
     fontWeight: '200',
   },
