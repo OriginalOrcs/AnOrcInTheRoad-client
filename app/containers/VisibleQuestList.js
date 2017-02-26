@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { addQuest, updateLocation, addWatcher, toggleQuest } from '../actions/actions';
+import { addQuest, updateLocation, addWatcher, toggleQuest, updateQuests } from '../actions/actions';
 // import quests from '../constants/quests.json';
 import QuestList from '../components/QuestList';
 import * as Exponent from 'exponent';
@@ -88,6 +88,12 @@ const mapDispatchToProps = (dispatch) => {
     toggleActiveQuest: (id) => {
       console.log('id', id);
       dispatch(toggleQuest(id));
+    },
+    fetchQuests: (charId) => {
+      socket.emit('get quests', charId);
+      //   (quests) => {
+      //   dispatch(updateQuests(quests));
+      // });
     },
   };
 };

@@ -2,6 +2,8 @@ import React from 'react';
 import { View, ListView, StyleSheet, TouchableHighlight, Text } from 'react-native';
 import QuestRow from './QuestRow';
 import QuestCreate from './QuestCreate';
+import socket from '../socket/socket';
+import { updateQuests } from '../actions/actions'
 
 
 const styles = StyleSheet.create({
@@ -41,6 +43,10 @@ class QuestList extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.fetchQuests();
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.quests !== this.props.quests) {
       this.setState({
@@ -50,9 +56,11 @@ class QuestList extends React.Component {
     }
   }
 
+
+
   renderRow(quest) {
     return (
-      <QuestRow quest={quest} showDetails={true} toggleQuest={this.props.toggleActiveQuest} />
+      <QuestRow quest={quest} showDetails={true} />
     );
   }
   render() {

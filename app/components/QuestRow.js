@@ -41,14 +41,14 @@ class QuestRow extends React.Component {
     const rowPress = () => {
       console.log('You have pressed row');
     };
-    console.log(this.props);
+    console.log('ROW PROPS: ', this.props);
     return (
       <View style={styles.container} >
         <Text style={styles.title} onPress={rowPress}>
           {this.props.quest.name}
         </Text>
         {this.props.showDetails ?
-          <View onPress={this.props.toggleQuest(this.props.quest.id)}>
+          <View onPress={() => this.props.toggleQuest(this.props.quest.id)}>
             <Text style={styles.subtitle}>{this.props.quest.questType}</Text>
             <Text style={styles.label}>Distance: 0.04 Miles</Text>
             <Text style={styles.subtitle}>Lat: {this.props.quest.lat} | Lng: {this.props.quest.lng} </Text>
