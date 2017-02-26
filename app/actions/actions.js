@@ -80,18 +80,3 @@ export const toggleQuest = (id, active) => {
     active,
   };
 };
-
-export const addWatcher = (watcherSub) => {
-  return {
-    type: 'ADD_WATCHER',
-    watcherSub,
-  };
-};
-
-export const toggleQuest = (id, active) => {
-  return {
-    type: 'TOGGLE_QUEST',
-    id,
-    active,
-  };
-};
