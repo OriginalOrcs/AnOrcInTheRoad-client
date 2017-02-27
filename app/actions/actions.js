@@ -65,10 +65,10 @@ export const updateQuests = (quests) => {
 };
 
 export const updateLocation = (coordinate) => {
+  console.log('COORD FROM UPDATE LOC: ', coordinate)
   return {
     type: 'UPDATE_LOCATION',
-    latitude: coordinate.latitude,
-    longitude: coordinate.longitude,
+    coordinate,
   };
 };
 

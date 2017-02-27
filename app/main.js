@@ -48,24 +48,24 @@ if (Exponent.Constants.manifest.xde) {
 const auth0ClientId = 'vDeBBemEERpMdpAG24zlAdIg2CCIWiQ2';
 const auth0Domain = 'https://originalorcs.auth0.com';
 
-async function getLocationAsync(cb) {
-  const { Location, Permissions } = Exponent;
-  const { status } = await Permissions.askAsync(Permissions.LOCATION);
+// async function getLocationAsync(cb) {
+//   const { Location, Permissions } = Exponent;
+//   const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
-  if (status === 'granted') {
-    return Location.getCurrentPositionAsync({ enableHighAccuracy: true })
-      .then((result) => {
-        console.log('RESULT COORD', result);
-        store.dispatch(updateLocation(result.coords));
-        return cb(result);
-      })
-      .catch((error) => {
-        return error;
-      });
-    } else {
-    throw new Error('Location permission not granted');
-  }
-}
+//   if (status === 'granted') {
+//     return Location.getCurrentPositionAsync({ enableHighAccuracy: true })
+//       .then((result) => {
+//         console.log('RESULT COORD', result);
+//         store.dispatch(updateLocation(result.coords));
+//         return cb(result);
+//       })
+//       .catch((error) => {
+//         return error;
+//       });
+//     } else {
+//     throw new Error('Location permission not granted');
+//   }
+// };
 
 // function createLocationWatcher() {
 //   console.log('createLocationWatcher');
@@ -84,7 +84,7 @@ async function getLocationAsync(cb) {
 // var watcher = createLocationWatcher();
 // store.dispatch(addWatcher(watcher));
 
-getLocationAsync()
+// getLocationAsync()
 
 
 
@@ -144,12 +144,13 @@ class AppContainer extends React.Component {
       await cacheAssetsAsync({
         images: [
           require('./assets/images/exponent-wordmark.png'),
+          require('./assets/images/orc-background.gif'),
         ],
         fonts: [
           FontAwesome.font,
           {'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf')},
           {'livingst': require('./assets/fonts/Livingst.ttf')},
-          {'elixia': require('./assets/fonts/ELIXIA.ttf')},
+          {'luminari': require('./assets/fonts/Luminari.ttf')},
         ],
       });
     } catch(e) {
@@ -164,7 +165,7 @@ class AppContainer extends React.Component {
   }
 
   render() {
-    /*if (!this.state.name) {
+    if (!this.state.name) {
       return (
         <View style={styles.container}>
           <Image source={require('./assets/images/orc-background.gif')} style={styles.backgroundImage}>
@@ -179,7 +180,7 @@ class AppContainer extends React.Component {
           </Image>
         </View>
       )
-    } else */if (this.state.appIsReady) {
+    } else if (this.state.appIsReady) {
       return (
         <Provider store={store}>
           <View style={styles.container}>

@@ -1,12 +1,14 @@
 import React from 'react';
-import { View, Button, StyleSheet } from 'react-native';
+import { Dimensions, View, Text, StyleSheet } from 'react-native';
+import { Font } from 'exponent';
 
+let { height, width } = Dimensions.get('window')
 
 class Logout extends React.Component {
 	render(){
 		return (
 			<View>
-			  <Button title="Logout" onPress={this.props.onLogout} />
+			  <Text style={styles.heading} onPress={this.props.onLogout}>Logout</Text>
 			</View>
 		);
 	}
@@ -25,12 +27,19 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   heading: {
-    fontSize: 30,
+    padding: 20,
+    borderColor: '#05A5D1',
+    alignItems: 'center',
+    width: width,
+    flexDirection: 'row',
+    fontSize: 20,
     fontWeight: '300',
+    ...Font.style('luminari'),
   },
   heading2: {
     fontSize: 20,
     fontWeight: '200',
+    ...Font.style('luminari'),
   },
   subtitle: {
     fontSize: 12,

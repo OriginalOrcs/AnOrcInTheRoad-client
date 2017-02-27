@@ -16,30 +16,38 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     margin: 20,
   },
+  backgroundImage: {
+    justifyContent: 'center',
+    flex: 1,
+    resizeMode: 'stretch',
+  },
   heading: {
-    ...Font.style('elixia'),
-    fontSize: 50,
+    ...Font.style('luminari'),
+    fontSize: 40,
     fontWeight: '600',
   },
   heading2: {
-    ...Font.style('elixia'),
-    fontSize: 20,
-    fontWeight: '200',
+    ...Font.style('luminari'),
+    fontSize: 30,
+    fontWeight: '400',
   },
   subtitle: {
-    ...Font.style('elixia'),
-    fontSize: 12,
+    ...Font.style('luminari'),
+    fontSize: 20,
     fontWeight: '100',
     color: 'gray',
   },
   label: {
-    ...Font.style('elixia'),
+    ...Font.style('luminari'),
     fontSize: 16,
     fontWeight: '200',
   },
   image: {
     width: 200,
     height: 200,
+  },
+  badgeName: {
+    ...Font.style('luminari'),
   },
   badge: {
     width: 75,
@@ -159,9 +167,9 @@ class UserProfile extends React.Component {
           <Text style={styles.label}>Badges:</Text>
           {this.props.stats[0].acheivements.badges.map((badge, index) => (
             <View key={index}>
-              <Text>{badge.name}</Text>
+              <Text style={styles.badgeName}>{badge.name}</Text>
               {badge.name === 'Noob Strength' ?
-                <Image style={styles.badge} source={require('../assets/images/1.png')} />
+                <Image style={styles.badge} source={require('../assets/icons/badge-1.png')} />
                 : <Image style={styles.badge} source={require('../assets/images/badge-quest-master.png')} />
               }
             </View>

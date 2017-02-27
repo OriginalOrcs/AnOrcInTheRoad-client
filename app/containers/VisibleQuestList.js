@@ -10,9 +10,9 @@ const mapStateToProps = (state) => {
   console.log('visible quest list state', state);
   return {
     // quests: quests,
-    // location: { latitude: 37.783712, longitude: -122.408914 },
+    location: { latitude: 37.783712, longitude: -122.408914 },
     quests: state.quests,
-    location: state.location,
+    // location: state.location,
     watcherSub: state.watcherSub,
     user: state.user,
   };
@@ -62,8 +62,8 @@ const mapDispatchToProps = (dispatch) => {
       })
       .then((result) => {
         console.log('FINAL RESULT', result);
-        dispatch(result);
-        socket.emit('create quest', result);
+        // dispatch(result);
+        // socket.emit('create quest', result);
       });
     },
     pingLocation: () => {
@@ -73,7 +73,7 @@ const mapDispatchToProps = (dispatch) => {
       })
       .then((location) => {
         console.log('ping update location', location);
-        dispatch(location);
+        // dispatch(location);
       });
     },
     createLocationWatcher: () => {

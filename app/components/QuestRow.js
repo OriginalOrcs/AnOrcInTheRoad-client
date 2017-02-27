@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
 import socket from '../socket/socket';
+import { Font } from 'exponent';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,17 +17,20 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   title: {
-    fontSize: 20,
-    fontWeight: '300',
+    fontSize: 30,
+    fontWeight: '600',
+     ...Font.style('luminari'),
   },
   subtitle: {
-    fontSize: 10,
+    fontSize: 20,
     fontWeight: '100',
     color: 'gray',
+     ...Font.style('luminari'),
   },
   label: {
-    fontSize: 16,
-    fontWeight: '200',
+    fontSize: 20,
+    fontWeight: '300',
+     ...Font.style('luminari'),
   },
 });
 
@@ -36,6 +40,7 @@ class QuestRow extends React.Component {
     super(props);
     this.state = {
       showDetails: false,
+      isSelected: false,
     };
   }
 
@@ -51,7 +56,12 @@ class QuestRow extends React.Component {
     return Math.floor(dist * 0.000621371 * 10)/10;
   }
 
+  handleSelect() {
+    this.setState({isSelected: !this.state.isSelected});
+  }
+
   render() {
+    console.log('STATE IS SELECTED: ', this.state.isSelected);
     const rowPress = () => {
       console.log('You have pressed row');
     };
@@ -60,23 +70,26 @@ class QuestRow extends React.Component {
     var distanceMiles = this.convertDistanceToMiles(this.props.dist);
     if (distanceMiles < 0.1) {
       console.log('quest completed: ', this.props.quest.id);
-      socket.emit('complete quests', this.props.id, this.props.quest.id);
+      socket.emit('complete quest', this.props.id, this.props.quest.id);
     }
     // console.log('DISTANCE: ', this.getDistance(this.props.location.latitude, this.props.location.longitude, this.props.quest.lat, this.props.quest.lng));
     return (
-      <View style={styles.container} >
-        <Text style={styles.title} onPress={rowPress}>
-          {this.props.quest.name}
-        </Text>
-        {this.props.showDetails ?
-        <View onPress={() => this.props.toggleQuest(this.props.quest.id)}>
-          <Text style={styles.subtitle}>{this.props.quest.questType}</Text>
-          <Text style={styles.label}>{this.convertDistanceToMiles(this.props.dist)} Miles</Text>
-          <Text style={styles.subtitle}>Lat: {this.props.quest.lat} | Lng: {this.props.quest.lng} </Text>
-          <Text style={styles.label}>Rewards: {this.props.quest.experience} EXP</Text>
+      <TouchableHighlight onPress={() => this.handleSelect()} underlayColor='white'>
+        <View style={[styles.container, this.state.isSelected ? { backgroundColor: '#0eb27e' } : {}]}>
+          <Text style={styles.title} /*onPress={rowPress}*/>
+            {this.props.quest.name}
+          </Text>
+          {this.props.showDetails ?
+          
+          <View /*onPress={() => this.props.toggleQuest(this.props.quest.id)}*/>
+            {/*<Text style={styles.subtitle}>{this.props.quest.questType}</Text>*/}
+            <Text style={styles.label}>{distanceMiles} Miles</Text>
+            {/*<Text style={styles.subtitle}>Lat: {this.props.quest.lat} | Lng: {this.props.quest.lng} </Text>*/}
+            <Text style={styles.label}>Rewards: {this.props.quest.experience} EXP</Text>
+          </View>
+        : null}
         </View>
-      : null}
-      </View>
+      </TouchableHighlight>
     );
   }
 }
