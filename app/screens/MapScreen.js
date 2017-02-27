@@ -12,38 +12,45 @@ import {
 import { Components } from 'exponent';
 import { MonoText } from '../components/StyledText';
 import Router from '../navigation/Router';
-import icons from '../constants/icons';
-
-import { store } from '../main.js';
-// import data from '../constants/quests.json';
 
 import data from '../constants/quests.json';
-import socket from '../main';
+import socket from '../socket/socket';
 
 export default class MapScreen extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      quests: null,
+    }
+  }
+
   static route = {
     navigationBar: {
       visible: false,
     },
   }
-  
-  componentDidMount() {
-    socket.on('update quests', function(result) {
-      console.log('UPDATED QUESTS', result);
-    })
-  }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.quests !== this.props.quests) {
+      this.setState({
+        quests: nextProps.quests,
+      });
+    }
+  }
+  
   _onMarkerPress = (e) => {
     // this.props.navigator.push(Router.getRoute('links'));
     console.log('Marker Pressed: ', e)
   }
 
+
+
   render() {
       let region = {
-        latitude: 37.78825,
-        longitude: -122.42,
-        latitudeDelta: 0.03,
-        longitudeDelta: 0.0421,
+        latitude: 37.75825,
+        longitude: -122.45,
+        latitudeDelta: 0.15,
+        longitudeDelta: 0.12,
       };
     return (
       <View style={styles.container}>
@@ -52,8 +59,8 @@ export default class MapScreen extends React.Component {
           initialRegion={region}
           onRegionChangeComplete={this._onRegionChange}>
           {
-            store.quests ?
-            store.quests.map(quest =>
+            data ?
+            data.map(quest =>
               <Components.MapView.Marker
                 draggable
                 onDragEnd={(e) => {console.log('DRAG END: ', e.nativeEvent.coordinate)}}
@@ -62,7 +69,7 @@ export default class MapScreen extends React.Component {
                   longitude: quest.lng,
                   latitude: quest.lat,
                 }}
-                image={icons[quest.item_id].icon}
+                image= { quest.item_id % 2 === 0 ? require('../assets/images/flag-active.png') : require('../assets/images/flag-not-active.png') }
                 onPress={() => this._onMarkerPress(quest)}>
 
                   <Components.MapView.Callout>

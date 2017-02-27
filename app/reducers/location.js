@@ -1,7 +1,7 @@
 export const location = (state = {}, action) => {
   switch (action.type) {
     case 'UPDATE_LOCATION':
-      console.log('location reducer hit');
+      console.log('location reducer hit', action);
       return {
         latitude: action.latitude,
         longitude: action.longitude,

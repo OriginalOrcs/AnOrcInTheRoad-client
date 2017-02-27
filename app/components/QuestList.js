@@ -45,12 +45,12 @@ class QuestList extends React.Component {
     this.renderRow = this.renderRow.bind(this);
   }
 
-  componentWillMount() {
-    this.props.pingLocation();
-  }
+  // componentWillMount() {
+  //   this.props.pingLocation();
+  // }
 
   componentDidMount() {
-    this.props.fetchQuests(this.state.char_id);
+    this.props.fetchQuests(this.props.user.char_id);
   }
 
 
@@ -92,7 +92,7 @@ class QuestList extends React.Component {
     console.log('quest list component PROPS', this.props);
     return (
       <View>
-        <View> 
+        {/*<View> 
           <TouchableHighlight
             onPress={() => {
               this.props.pingLocation();
@@ -123,7 +123,7 @@ class QuestList extends React.Component {
           >
             <Text style={styles.buttonText}>Remove Location Watcher</Text>
           </TouchableHighlight>
-        </View>
+        </View> */}
         <View style={styles.createQuest}>
           <QuestCreate onSubmitQuest={this.props.onSubmitQuest} user={this.props.user} />
         </View>

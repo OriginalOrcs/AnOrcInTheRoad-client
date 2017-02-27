@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { userLogout } from '../actions/actions';
 import Logout from '../components/Logout';
-import socket from '../main';
 import Exponent from 'exponent';
 
 
