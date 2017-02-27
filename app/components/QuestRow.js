@@ -37,6 +37,11 @@ class QuestRow extends React.Component {
       showDetails: false,
     };
   }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('NEXT PROPS from QROW: ', nextProps)
+  }
+
   render() {
     const rowPress = () => {
       console.log('You have pressed row');

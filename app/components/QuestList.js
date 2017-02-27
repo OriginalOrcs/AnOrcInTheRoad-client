@@ -40,11 +40,12 @@ class QuestList extends React.Component {
     this.state = {
       dataSource: ds.cloneWithRows(props.quests),
       modalVisible: true,
+      char_id: this.props.user.char_id,
     };
   }
 
   componentDidMount() {
-    this.props.fetchQuests();
+    this.props.fetchQuests(this.state.char_id);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,9 +55,17 @@ class QuestList extends React.Component {
         dataSource: this.state.dataSource.cloneWithRows(nextProps.quests),
       });
     }
+    // if (nextProps.user) {
+    //   console.log('CHAR ID***: ', nextProps.user.char_id);
+    //   this.setState({
+    //     char_id: nextProps.user.char_id,
+    //   });
+    // }
   }
 
-
+  // handleCreatorId() {
+  //   this.props.fetchQuests(this.state.char_id);
+  // }
 
   renderRow(quest) {
     return (
@@ -101,7 +110,7 @@ class QuestList extends React.Component {
           </TouchableHighlight>
         </View>
         <View style={styles.createQuest}>
-          <QuestCreate onSubmitQuest={this.props.onSubmitQuest} />
+          <QuestCreate onSubmitQuest={this.props.onSubmitQuest} user={this.props.user} />
         </View>
         <View style={styles.container}>
           <View style={styles.createQuest}>

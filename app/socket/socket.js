@@ -12,17 +12,15 @@ import { store } from '../main';
 const socket = io('http://136.24.38.174:3000');
 
 socket.on('trigger update quests', () => {
-  socket.emit('get quests', 0);
+  socket.emit('get quests', store.getState().user.char_id);
 });
 
 socket.on('update quests', (data) => {
-  console.log('UPDATE DEM QUESTS', data);
   store.dispatch(updateQuests(data));
 });
 
-socket.on('update character', function(char) {
-  console.log('RESULT FROM GET CHAR OR UPDATE CHAR: ', char);
-  store.dispatch(triggerUpdateCharacter(char[0]));
+socket.on('update character', (char) => {
+  store.dispatch(triggerUpdateCharacter(char));
 });
 
 

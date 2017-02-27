@@ -23,7 +23,6 @@ export const addQuest = (name, location, questType, experience, creator_id, lat,
 // };
 
 export const userLogin = (name, user_id) => {
-  console.log('ACTIONS USERLOGIN INFO: ', name, user_id);
   return {
     type: 'USER_LOGIN',
     name,
@@ -52,7 +51,6 @@ export const createCharacter = (character) => {
 };
 
 export const triggerUpdateCharacter = (character) => {
-  console.log('ACTIONS triggerUpdateCharacter: ', character);
   return {
     type: 'TRIGGER_UPDATE_CHARACTER',
     character,
@@ -88,4 +86,3 @@ export const toggleQuest = (id, active) => {
   };
 };
 
-// export const makeCharacter = 

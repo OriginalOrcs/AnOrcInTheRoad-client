@@ -4,7 +4,6 @@ import UserProfile from '../components/UserProfile';
 import socket from '../socket/socket';
 
 const mapStateToProps = (state) => {
-  console.log('STATE FROM CREATE CHAR: ', state);
   return {
     selectedImage: null,
     user: state.user,
