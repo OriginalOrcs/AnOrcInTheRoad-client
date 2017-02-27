@@ -64,10 +64,11 @@ export const updateQuests = (quests) => {
   };
 };
 
-export const updateLocation = (location) => {
+export const updateLocation = (coordinate) => {
   return {
     type: 'UPDATE_LOCATION',
-    location,
+    latitude: coordinate.latitude,
+    longitude: coordinate.longitude,
   };
 };
 
