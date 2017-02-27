@@ -36,10 +36,7 @@ export const updateQuests = (state = [], action) => {
       const myQuests = action.quests.map((myQuest) => {
         return myQuest;
       });
-      console.log('update quest reducer hit', state, action);
-      return [
-        ...state,
-      ].concat(myQuests);
+      return myQuests;
     default:
       return state;
   }

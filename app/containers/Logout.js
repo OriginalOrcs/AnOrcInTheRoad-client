@@ -6,9 +6,8 @@ import Exponent from 'exponent';
 
 
 const mapStateToProps = (state) => {
-	console.log('STATE FROM LOGOUT: ', state)
   return {
-    auth: state.auth,
+    user: state.user,
   };
 };
 

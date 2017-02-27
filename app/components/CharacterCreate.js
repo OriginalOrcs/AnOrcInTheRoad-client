@@ -132,6 +132,58 @@ class CharacterCreate extends React.Component {
     console.log('CHARACTER CREATE PROPS', this.props);
     return (
       <View style={styles.container}>
+  
+          <ScrollView contentContainerStyle={styles.modal}>
+            <Text style={styles.title} >Create A Character</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(name) => this.setState({ name })}
+              placeholder="Character Name"
+              value={this.state.name}
+            />
+            <Picker
+              selectedValue={this.state.classType}
+              onValueChange={(itemValue) => this.setState({ classType: itemValue })}
+              style={styles.picker}
+            >
+              <Picker.Item label="Hardcore Orc" value="setClassOrc" />
+              <Picker.Item label="Puny Human" value="setClassHuman" />
+              <Picker.Item label="Delicate Elf" value="setClassElf" />
+              <Picker.Item label="Oafish Dwarf" value="setClassDwarf" />
+            </Picker>
+            <Image style={styles.image} source={require('../assets/images/3.png')} />
+            <TouchableHighlight
+              onPress={() => {
+                this.props.onCreateCharacter(
+                  this.props.userid,
+                  this.state.name,
+                  // this.state.classType,
+                );
+                this.props.handleCreateOrClose();
+              }}
+              style={styles.submitButton}
+            >
+              <Text style={styles.buttonText}>Create Character</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              onPress={() => {
+                this.props.handleCreateOrClose();
+              }}
+              style={styles.closeButton}
+            >
+              <Text style={styles.buttonText}>Close Menu</Text>
+            </TouchableHighlight>
+          </ScrollView>
+
+        <View>
+         
+        </View>
+      </View>
+
+
+
+
+      /*<View style={styles.container}>
         <Modal
           animationType="slide"
           transparent={false}
@@ -161,7 +213,7 @@ class CharacterCreate extends React.Component {
             <TouchableHighlight
               onPress={() => {
                 this.props.onCreateCharacter(
-                  this.props.user_id.user_id,
+                  this.props.user.user_id,
                   this.state.name,
                   // this.state.classType,
                 );
@@ -191,7 +243,7 @@ class CharacterCreate extends React.Component {
             <Text style={styles.buttonText}>Create New Character</Text>
           </TouchableHighlight>
         </View>
-      </View>
+      </View> */
     );
   }
 }

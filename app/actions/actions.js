@@ -22,13 +22,19 @@ export const addQuest = (name, location, questType, experience, creator_id, lat,
 //   };
 // };
 
-export const userLogin = (username, user_pic, user_id) => {
-  console.log('ACTIONS USERNAME: ', username)
+export const userLogin = (name, user_id) => {
+  console.log('ACTIONS USERLOGIN INFO: ', name, user_id);
   return {
     type: 'USER_LOGIN',
-    username,
-    user_pic,
+    name,
     user_id,
+  };
+};
+
+export const updateCharId = (char_id) => {
+  return {
+    type: 'UPDATE_CHARID',
+    char_id,
   };
 };
 
@@ -45,9 +51,10 @@ export const createCharacter = (character) => {
   };
 };
 
-export const updateCharacter = (character) => {
+export const triggerUpdateCharacter = (character) => {
+  console.log('ACTIONS triggerUpdateCharacter: ', character);
   return {
-    type: 'CREATE_CHARACTER',
+    type: 'TRIGGER_UPDATE_CHARACTER',
     character,
   };
 };
@@ -80,3 +87,5 @@ export const toggleQuest = (id, active) => {
     active,
   };
 };
+
+// export const makeCharacter = 

@@ -1,15 +1,13 @@
 import { connect } from 'react-redux';
 import { createCharacter } from '../actions/actions';
-import CharacterCreate from '../components/CharacterCreate';
-
+import UserProfile from '../components/UserProfile';
 import socket from '../socket/socket';
 
 const mapStateToProps = (state) => {
-  console.log('STATE FROM CREATE CHAR: ', state.auth[0])
+  console.log('STATE FROM CREATE CHAR: ', state);
   return {
-    character: state.character,
     selectedImage: null,
-    user_id: state.auth[0],
+    user: state.user,
   };
 };
 
@@ -24,10 +22,10 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const CreateCharacter = connect(
+const UserProfileContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CharacterCreate);
+)(UserProfile);
 
-export default CreateCharacter;
+export default UserProfileContainer;
 

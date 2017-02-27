@@ -12,8 +12,7 @@ const mapStateToProps = (state) => {
     quests: state.quests,
     location: state.location,
     watcherSub: state.watcherSub,
-    auth: state.auth[0],
-    // quests: quests,
+    user: state.user,
   };
 };
 
@@ -55,10 +54,10 @@ const mapDispatchToProps = (dispatch) => {
   console.log('VISIBLE QUEST PROPS', this.props);
   var that = this;
   return {
-    onSubmitQuest: (name, location, questType, experience, creator_id, item_id) => {
+    onSubmitQuest: (name, location, questType, experience, user_id, item_id) => {
       getLocationAsync((result) => {
         console.log('MY RESULT', result.coords);
-        return addQuest(name, location, questType, experience, creator_id, result.coords.latitude, result.coords.longitude);
+        return addQuest(name, location, questType, experience, user_id, result.coords.latitude, result.coords.longitude);
       })
       .then((result) => {
         console.log('FINAL RESULT', result);

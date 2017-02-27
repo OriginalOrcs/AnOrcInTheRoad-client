@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import { updateQuests, updateCharacter } from '../actions/actions';
+import { updateQuests, triggerUpdateCharacter } from '../actions/actions';
 
 import { store } from '../main';
 
@@ -9,10 +9,9 @@ import { store } from '../main';
 // const socket = io('http://169.254.86.190:3000')
 
 // const socket = io('http://10.6.20.151:3000')
-const socket = io('http://10.6.20.234:3000')
+const socket = io('http://136.24.38.174:3000');
 
 socket.on('trigger update quests', () => {
-  console.log('trigger');
   socket.emit('get quests', 0);
 });
 
@@ -21,15 +20,10 @@ socket.on('update quests', (data) => {
   store.dispatch(updateQuests(data));
 });
 
-socket.on('make character', (id) => {
-	console.log('MAKE CHAR: ', id);
-});
-
 socket.on('update character', function(char) {
   console.log('RESULT FROM GET CHAR OR UPDATE CHAR: ', char);
-  store.dispatch(updateCharacter(char));
+  store.dispatch(triggerUpdateCharacter(char[0]));
 });
 
-socket.on('')
 
 export default socket;

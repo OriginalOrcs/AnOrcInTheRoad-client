@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, Modal } from 'react-native';
 import Logout from '../containers/Logout';
-// import CharacterCreate from './CharacterCreate';
-import CreateCharacter from '../containers/CreateCharacter';
+import CharacterCreate from './CharacterCreate';
 import { Font } from 'exponent';
+import socket from '../socket/socket';
 
 const styles = StyleSheet.create({
   container: {
@@ -53,10 +53,58 @@ const styles = StyleSheet.create({
 });
 
 class UserProfile extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      createCharVisible: false,
+      name: null,
+      user_id: null,
+      char_id: null,
+      level: null,
+      experience: null,
+    };
+
+    this.handleCreateOrClose = this.handleCreateOrClose.bind(this);
+  }
+
+  componentDidMount() {
+    // socket.emit('get character', 'testing0 | 23298hsdfn24');
+    socket.on('make character', () => {
+      this.setState({ createCharVisible: true });
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('USER PROF COMP WILL RECEIVE PROPS: ', nextProps.user, this.props.user)
+    if (nextProps.user.user_id && nextProps.user.user_id !== this.props.user.user_id) {
+      socket.emit('get character', nextProps.user.user_id);
+      this.setState({
+        name: nextProps.user.name,
+        user_id: nextProps.user.user_id,
+        char_id: nextProps.user.char_id,
+        level: nextProps.user.level,
+        experience: nextProps.user.experience,
+      });
+    }
+  }
+
+  handleCreateOrClose() {
+    this.setState({createCharVisible: false});
+  }
+
   render() {
+    console.log('LOCAL STATE USER PROF: ', this.state);
     return (
       <View style={styles.container}>
-        <CreateCharacter onQuestCreate={this.onQuestCreate} />
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.createCharVisible}
+          onRequestClose={() => { alert("Modal has been closed.")}}
+          style={styles.modal}
+        >
+          <CharacterCreate userid={this.state.user_id} handleCreateOrClose={this.handleCreateOrClose} onCreateCharacter={this.props.onCreateCharacter} />
+        </Modal>
         <View style={styles.group}>
           <Text style={styles.heading}>
             {this.props.users[0].name}
