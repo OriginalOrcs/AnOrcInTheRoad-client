@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
+import socket from '../socket/socket';
 
 const styles = StyleSheet.create({
   container: {
@@ -49,13 +50,18 @@ class QuestRow extends React.Component {
   convertDistanceToMiles(dist) {
     return Math.floor(dist * 0.000621371 * 10)/10;
   }
-  
+
   render() {
     const rowPress = () => {
       console.log('You have pressed row');
     };
     console.log('ROW PROPS: ', this.props);
     console.log(this.props);
+    var distanceMiles = this.convertDistanceToMiles(this.props.dist);
+    if (distanceMiles < 0.1) {
+      console.log('quest completed: ', this.props.quest.id);
+      socket.emit('complete quests', this.props.id, this.props.quest.id);
+    }
     // console.log('DISTANCE: ', this.getDistance(this.props.location.latitude, this.props.location.longitude, this.props.quest.lat, this.props.quest.lng));
     return (
       <View style={styles.container} >
