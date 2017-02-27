@@ -125,7 +125,7 @@ class QuestCreate extends React.Component {
   }
 
   render() {
-    console.log('QUEST CREATE PROPS', JSON.stringify(this.props));
+    console.log('QUEST CREATE PROPS', this.props);
     return (
       <View style={styles.container}>
         <Modal

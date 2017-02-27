@@ -12,8 +12,7 @@ import {
 
 import { MonoText } from '../components/StyledText';
 import { Font } from 'exponent';
-import UserProfile from '../components/UserProfile';
-// import Logout from '../containers/Logout';
+import UserProfile from '../containers/UserProfileContainer';
 import users from '../constants/users';
 import stats from '../constants/stats';
 

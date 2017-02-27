@@ -9,7 +9,7 @@
   "primaryColor": "#cccccc",
   "icon": "",
   "notification": {
-    "icon": "./assets/icons/notification-icon.png",
+    "icon": "",
     "color": "#000000"
   },
   "loading": {
