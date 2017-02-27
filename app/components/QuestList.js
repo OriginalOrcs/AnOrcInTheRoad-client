@@ -4,7 +4,7 @@ import QuestRow from './QuestRow';
 import QuestCreate from './QuestCreate';
 import socket from '../socket/socket';
 import { updateQuests } from '../actions/actions'
-
+import geolib from 'geolib';
 
 const styles = StyleSheet.create({
   container: {
@@ -42,11 +42,17 @@ class QuestList extends React.Component {
       modalVisible: true,
       char_id: this.props.user.char_id,
     };
+    this.renderRow = this.renderRow.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.pingLocation();
   }
 
   componentDidMount() {
     this.props.fetchQuests(this.state.char_id);
   }
+
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.quests !== this.props.quests) {
@@ -67,9 +73,19 @@ class QuestList extends React.Component {
   //   this.props.fetchQuests(this.state.char_id);
   // }
 
+  calculateDistance(lat1, lng1, lat2, lng2, accuracy) {
+    const acc = accuracy || 20;
+    var coord1 = { latitude: lat1, longitude: lng1 };
+    var coord2 = { latitude: lat2, longitude: lng2 };
+    return geolib.getDistance(coord1, coord2, acc);
+  }
+  
   renderRow(quest) {
+    console.log('******', this.props);
+    var dist = this.calculateDistance(this.props.location.latitude, this.props.location.longitude, quest.lat, quest.lng, 100);
+    console.log(dist);
     return (
-      <QuestRow quest={quest} showDetails={true} />
+      <QuestRow quest={quest} showDetails={true} dist={dist} />
     );
   }
   render() {
@@ -93,7 +109,6 @@ class QuestList extends React.Component {
               } else {
                 this.props.createLocationWatcher();
               }
-              // this.props.createLocationWatcher();
             }}
             style={styles.button}
           >
@@ -114,13 +129,13 @@ class QuestList extends React.Component {
         </View>
         <View style={styles.container}>
           <View style={styles.createQuest}>
-            <ListView
-              key={this.props.quests}
-              dataSource={this.state.dataSource}
-              renderRow={this.renderRow}
-              renderSeperator={this.renderSeperator}
-              enableEmptySections={true}
-            />
+              <ListView
+                key={this.props.quests}
+                dataSource={this.state.dataSource}
+                renderRow={this.renderRow}
+                renderSeperator={this.renderSeperator}
+                enableEmptySections={true}
+              />
           </View>
         </View>
       </View>

@@ -1,14 +1,16 @@
 import { connect } from 'react-redux';
 import { addQuest, updateLocation, addWatcher, toggleQuest, updateQuests } from '../actions/actions';
-// import quests from '../constants/quests.json';
+import quests from '../constants/quests.json';
 import QuestList from '../components/QuestList';
 import * as Exponent from 'exponent';
 import socket from '../socket/socket';
-
+import geolib from 'geolib';
 
 const mapStateToProps = (state) => {
   console.log('visible quest list state', state);
   return {
+    // quests: quests,
+    // location: { latitude: 37.783712, longitude: -122.408914 },
     quests: state.quests,
     location: state.location,
     watcherSub: state.watcherSub,
@@ -37,8 +39,8 @@ async function getLocationAsync(cb) {
   if (status === 'granted') {
     return Location.getCurrentPositionAsync({ enableHighAccuracy: true })
       .then((result) => {
-        console.log('RESULT COORD', result);
-        // return dispatch(addQuest(name, location, questType, experience, creator_id, result.coords.latitude, result.coords.longitude, item_id));
+        console.log('RESULT COORD', result.coords);
+        dispatch(updateLocation(result.coords));
         return cb(result);
       })
       .catch((error) => {
@@ -48,7 +50,6 @@ async function getLocationAsync(cb) {
     throw new Error('Location permission not granted');
   }
 }
-
 
 const mapDispatchToProps = (dispatch) => {
   console.log('VISIBLE QUEST PROPS', this.props);

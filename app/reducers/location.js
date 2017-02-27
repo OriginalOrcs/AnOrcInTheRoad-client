@@ -3,7 +3,8 @@ export const location = (state = {}, action) => {
     case 'UPDATE_LOCATION':
       console.log('location reducer hit');
       return {
-        location: action.location,
+        latitude: action.latitude,
+        longitude: action.longitude,
       };
     default:
       return location;

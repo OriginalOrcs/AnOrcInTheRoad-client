@@ -27,7 +27,7 @@ import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 
 import { Provider } from 'react-redux';
 import reducers from './reducers/index'
-import { userLogin, updateQuests } from './actions/actions';
+import { userLogin, updateQuests, updateLocation, addWatcher } from './actions/actions';
 
 export const store = createStore(reducers);
 
@@ -47,6 +47,46 @@ if (Exponent.Constants.manifest.xde) {
 
 const auth0ClientId = 'vDeBBemEERpMdpAG24zlAdIg2CCIWiQ2';
 const auth0Domain = 'https://originalorcs.auth0.com';
+
+async function getLocationAsync(cb) {
+  const { Location, Permissions } = Exponent;
+  const { status } = await Permissions.askAsync(Permissions.LOCATION);
+
+  if (status === 'granted') {
+    return Location.getCurrentPositionAsync({ enableHighAccuracy: true })
+      .then((result) => {
+        console.log('RESULT COORD', result);
+        store.dispatch(updateLocation(result.coords));
+        return cb(result);
+      })
+      .catch((error) => {
+        return error;
+      });
+    } else {
+    throw new Error('Location permission not granted');
+  }
+}
+
+// function createLocationWatcher() {
+//   console.log('createLocationWatcher');
+//   const intervalId = setInterval(() => {
+//     return getLocationAsync((result) => {
+//       console.log('*** RESULT', result);
+//     });
+//   }, 5000);
+//   return intervalId;
+// }
+
+// function removeLocationWatcher(intervalId) {
+//   clearInterval(intervalId);
+// }
+
+// var watcher = createLocationWatcher();
+// store.dispatch(addWatcher(watcher));
+
+getLocationAsync()
+
+
 
 class AppContainer extends React.Component {
   state = { 
@@ -124,7 +164,7 @@ class AppContainer extends React.Component {
   }
 
   render() {
-    if (!this.state.name) {
+    /*if (!this.state.name) {
       return (
         <View style={styles.container}>
           <Image source={require('./assets/images/orc-background.gif')} style={styles.backgroundImage}>
@@ -139,7 +179,7 @@ class AppContainer extends React.Component {
           </Image>
         </View>
       )
-    } else if (this.state.appIsReady) {
+    } else */if (this.state.appIsReady) {
       return (
         <Provider store={store}>
           <View style={styles.container}>
