@@ -23,12 +23,13 @@ const user = (state = {}, action) => {
       };
 
     case 'TRIGGER_UPDATE_CHARACTER':
+    console.log('TRIGGER_UPDATE_CHARACTER HIT', action)
       return {
-        name: action.name,
-        user_id: action.user_id,
-        char_id: action.id,
-        level: action.level,
-        experience: action.experience,
+        name: action.character.name,
+        user_id: action.character.user_id,
+        char_id: action.character.id,
+        level: action.character.level,
+        experience: action.character.experience,
       };
 
     default:

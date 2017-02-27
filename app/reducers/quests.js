@@ -1,7 +1,6 @@
 const quest = (state = {}, action) => {
   switch (action.type) {
     case 'ADD_QUEST':
-      console.log('quest reducer hit');
       return {
         id: action.id,
         name: action.name,
@@ -33,10 +32,7 @@ export const quests = (state = [], action) => {
 export const updateQuests = (state = [], action) => {
   switch (action.type) {
     case 'UPDATE_QUESTS':
-      const myQuests = action.quests.map((myQuest) => {
-        return myQuest;
-      });
-      return myQuests;
+      return action.quests;
     default:
       return state;
   }

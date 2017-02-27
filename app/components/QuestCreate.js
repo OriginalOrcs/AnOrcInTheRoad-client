@@ -186,7 +186,7 @@ class QuestCreate extends React.Component {
                   this.state.location,
                   this.state.questType,
                   this.state.experience,
-                  this.state.creator_id,
+                  this.props.user.char_id,
                   this.state.lat,
                   this.state.lng,
                   this.state.item_id,
