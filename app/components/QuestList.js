@@ -85,7 +85,7 @@ class QuestList extends React.Component {
     var dist = this.calculateDistance(this.props.location.latitude, this.props.location.longitude, quest.lat, quest.lng, 100);
     console.log(dist);
     return (
-      <QuestRow quest={quest} showDetails={true} dist={dist} />
+      <QuestRow quest={quest} showDetails={true} dist={dist} id={this.props.user.user_id} />
     );
   }
   render() {
