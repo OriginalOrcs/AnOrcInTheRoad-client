@@ -10,7 +10,6 @@ import {
   View,
 } from 'react-native';
 
-import { MonoText } from '../components/StyledText';
 import { Font } from 'exponent';
 
 export default class HomeScreen extends React.Component {

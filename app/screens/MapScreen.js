@@ -10,7 +10,6 @@ import {
   View,
 } from 'react-native';
 import { Components } from 'exponent';
-import { MonoText } from '../components/StyledText';
 import Router from '../navigation/Router';
 
 import data from '../constants/quests.json';
@@ -57,7 +56,8 @@ export default class MapScreen extends React.Component {
         <Components.MapView
           style={{ flex: 1, backgroundColor: '#fff' }}
           initialRegion={region}
-          onRegionChangeComplete={this._onRegionChange}>
+          onRegionChangeComplete={this._onRegionChange}
+          provider="google">
           {
             data ?
             data.map(quest =>
