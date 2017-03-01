@@ -10,7 +10,6 @@ import {
   View,
 } from 'react-native';
 
-import { MonoText } from '../components/StyledText';
 import { Font } from 'exponent';
 import UserProfile from '../containers/UserProfileContainer';
 import users from '../constants/users';
@@ -35,7 +34,6 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView>
           <UserProfile users={users} stats={stats} />
-  
         </ScrollView>
       </View>
     )

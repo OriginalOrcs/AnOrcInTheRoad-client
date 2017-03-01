@@ -62,8 +62,8 @@ const mapDispatchToProps = (dispatch) => {
       })
       .then((result) => {
         console.log('FINAL RESULT', result);
-        // dispatch(result);
-        // socket.emit('create quest', result);
+        dispatch(result);
+        socket.emit('create quest', result);
       });
     },
     pingLocation: () => {
@@ -85,9 +85,13 @@ const mapDispatchToProps = (dispatch) => {
       removeLocationWatcher(intervalId);
       dispatch(addWatcher(''));
     },
-    toggleActiveQuest: (id) => {
-      console.log('id', id);
-      dispatch(toggleQuest(id));
+    toggleActiveQuest: (char_id, quest_id, isActive) => {
+      if (!isActive) {
+        socket.emit('activate quest', char_id, quest_id);
+      } else {
+        socket.emit('deactivate quest', char_id, quest_id);
+      }
+      // dispatch(toggleQuest(id));
     },
     fetchQuests: (charId) => {
       socket.emit('get quests', charId);

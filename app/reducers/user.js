@@ -23,7 +23,6 @@ const user = (state = {}, action) => {
       };
 
     case 'TRIGGER_UPDATE_CHARACTER':
-    console.log('TRIGGER_UPDATE_CHARACTER HIT', action)
       return {
         name: action.character.name,
         user_id: action.character.user_id,

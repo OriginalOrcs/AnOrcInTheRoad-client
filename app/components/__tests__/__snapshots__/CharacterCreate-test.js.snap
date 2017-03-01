@@ -1,0 +1,194 @@
+exports[`test renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#F7F7F7",
+      "flex": 1,
+      "justifyContent": "flex-start",
+    }
+  }>
+  <ScrollView
+    contentContainerStyle={
+      Object {
+        "paddingBottom": 50,
+        "paddingTop": 80,
+      }
+    }>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "fontSize": 30,
+          "fontWeight": "300",
+          "marginBottom": 20,
+          "marginLeft": 20,
+        }
+      }>
+      Create A Character
+    </Text>
+    <TextInput
+      autoCorrect={false}
+      onChangeText={[Function]}
+      placeholder="Character Name"
+      style={
+        Object {
+          "borderColor": "gray",
+          "borderWidth": 1,
+          "height": 40,
+          "marginBottom": 20,
+          "marginLeft": 20,
+          "marginRight": 20,
+          "paddingLeft": 10,
+        }
+      }
+      value={undefined} />
+    <View
+      style={
+        Object {
+          "padding": 20,
+        }
+      }>
+      <RCTPicker
+        items={
+          Array [
+            Object {
+              "label": "Hardcore Orc",
+              "textColor": undefined,
+              "value": "setClassOrc",
+            },
+            Object {
+              "label": "Puny Human",
+              "textColor": undefined,
+              "value": "setClassHuman",
+            },
+            Object {
+              "label": "Delicate Elf",
+              "textColor": undefined,
+              "value": "setClassElf",
+            },
+            Object {
+              "label": "Oafish Dwarf",
+              "textColor": undefined,
+              "value": "setClassDwarf",
+            },
+          ]
+        }
+        onChange={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        selectedIndex={0}
+        style={
+          Array [
+            Object {
+              "height": 216,
+            },
+            undefined,
+          ]
+        } />
+    </View>
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hasTVPreferredFocus={undefined}
+      hitSlop={undefined}
+      isTVSelectable={true}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#0eb27e",
+            "borderColor": "#05A5D1",
+            "borderWidth": 2,
+            "height": 60,
+            "justifyContent": "center",
+            "marginLeft": 20,
+            "marginRight": 20,
+            "marginTop": 20,
+          },
+        ]
+      }
+      testID={undefined}
+      tvParallaxProperties={undefined}>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#FAFAFA",
+            "fontFamily": "ExponentFont-[object Object]-luminari",
+            "fontSize": 25,
+            "fontWeight": "600",
+          }
+        }>
+        Create Character
+      </Text>
+    </View>
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hasTVPreferredFocus={undefined}
+      hitSlop={undefined}
+      isTVSelectable={true}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#333",
+            "borderColor": "#05A5D1",
+            "borderWidth": 2,
+            "height": 60,
+            "justifyContent": "center",
+            "marginLeft": 20,
+            "marginRight": 20,
+            "marginTop": 20,
+          },
+        ]
+      }
+      testID={undefined}
+      tvParallaxProperties={undefined}>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#FAFAFA",
+            "fontFamily": "ExponentFont-[object Object]-luminari",
+            "fontSize": 25,
+            "fontWeight": "600",
+          }
+        }>
+        Close Menu
+      </Text>
+    </View>
+  </ScrollView>
+  <View />
+</View>
+`;

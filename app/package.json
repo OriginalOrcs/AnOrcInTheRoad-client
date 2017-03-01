@@ -5,7 +5,8 @@
   "author": null,
   "main": "main.js",
   "scripts": {
-    "test": "node node_modules/jest/bin/jest.js"
+    "test": "node node_modules/jest/bin/jest.js",
+    "test:watch": "npm run test -- --watch"
   },
   "jest": {
     "preset": "jest-exponent"
