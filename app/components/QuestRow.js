@@ -44,8 +44,17 @@ class QuestRow extends React.Component {
     };
   }
 
+  componentDidMount() {
+    if (this.props.quest.active) {
+      this.setState({ isSelected: true });
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
-    console.log('NEXT PROPS from QROW: ', nextProps)
+    console.log('NEXT PROPS from QROW: ', nextProps);
+    if (nextProps.quest.active === 1) {
+      this.setState({ isSelected: true });
+    }
   }
 
   getDistance(lat1, lng1, lat2, lng2) {
@@ -75,7 +84,6 @@ class QuestRow extends React.Component {
       console.log('You have pressed row');
     };
     console.log('ROW PROPS: ', this.props);
-    console.log(this.props);
     var distanceMiles = this.convertDistanceToMiles(this.props.dist);
     if (distanceMiles < 0.1) {
       console.log('quest completed: ', this.props.quest.id);
@@ -84,7 +92,7 @@ class QuestRow extends React.Component {
     // console.log('DISTANCE: ', this.getDistance(this.props.location.latitude, this.props.location.longitude, this.props.quest.lat, this.props.quest.lng));
     return (
       <TouchableHighlight onPress={() => this.handleSelect()} underlayColor='white'>
-        <View style={[styles.container, this.state.isSelected ? { backgroundColor: '#0eb27e' } : {}]}>
+        <View style={[styles.container, this.state.isSelected ? { backgroundColor: '#0eb27e' } : {}]} >
           <Text style={styles.title} /*onPress={rowPress}*/>
             {this.props.quest.name}
           </Text>

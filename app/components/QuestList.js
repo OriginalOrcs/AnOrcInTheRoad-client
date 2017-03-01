@@ -81,7 +81,6 @@ class QuestList extends React.Component {
   }
   
   renderRow(quest) {
-    console.log('******', this.props);
     var dist = this.calculateDistance(this.props.location.latitude, this.props.location.longitude, quest.lat, quest.lng, 100);
     console.log(dist);
     return (
@@ -89,7 +88,7 @@ class QuestList extends React.Component {
     );
   }
   render() {
-    console.log('quest list component PROPS', this.props);
+    // console.log('quest list component PROPS', this.props);
     return (
       <View>
         {/*<View> 
