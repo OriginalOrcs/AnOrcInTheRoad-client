@@ -1,16 +1,18 @@
+import Exponent from 'exponent';
+
 let nextQuestId = 0;
 
-export const addQuest = (name, location, questType, experience, creator_id, lat, lng, item_id) => {
+export const addQuest = (name, location, questType, experience, lat, lng, creator_id, item_id) => {
   return {
     type: 'ADD_QUEST',
     id: nextQuestId++,
-    questType,
     name,
     location,
+    questType,
     experience,
-    creator_id,
     lat,
     lng,
+    creator_id,
     item_id,
   };
 };
@@ -64,14 +66,6 @@ export const updateQuests = (quests) => {
   };
 };
 
-export const updateLocation = (coordinate) => {
-  console.log('COORD FROM UPDATE LOC: ', coordinate)
-  return {
-    type: 'UPDATE_LOCATION',
-    coordinate,
-  };
-};
-
 export const addWatcher = (watcherSub) => {
   return {
     type: 'ADD_WATCHER',
@@ -86,3 +80,31 @@ export const toggleQuest = (id, active) => {
     active,
   };
 };
+
+export const REQUEST_LOCATION = 'REQUEST_LOCATION'
+export const RECEIVE_LOCATION = 'RECEIVE_LOCATION'
+export const REQUEST_QUESTS = 'REQUEST_QUESTS'
+export const RECEIVE_QUESTS = 'RECEIVE_QUESTS'
+
+export function requestLocation() {
+  return {
+    type: REQUEST_LOCATION,
+  };
+}
+
+export function receiveLocation(coord) {
+  return {
+    type: RECEIVE_LOCATION,
+    latitude: coord.latitude,
+    longitude: coord.longitude,
+  };
+}
+
+export function updateLocation() {
+  return function (dispatch) {
+    const { Location } = Exponent;
+    dispatch(requestLocation());
+    return Location.getCurrentPositionAsync({ enableHighAccuracy: true })        // We can dispatch many times!
+      .then(result => dispatch(receiveLocation(result.coords)));
+  };
+}
