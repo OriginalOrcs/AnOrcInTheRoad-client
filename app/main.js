@@ -29,7 +29,18 @@ import { Provider } from 'react-redux';
 import reducers from './reducers/index'
 import { userLogin, updateQuests, updateLocation, addWatcher } from './actions/actions';
 
-export const store = createStore(reducers);
+import thunkMiddleware from 'redux-thunk';
+import createLogger from 'redux-logger';
+
+const loggerMiddleware = createLogger();
+
+export const store = createStore(
+  reducers,
+  applyMiddleware(
+    thunkMiddleware, // lets us dispatch() functions
+    loggerMiddleware // neat middleware that logs actions
+  ),
+);
 
 import jwtDecoder from 'jwt-decode';
 
@@ -39,7 +50,7 @@ import { Font } from 'exponent';
 
 let redirectUri;
 if (Exponent.Constants.manifest.xde) {
-  redirectUri = `exp://66-j7v.woobianca.app.exp.direct/+/redirect`;
+  redirectUri = `exp://9k-ndi.rewhsu.app.exp.direct/+/redirect`;
 } else {
     console.log('CONSTANTS MANIFEST ',Exponent.Constants.linkingUri)
   redirectUri = `${Exponent.Constants.linkingUri}/redirect`;
@@ -48,45 +59,9 @@ if (Exponent.Constants.manifest.xde) {
 const auth0ClientId = 'vDeBBemEERpMdpAG24zlAdIg2CCIWiQ2';
 const auth0Domain = 'https://originalorcs.auth0.com';
 
-// async function getLocationAsync(cb) {
-//   const { Location, Permissions } = Exponent;
-//   const { status } = await Permissions.askAsync(Permissions.LOCATION);
-
-//   if (status === 'granted') {
-//     return Location.getCurrentPositionAsync({ enableHighAccuracy: true })
-//       .then((result) => {
-//         console.log('RESULT COORD', result);
-//         store.dispatch(updateLocation(result.coords));
-//         return cb(result);
-//       })
-//       .catch((error) => {
-//         return error;
-//       });
-//     } else {
-//     throw new Error('Location permission not granted');
-//   }
-// };
-
-// function createLocationWatcher() {
-//   console.log('createLocationWatcher');
-//   const intervalId = setInterval(() => {
-//     return getLocationAsync((result) => {
-//       console.log('*** RESULT', result);
-//     });
-//   }, 5000);
-//   return intervalId;
-// }
-
-// function removeLocationWatcher(intervalId) {
-//   clearInterval(intervalId);
-// }
-
-// var watcher = createLocationWatcher();
-// store.dispatch(addWatcher(watcher));
-
-// getLocationAsync()
-
-
+store.dispatch(updateLocation()).then(() =>
+  console.log('MAIN STATE', store.getState())
+)
 
 class AppContainer extends React.Component {
   state = { 

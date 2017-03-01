@@ -81,7 +81,7 @@ class QuestList extends React.Component {
   }
   
   renderRow(quest) {
-    var dist = this.calculateDistance(this.props.location.latitude, this.props.location.longitude, quest.lat, quest.lng, 100);
+    var dist = this.calculateDistance(this.props.lat, this.props.lng, quest.lat, quest.lng, 100);
     console.log(dist);
     return (
       <QuestRow quest={quest} showDetails={true} dist={dist} id={this.props.user.char_id} toggleQuest={this.props.toggleActiveQuest} />
@@ -124,17 +124,19 @@ class QuestList extends React.Component {
           </TouchableHighlight>
         </View> */}
         <View style={styles.createQuest}>
-          <QuestCreate onSubmitQuest={this.props.onSubmitQuest} user={this.props.user} />
+          <QuestCreate onSubmitQuest={this.props.onSubmitQuest} user={this.props.user} lat={this.props.lat} lng={this.props.lng} />
         </View>
         <View style={styles.container}>
           <View style={styles.createQuest}>
-              <ListView
-                key={this.props.quests}
-                dataSource={this.state.dataSource}
-                renderRow={this.renderRow}
-                renderSeperator={this.renderSeperator}
-                enableEmptySections={true}
-              />
+          {this.props.quests ?
+            <ListView
+              key={this.props.quests}
+              dataSource={this.state.dataSource}
+              renderRow={this.renderRow}
+              renderSeperator={this.renderSeperator}
+              enableEmptySections={true}
+            />
+            : null }
           </View>
         </View>
       </View>
