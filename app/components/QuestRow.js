@@ -58,7 +58,16 @@ class QuestRow extends React.Component {
 
   handleSelect() {
     this.setState({isSelected: !this.state.isSelected});
+    this.handleToggle();
+      console.log('STATE IS SELECTED from HANDLE: ', this.state.isSelected);
+
   }
+
+  handleToggle() {
+     console.log('STATE IS SELECTED from HANDLE: ', this.state.isSelected);
+    this.props.toggleQuest(this.props.id, this.props.quest.id, this.state.isSelected);
+  }
+
 
   render() {
     console.log('STATE IS SELECTED: ', this.state.isSelected);
