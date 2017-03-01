@@ -87,7 +87,7 @@ class QuestRow extends React.Component {
     var distanceMiles = this.convertDistanceToMiles(this.props.dist);
     if (distanceMiles < 0.1) {
       console.log('quest completed: ', this.props.quest.id);
-      socket.emit('complete quest', this.props.id, this.props.quest.id);
+      socket.emit('complete quest', this.props.charId, this.props.quest.id);
     }
     // console.log('DISTANCE: ', this.getDistance(this.props.location.latitude, this.props.location.longitude, this.props.quest.lat, this.props.quest.lng));
     return (

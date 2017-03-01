@@ -5,66 +5,28 @@ import QuestList from '../components/QuestList';
 import * as Exponent from 'exponent';
 import socket from '../socket/socket';
 import geolib from 'geolib';
+import { getLocationAsync, createLocationWatcher, removeLocationWatcher } from '../utilities/locations';
 
 const mapStateToProps = (state) => {
   console.log('visible quest list state', state);
   return {
     // quests: quests,
-    location: { latitude: 37.783712, longitude: -122.408914 },
+    // location: { latitude: 37.783712, longitude: -122.408914 },
     quests: state.quests,
-    // location: state.location,
+    lat: state.location.latitude,
+    lng: state.location.longitude,
     watcherSub: state.watcherSub,
     user: state.user,
   };
 };
 
-function createLocationWatcher() {
-  console.log('createLocationWatcher');
-  const intervalId = setInterval(() => {
-    return getLocationAsync((result) => {
-      console.log('*** RESULT', result);
-    });
-  }, 1000);
-  return intervalId;
-}
-
-function removeLocationWatcher(intervalId) {
-  clearInterval(intervalId);
-}
-
-async function getLocationAsync(cb) {
-  const { Location, Permissions } = Exponent;
-  const { status } = await Permissions.askAsync(Permissions.LOCATION);
-
-  if (status === 'granted') {
-    return Location.getCurrentPositionAsync({ enableHighAccuracy: true })
-      .then((result) => {
-        console.log('RESULT COORD', result.coords);
-        dispatch(updateLocation(result.coords));
-        return cb(result);
-      })
-      .catch((error) => {
-        return error;
-      });
-    } else {
-    throw new Error('Location permission not granted');
-  }
-}
-
 const mapDispatchToProps = (dispatch) => {
   console.log('VISIBLE QUEST PROPS', this.props);
-  var that = this;
   return {
-    onSubmitQuest: (name, location, questType, experience, creator_id, item_id) => {
-      getLocationAsync((result) => {
-        console.log('MY RESULT', result.coords);
-        return addQuest(name, location, questType, experience, creator_id, result.coords.latitude, result.coords.longitude);
-      })
-      .then((result) => {
-        console.log('FINAL RESULT', result);
-        dispatch(result);
-        socket.emit('create quest', result);
-      });
+    onSubmitQuest: (name, location, questType, experience, latitude, longitude, creator_id, item_id) => {
+      const newQuest = addQuest(name, location, questType, experience, latitude, longitude, creator_id, item_id);
+      console.log('NEWSUBMITQUEST', newQuest);
+      socket.emit('create quest', newQuest);
     },
     pingLocation: () => {
       getLocationAsync((location) => {
