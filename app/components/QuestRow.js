@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, Text, TouchableHighlight, Alert } from 'react-native';
 import socket from '../socket/socket';
 import { Font } from 'exponent';
 
@@ -77,6 +77,14 @@ class QuestRow extends React.Component {
     this.props.toggleQuest(this.props.id, this.props.quest.id, this.state.isSelected);
   }
 
+  checkIfComplete(distanceMiles) {
+    if (distanceMiles < 0.1 && this.state.isSelected) {
+      console.log('quest completed: ', this.props.quest.id);
+      socket.emit('complete quest', this.props.id, this.props.quest.id);
+      Alert.alert('Completed Quest!');
+    }
+  }
+
 
   render() {
     console.log('STATE IS SELECTED: ', this.state.isSelected);
@@ -85,11 +93,7 @@ class QuestRow extends React.Component {
     };
     console.log('ROW PROPS: ', this.props);
     var distanceMiles = this.convertDistanceToMiles(this.props.dist);
-    if (distanceMiles < 0.1) {
-      console.log('quest completed: ', this.props.quest.id);
-      socket.emit('complete quest', this.props.id, this.props.quest.id);
-    }
-    // console.log('DISTANCE: ', this.getDistance(this.props.location.latitude, this.props.location.longitude, this.props.quest.lat, this.props.quest.lng));
+    this.checkIfComplete(distanceMiles);
     return (
       <TouchableHighlight onPress={() => this.handleSelect()} underlayColor='white'>
         <View style={[styles.container, this.state.isSelected ? { backgroundColor: '#0eb27e' } : {}]} >
@@ -97,7 +101,6 @@ class QuestRow extends React.Component {
             {this.props.quest.name}
           </Text>
           {this.props.showDetails ?
-          
           <View /*onPress={() => this.props.toggleQuest(this.props.quest.id)}*/>
             {/*<Text style={styles.subtitle}>{this.props.quest.questType}</Text>*/}
             <Text style={styles.label}>{distanceMiles} Miles</Text>
