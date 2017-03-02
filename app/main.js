@@ -28,6 +28,7 @@ import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 import { Provider } from 'react-redux';
 import reducers from './reducers/index'
 import { userLogin, updateQuests, updateLocation, addWatcher } from './actions/actions';
+import { createLocationWatcher } from './utilities/locations';
 
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
@@ -61,7 +62,10 @@ const auth0Domain = 'https://originalorcs.auth0.com';
 
 store.dispatch(updateLocation()).then(() =>
   console.log('MAIN STATE', store.getState())
-)
+);
+// const watcherId = createLocationWatcher();
+// store.dispatch(addWatcher(watcherId));
+// console.log('MAIN STATE, LOCATION', store.getState());
 
 class AppContainer extends React.Component {
   state = { 
