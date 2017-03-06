@@ -45,10 +45,6 @@ class QuestList extends React.Component {
     this.renderRow = this.renderRow.bind(this);
   }
 
-  // componentWillMount() {
-  //   this.props.pingLocation();
-  // }
-
   componentDidMount() {
     this.props.fetchQuests(this.props.user.char_id);
   }
@@ -61,17 +57,8 @@ class QuestList extends React.Component {
         dataSource: this.state.dataSource.cloneWithRows(nextProps.quests),
       });
     }
-    // if (nextProps.user) {
-    //   console.log('CHAR ID***: ', nextProps.user.char_id);
-    //   this.setState({
-    //     char_id: nextProps.user.char_id,
-    //   });
-    // }
   }
 
-  // handleCreatorId() {
-  //   this.props.fetchQuests(this.state.char_id);
-  // }
 
   calculateDistance(lat1, lng1, lat2, lng2, accuracy) {
     const acc = accuracy || 20;
@@ -79,50 +66,17 @@ class QuestList extends React.Component {
     var coord2 = { latitude: lat2, longitude: lng2 };
     return geolib.getDistance(coord1, coord2, acc);
   }
-  
+ 
   renderRow(quest) {
     var dist = this.calculateDistance(this.props.lat, this.props.lng, quest.lat, quest.lng, 100);
-    console.log(dist);
     return (
       <QuestRow quest={quest} showDetails={true} dist={dist} id={this.props.user.char_id} toggleQuest={this.props.toggleActiveQuest} />
     );
   }
+
   render() {
-    // console.log('quest list component PROPS', this.props);
     return (
       <View>
-        {/*<View> 
-          <TouchableHighlight
-            onPress={() => {
-              this.props.pingLocation();
-            }}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Ping Location</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            onPress={() => {
-              console.log('create watcher on press', this.props);
-              if (this.props.watcherSub.watcherSub) {
-                return;
-              } else {
-                this.props.createLocationWatcher();
-              }
-            }}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Create Location Watcher</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            onPress={() => {
-              console.log('remove watcher on press', this.props);
-              this.props.removeLocationWatcher(this.props.watcherSub.watcherSub);
-            }}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Remove Location Watcher</Text>
-          </TouchableHighlight>
-        </View> */}
         <View style={styles.createQuest}>
           <QuestCreate onSubmitQuest={this.props.onSubmitQuest} user={this.props.user} lat={this.props.lat} lng={this.props.lng} />
         </View>
