@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, StyleSheet, Text, TouchableHighlight, Alert } from 'react-native';
+import { 
+  View, 
+  StyleSheet, 
+  Text, 
+  TouchableHighlight, 
+  Alert,
+} from 'react-native';
 import socket from '../socket/socket';
 import { Font } from 'exponent';
 
@@ -47,13 +53,17 @@ class QuestRow extends React.Component {
   componentDidMount() {
     if (this.props.quest.active) {
       this.setState({ isSelected: true });
+    } else {
+      this.setState({isSelected: false});
     }
   }
 
   componentWillReceiveProps(nextProps) {
     console.log('NEXT PROPS from QROW: ', nextProps);
-    if (nextProps.quest.active === 1) {
+    if (nextProps.quest.active) {
       this.setState({ isSelected: true });
+    } else {
+      this.setState({ isSelected: false });
     }
   }
 
@@ -68,12 +78,9 @@ class QuestRow extends React.Component {
   handleSelect() {
     this.setState({isSelected: !this.state.isSelected});
     this.handleToggle();
-      console.log('STATE IS SELECTED from HANDLE: ', this.state.isSelected);
-
   }
 
   handleToggle() {
-     console.log('STATE IS SELECTED from HANDLE: ', this.state.isSelected);
     this.props.toggleQuest(this.props.id, this.props.quest.id, this.state.isSelected);
   }
 
@@ -87,11 +94,6 @@ class QuestRow extends React.Component {
 
 
   render() {
-    console.log('STATE IS SELECTED: ', this.state.isSelected);
-    const rowPress = () => {
-      console.log('You have pressed row');
-    };
-    console.log('ROW PROPS: ', this.props);
     var distanceMiles = this.convertDistanceToMiles(this.props.dist);
     this.checkIfComplete(distanceMiles);
     return (

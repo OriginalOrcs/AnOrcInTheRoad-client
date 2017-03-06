@@ -51,7 +51,7 @@ import { Font } from 'exponent';
 
 let redirectUri;
 if (Exponent.Constants.manifest.xde) {
-  redirectUri = `exp://9k-ndi.rewhsu.app.exp.direct/+/redirect`;
+  redirectUri = `exp://66-j7v.woobianca.app.exp.direct/+/redirect`;
 } else {
     console.log('CONSTANTS MANIFEST ',Exponent.Constants.linkingUri)
   redirectUri = `${Exponent.Constants.linkingUri}/redirect`;
@@ -123,6 +123,7 @@ class AppContainer extends React.Component {
       await cacheAssetsAsync({
         images: [
           require('./assets/images/orc-background.gif'),
+          require('./assets/images/scroll.png'),
         ],
         fonts: [
           FontAwesome.font,

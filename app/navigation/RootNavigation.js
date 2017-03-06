@@ -31,21 +31,24 @@ export default class RootNavigation extends React.Component {
   render() {
     return (
       <TabNavigation
-        tabBarHeight={56}
+        tabBarHeight={40}
         initialTab="home">
         <TabNavigationItem
+          style={styles.container}
           id="home"
           renderIcon={isSelected => this._renderIcon('user-o', isSelected)}>
           <StackNavigation initialRoute="home" />
         </TabNavigationItem>
 
         <TabNavigationItem
+          style={styles.container}
           id="quests"
           renderIcon={isSelected => this._renderIcon('flag-o', isSelected)}>
           <StackNavigation initialRoute="quests" />
         </TabNavigationItem>
 
         <TabNavigationItem
+          style={styles.container}
           id="map"
           renderIcon={isSelected => this._renderIcon('map-o', isSelected)}>
           <StackNavigation initialRoute="map" />
@@ -86,9 +89,10 @@ export default class RootNavigation extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#d2d0b9',
   },
   selectedTab: {
+    backgroundColor: '#d2d0b9',
     color: Colors.tabIconSelected,
   },
 });

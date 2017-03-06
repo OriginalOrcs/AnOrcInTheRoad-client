@@ -4,7 +4,7 @@ import {
 
 import HomeScreen from '../screens/HomeScreen';
 import QuestListScreen from '../screens/QuestListScreen';
-import MapScreen from '../screens/MapScreen';
+import MapScreen from '../containers/MapContainer';
 import RootNavigation from './RootNavigation';
 import UserScreen from '../screens/UserScreen';
 
