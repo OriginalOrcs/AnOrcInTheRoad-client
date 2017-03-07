@@ -19,6 +19,7 @@ import Router from '../navigation/Router';
 import { Font } from 'exponent';
 import data from '../constants/quests.json';
 import MapScroll from '../components/MapScroll';
+import googleMapStyle from '../components/googleMapStyle';
 
 let { height, width } = Dimensions.get('window')
 
@@ -72,6 +73,11 @@ export default class MapScreen extends React.Component {
         quests: nextProps.quests,
       });
     }
+    nextProps.quests.forEach(quest => {
+      if (quest.id === this.state.currentQuest.id) {
+        this.setState({ currentQuest: quest });
+      }
+    });
   }
 
   _onMarkerPress = (e) => {
@@ -82,7 +88,7 @@ export default class MapScreen extends React.Component {
     const quests = this.state.quests
     quests.forEach((quest, i) => {
       if (quest.id === e.id) {
-        this.setCurrentQuestView(e, i);
+        this.setCurrentQuestView(quest, i);
       }
     });    
 
@@ -99,12 +105,13 @@ export default class MapScreen extends React.Component {
 
   setCurrentQuestView(quest, i) {
     this.setState({
+      currentQuest: quest,
       questIndex: i,
       mapRegion: {
         latitude: quest.lat - 0.002,
         longitude: quest.lng - 0.0015,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
+        latitudeDelta: 0.012,
+        longitudeDelta: 0.012,
       },
     })
   }
@@ -116,7 +123,6 @@ export default class MapScreen extends React.Component {
           style={{ flex: 1, backgroundColor: '#fff' }}
           initialRegion={this.state.mapRegion}
           region={this.state.mapRegion}
-          onRegionChangeComplete={this._onRegionChange}
           provider="google"
           customMapStyle={googleMapStyle}
           showsUserLocation = {true}
@@ -125,7 +131,6 @@ export default class MapScreen extends React.Component {
             this.state.quests ?
             this.state.quests.map((quest, i) =>
               <Components.MapView.Marker
-                draggable
                 style={styles.flags}
                 key={quest.id}
                 coordinate={{
@@ -143,10 +148,9 @@ export default class MapScreen extends React.Component {
            
             <MapScroll quests={this.state.quests} 
               currentQuest={this.state.currentQuest} 
+              questIndex={this.state.questIndex}
               handleScroll={this.handleScroll} 
               closeScroll={this.closeScroll}
-              onChange={this.handleChange}
-              questIndex={this.state.questIndex}
               lat={this.props.lat}
               lng={this.props.lng}
               id={this.props.user.char_id} 
@@ -296,261 +300,4 @@ const styles = StyleSheet.create({
     color: '#2e78b7',
   },
 });
-
-
-
-const googleMapStyle = [
-  {
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#ebe3cd"
-      }
-    ]
-  },
-  {
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#523735"
-      }
-    ]
-  },
-  {
-    "elementType": "labels.text.stroke",
-    "stylers": [
-      {
-        "color": "#f5f1e6"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative",
-    "elementType": "geometry.stroke",
-    "stylers": [
-      {
-        "color": "#c9b2a6"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative",
-    "elementType": "labels",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.land_parcel",
-    "elementType": "geometry.stroke",
-    "stylers": [
-      {
-        "color": "#dcd2be"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.land_parcel",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#ae9e90"
-      }
-    ]
-  },
-  {
-    "featureType": "landscape",
-    "elementType": "labels",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "landscape.natural",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#dfd2ae"
-      }
-    ]
-  },
-  {
-    "featureType": "poi",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#dfd2ae"
-      }
-    ]
-  },
-  {
-    "featureType": "poi",
-    "elementType": "labels",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "poi",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#93817c"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.park",
-    "elementType": "geometry.fill",
-    "stylers": [
-      {
-        "color": "#a5b076"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.park",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#447530"
-      }
-    ]
-  },
-  {
-    "featureType": "road",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#f5f1e6"
-      }
-    ]
-  },
-  {
-    "featureType": "road.arterial",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#fdfcf8"
-      }
-    ]
-  },
-  {
-    "featureType": "road.highway",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#f8c967"
-      },
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "road.highway",
-    "elementType": "geometry.stroke",
-    "stylers": [
-      {
-        "color": "#e9bc62"
-      }
-    ]
-  },
-  {
-    "featureType": "road.highway.controlled_access",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#e98d58"
-      }
-    ]
-  },
-  {
-    "featureType": "road.highway.controlled_access",
-    "elementType": "geometry.stroke",
-    "stylers": [
-      {
-        "color": "#db8555"
-      }
-    ]
-  },
-  {
-    "featureType": "road.local",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#806b63"
-      }
-    ]
-  },
-  {
-    "featureType": "transit",
-    "elementType": "labels",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "transit.line",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#dfd2ae"
-      }
-    ]
-  },
-  {
-    "featureType": "transit.line",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#8f7d77"
-      }
-    ]
-  },
-  {
-    "featureType": "transit.line",
-    "elementType": "labels.text.stroke",
-    "stylers": [
-      {
-        "color": "#ebe3cd"
-      }
-    ]
-  },
-  {
-    "featureType": "transit.station",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#dfd2ae"
-      }
-    ]
-  },
-  {
-    "featureType": "water",
-    "elementType": "geometry.fill",
-    "stylers": [
-      {
-        "color": "#b9d3c2"
-      }
-    ]
-  },
-  {
-    "featureType": "water",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#92998d"
-      }
-    ]
-  }
-]
 

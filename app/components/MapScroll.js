@@ -9,38 +9,30 @@ import {
   Image,
   Dimensions,
   Linking,
+  ActivityIndicator,
 } from 'react-native';
 import { Font } from 'exponent';
 import data from '../constants/quests.json';
+import {
+  FontAwesome,
+} from '@exponent/vector-icons';
+import geolib from 'geolib';
 
 class MapScroll extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      isActive: false,
+      currentQuest: this.props.currentQuest,
+      activate: 'activate',
     };
   }
 
-  componentDidMount() {
-   if (this.props.currentQuest.active) {
-     this.setState({ isActive: true });
-   } else {
-    this.setState({isActive: false});
-   }
-  }
-
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps from MapScroll: ', nextProps.currentQuest)
-    if (nextProps.currentQuest.active) {
-      this.setState({ isActive: true });
-    } else {
-      this.setState({ isActive: false });
-    }
     this.scrollView.scrollTo({ x: width * nextProps.questIndex });
   }
 
   googleDirections(start, end) {
-    const url = `http://maps.google.com/maps?saddr=${start.lat},${start.lng}&daddr=${end.lat},${end.lng}`;
+    const url = `http://maps.google.com/maps?saddr=${start.lat},${start.lng}&daddr=${end.lat},${end.lng}&dirflg=w`;
     Linking.canOpenURL(url).then(supported => {
       if (!supported) {
         console.log('Can\'t handle url: ' + url);
@@ -50,17 +42,26 @@ class MapScroll extends React.Component {
     }).catch(err => console.error('An error occurred', err));
   }
 
-  handleSelect() {
-    this.setState({isActive: !this.state.isActive});
-    this.handleToggle();
-  }
-
   handleToggle() {
-    this.props.toggleQuest(this.props.id, this.props.currentQuest.id, this.state.isActive);
+    this.props.toggleQuest(this.props.id, this.props.currentQuest.id, this.props.currentQuest.active);
+      this.setState({activate: 'loading'});
+        setTimeout(()=> {
+          this.setState({ activate: 'activate' });
+        }, 2000);
   }
 
+  calculateDistance(lat1, lng1, lat2, lng2, accuracy) {
+    const acc = accuracy || 20;
+    var coord1 = { latitude: lat1, longitude: lng1 };
+    var coord2 = { latitude: lat2, longitude: lng2 };
+    return geolib.getDistance(coord1, coord2, acc);
+  }
+  
+    
 
   render() {
+    var dist = this.calculateDistance(this.props.lat, this.props.lng, this.props.currentQuest.lat, this.props.currentQuest.lng, 100);
+    var miles = Math.floor(dist * 0.000621371 * 10)/10;
     return (
       <View style={styles.container}>
       <Image style={styles.scroll} source={require('../assets/images/scroll.png')} >
@@ -77,22 +78,38 @@ class MapScroll extends React.Component {
           {
             this.props.quests ?
             this.props.quests.map(quest =>
-              <Text style={styles.scrollQuests} key={quest.id}>
-                <Text style={styles.name}>{quest.name + '\n'}</Text>
-                <Text style={styles.xp}>XP</Text><Text style={styles.experience}>{quest.experience + '\n'}</Text>
-                {this.state.isActive ?
-                  <Text style={styles.directions} onPress={() => {
-                    this.googleDirections(
-                      { lat: this.props.lat, lng: this.props.lng },
-                      { lat: quest.lat, lng: quest.lng },
-                    );
-                  }}
-                  > <Image source={require('../assets/icons.googlemaps.png')}></Image> Start Quest </Text> :
-                  <Text style={styles.active} onPress={() => this.handleToggle()}> 
-                    <Image source={require('../assets/icons.googlemaps.png')}></Image> Activate Quest </Text> 
+              <View style={styles.scrollQuests} key={quest.id}>
+                <Text style={styles.name}>{quest.name}</Text>
+                <View style={styles.level}>
+                  <Image 
+                    style={styles.activate}
+                    source={quest.experience > 20000 ? require('../assets/icons/gold.png')
+                      : quest.experience > 10000 ? require('../assets/icons/silver.png')
+                      : require('../assets/icons/bronze.png')}
+                  />
+                  <Text style={styles.xp}>XP</Text><Text style={styles.experience}>{quest.experience}</Text>
+                  <Text style={styles.distance}>{'    ' + miles + ' Miles'}</Text>
+                </View>
+                { this.props.currentQuest.active ?
+                  <View style={styles.directions}>
+                    <TouchableOpacity onPress={() => {
+                        this.googleDirections(
+                          { lat: this.props.lat, lng: this.props.lng },
+                          { lat: quest.lat, lng: quest.lng },
+                        );
+                      }}
+                    >
+                      <Image source={require('../assets/buttons/begin-button.png')} />                  
+                    </TouchableOpacity>
+                  </View>     
+                  : 
+                    this.state.activate == 'loading' ?
+                      <ActivityIndicator animating={true} color='white' style={styles.spinner}/>
+                      : <TouchableOpacity onPress={() => this.handleToggle()}>
+                          <Image style={styles.activate} source={require('../assets/buttons/activate-button.png')} />
+                        </TouchableOpacity>
                 }
-              </Text>
-
+              </View>
             )
           : null}
         </ScrollView>
@@ -100,7 +117,6 @@ class MapScroll extends React.Component {
       </View>
     );
   }
-
 }
 
 let { height, width } = Dimensions.get('window')
@@ -121,34 +137,45 @@ const styles = StyleSheet.create({
   scrollQuests: {
     width: width,
     height: width/2,
-    marginTop: 50,
-    textAlign: 'center',
-    color: 'black',
-    fontSize: 20,
+    marginTop: 43,
+    alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
-    ...Font.style('luminari'),
   },
   name: {
     fontSize: 30,
     marginTop: 2,
+    textAlign: 'center',
+    flexDirection: 'row',
+    color: 'black',
+    ...Font.style('luminari'),
+  },
+  level: {
     alignItems: 'center',
     flexDirection: 'row',
   },
   xp: {
-    fontSize: 13,
-    marginTop: 2,
-    alignItems: 'center',
+    fontSize: 12,
     flexDirection: 'row',
+    ...Font.style('luminari'),
   },
   experience: {
-    marginTop: 2,
-    alignItems: 'center',
+    fontSize: 20,
     flexDirection: 'row',
+    ...Font.style('luminari'),
   },
   directions: {
-    marginTop: 2,
-    alignItems: 'center',
     flexDirection: 'row',
+  },
+  activate: {
+    flexDirection: 'row',
+  },
+  spinner: {
+    marginTop: 20,
+  },
+  distance: {
+    fontSize: 20,
+    flexDirection: 'row',
+    ...Font.style('luminari'),
   },
 });
 

@@ -5,40 +5,10 @@ import {
   Text, 
   TouchableHighlight, 
   Alert,
+  Image,
 } from 'react-native';
 import socket from '../socket/socket';
 import { Font } from 'exponent';
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#E7E7E7',
-    padding: 20,
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-    marginLeft: 20,
-    marginRight: 20,
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: '600',
-     ...Font.style('luminari'),
-  },
-  subtitle: {
-    fontSize: 20,
-    fontWeight: '100',
-    color: 'gray',
-     ...Font.style('luminari'),
-  },
-  label: {
-    fontSize: 20,
-    fontWeight: '300',
-     ...Font.style('luminari'),
-  },
-});
 
 
 class QuestRow extends React.Component {
@@ -54,7 +24,7 @@ class QuestRow extends React.Component {
     if (this.props.quest.active) {
       this.setState({ isSelected: true });
     } else {
-      this.setState({isSelected: false});
+      this.setState({ isSelected: false });
     }
   }
 
@@ -98,19 +68,20 @@ class QuestRow extends React.Component {
     this.checkIfComplete(distanceMiles);
     return (
       <TouchableHighlight onPress={() => this.handleSelect()} underlayColor='white'>
+        <Image style={styles.background} source={require('../assets/images/quest-row.png')}>
         <View style={[styles.container, this.state.isSelected ? { backgroundColor: '#0eb27e' } : {}]} >
-          <Text style={styles.title} /*onPress={rowPress}*/>
+          <Text style={styles.title}>
             {this.props.quest.name}
           </Text>
           {this.props.showDetails ?
-          <View /*onPress={() => this.props.toggleQuest(this.props.quest.id)}*/>
+          <View>
             {/*<Text style={styles.subtitle}>{this.props.quest.questType}</Text>*/}
             <Text style={styles.label}>{distanceMiles} Miles</Text>
-            {/*<Text style={styles.subtitle}>Lat: {this.props.quest.lat} | Lng: {this.props.quest.lng} </Text>*/}
             <Text style={styles.label}>Rewards: {this.props.quest.experience} EXP</Text>
           </View>
         : null}
         </View>
+          </Image>
       </TouchableHighlight>
     );
   }
@@ -128,3 +99,36 @@ QuestRow.propTypes = {
 };
 
 export default QuestRow;
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'rgba(0,0,0,0)',
+    borderRadius: 10,
+    padding: 20,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  background: {
+    flex: -1,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: '600',
+     ...Font.style('luminari'),
+  },
+  subtitle: {
+    fontSize: 20,
+    fontWeight: '100',
+    color: 'gray',
+     ...Font.style('luminari'),
+  },
+  label: {
+    fontSize: 20,
+    fontWeight: '300',
+     ...Font.style('luminari'),
+  },
+});
