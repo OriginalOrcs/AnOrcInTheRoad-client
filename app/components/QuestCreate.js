@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, Modal, TouchableHighlight, TextInput, Slider, Picker, ScrollView } from 'react-native';
 import CreateQuestMap from '../screens/MapScreen';
 import { Font } from 'exponent';
+import MapCreate from './MapQuest';
+import Layout from '../constants/Layout';
 
 const styles = StyleSheet.create({
   container: {
@@ -47,6 +49,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     ...Font.style('luminari'),
+    borderRadius: 10,
   },
   addButton: {
     backgroundColor: '#701616',
@@ -58,6 +61,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 10,
   },
   submitButton: {
     backgroundColor: '#0eb27e',
@@ -69,6 +73,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 10,
   },
   closeButton: {
     backgroundColor: '#333',
@@ -80,12 +85,14 @@ const styles = StyleSheet.create({
     marginRight: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 10,
   },
   buttonText: {
     color: '#FAFAFA',
     fontSize: 25,
     fontWeight: '600',
     ...Font.style('luminari'),
+    borderRadius: 10,
   },
   input: {
     height: 40,
@@ -97,7 +104,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   modal: {
-    paddingTop: 80,
+    paddingTop: 30,
     paddingBottom: 50,
   },
   picker: {
@@ -107,7 +114,9 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   map: {
-    paddingTop: 100,
+    backgroundColor: '#fff',
+    height: Layout.window.height / 2.5,
+    width: Layout.window.width / 2,
   },
 });
 
@@ -130,10 +139,18 @@ class QuestCreate extends React.Component {
     this.setState({modalVisible: visible});
   }
 
+  onRegionChange(coords) {
+    this.setState({
+      lat: coords.latitude,
+      lng: coords.longitude,
+    });
+  }
+
   render() {
     console.log('QUEST CREATE PROPS', this.props);
     return (
       <View style={styles.container}>
+            
         <Modal
           animationType="slide"
           transparent={false}
@@ -141,6 +158,7 @@ class QuestCreate extends React.Component {
           onRequestClose={() => { alert("Modal has been closed.") }}
           style={styles.modal}
         >
+        <MapCreate style={styles.map} onRegionChange={coords => this.onRegionChange(coords)} />
           <ScrollView contentContainerStyle={styles.modal}>
             <TextInput
               style={styles.input}
@@ -151,7 +169,7 @@ class QuestCreate extends React.Component {
               autoCorrect = {false}
               returnKeyType = {'done'}
             />
-            <TextInput
+          {/*}  <TextInput
               style={styles.input}
               onChangeText={(location) => this.setState({ location })}
               placeholder="Location"
@@ -159,7 +177,7 @@ class QuestCreate extends React.Component {
               maxLength = {150}
               autoCorrect = {false}
               returnKeyType = {'done'}
-            />
+            /> */}
             <Text style={styles.label}>Experience: {this.state.experience}</Text>
             <Slider
               style={styles.input}
@@ -167,7 +185,7 @@ class QuestCreate extends React.Component {
               maximumValue={99999}
               onSlidingComplete={(experience) => this.setState({ experience })}
             />
-            <TextInput
+            {/*} <TextInput
               style={styles.input}
               onChangeText={(item_id) => this.setState({ item_id })}
               placeholder="Item Reward"
@@ -175,7 +193,7 @@ class QuestCreate extends React.Component {
               maxLength = {60}
               autoCorrect = {false}
               returnKeyType = {'done'}
-            />            
+            /> */}   
             <Picker
               selectedValue={this.state.questType}
               onValueChange={(itemValue) => this.setState({ questType: itemValue })}
@@ -192,8 +210,8 @@ class QuestCreate extends React.Component {
                   this.state.location,
                   this.state.questType,
                   this.state.experience,
-                  this.props.lat,
-                  this.props.lng,
+                  this.state.lat,
+                  this.state.lng,
                   this.props.user.char_id,
                   this.state.item_id,
                 );
