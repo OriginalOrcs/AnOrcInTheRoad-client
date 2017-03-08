@@ -17,6 +17,9 @@ export default class HomeScreen extends React.Component {
     navigationBar: {
       visible: false,
     },
+    statusBar: {
+      hidden: true,
+    },
   }
 
   render() {

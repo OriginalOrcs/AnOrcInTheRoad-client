@@ -12,7 +12,7 @@ import MapCreate from '../components/MapQuest';
 export default class QuestListScreen extends React.Component {
   static route = {
     navigationBar: {
-      height: 20,
+      visible: false,
     },
   }
 
@@ -31,7 +31,7 @@ export default class QuestListScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#510609',
+    backgroundColor: '#b9d3c2',
+    padding: 10,
   },
 });

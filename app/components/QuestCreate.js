@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Modal, TouchableHighlight, TextInput, Slider, Picker, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableHighlight, TextInput, Slider, Picker, ScrollView, Image } from 'react-native';
 import CreateQuestMap from '../screens/MapScreen';
 import { Font } from 'exponent';
 import MapCreate from './MapQuest';
@@ -7,7 +7,7 @@ import Layout from '../constants/Layout';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F7F7F7',
+    backgroundColor: '#b9d3c2',
     flex: 1,
     justifyContent: 'flex-start',
   },
@@ -28,7 +28,9 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginBottom: 0,
     fontSize: 16,
+    backgroundColor: 'rgba(0,0,0,0)',
     fontWeight: '200',
+     ...Font.style('luminari'),
   },
   image: {
     width: 200,
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
     height: 60,
     borderColor: '#05A5D1',
     borderWidth: 2,
-    marginTop: 20,
+    marginTop: 25,
     marginLeft: 20,
     marginRight: 20,
     justifyContent: 'center',
@@ -91,17 +93,20 @@ const styles = StyleSheet.create({
     color: '#FAFAFA',
     fontSize: 25,
     fontWeight: '600',
-    ...Font.style('luminari'),
+    ...Font.style('livingst'),
     borderRadius: 10,
   },
   input: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
+    borderRadius: 5,
     marginBottom: 10,
     marginLeft: 20,
     marginRight: 20,
     paddingLeft: 10,
+    fontSize: 28,
+    ...Font.style('luminari'),
   },
   modal: {
     paddingTop: 30,
@@ -118,6 +123,16 @@ const styles = StyleSheet.create({
     height: Layout.window.height / 2.5,
     width: Layout.window.width / 2,
   },
+  scroll: {
+    flex: 1,
+    resizeMode: 'cover',
+    alignSelf: 'center',
+    padding: 35,
+  },
+  slider: {
+    width: Layout.window.width - 30,
+    alignSelf: 'center',
+  }
 });
 
 class QuestCreate extends React.Component {
@@ -150,7 +165,6 @@ class QuestCreate extends React.Component {
     console.log('QUEST CREATE PROPS', this.props);
     return (
       <View style={styles.container}>
-            
         <Modal
           animationType="slide"
           transparent={false}
@@ -159,13 +173,14 @@ class QuestCreate extends React.Component {
           style={styles.modal}
         >
         <MapCreate style={styles.map} onRegionChange={coords => this.onRegionChange(coords)} />
+        <Image style={styles.scroll} source={require('../assets/images/quest-create.png')} >
           <ScrollView contentContainerStyle={styles.modal}>
             <TextInput
               style={styles.input}
               onChangeText={(name) => this.setState({ name })}
               placeholder="Quest Name"
               value={this.state.name}
-              maxLength = {60}
+              maxLength = {20}
               autoCorrect = {false}
               returnKeyType = {'done'}
             />
@@ -180,10 +195,19 @@ class QuestCreate extends React.Component {
             /> */}
             <Text style={styles.label}>Experience: {this.state.experience}</Text>
             <Slider
-              style={styles.input}
+              style={styles.slider}
+              step={10}
               minimumValue={0}
-              maximumValue={99999}
-              onSlidingComplete={(experience) => this.setState({ experience })}
+              maximumValue={1000}
+              secureTextEntry={true}
+              onValueChange={(value) => {
+                value = Math.floor(value);
+                this.setState({ experience: value });
+              }}
+              onSlidingComplete={(experience) => {
+                experience = Math.floor(experience);
+                this.setState({ experience });
+              }}
             />
             {/*} <TextInput
               style={styles.input}
@@ -230,6 +254,7 @@ class QuestCreate extends React.Component {
               <Text style={styles.buttonText}>Cancel</Text>
             </TouchableHighlight>
           </ScrollView>
+        </Image> 
         </Modal>
         <View>
           <TouchableHighlight
