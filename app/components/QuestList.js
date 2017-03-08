@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ListView, StyleSheet, TouchableHighlight, Text } from 'react-native';
+import { View, ListView, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import QuestRow from './QuestRow';
 import QuestCreate from './QuestCreate';
 import socket from '../socket/socket';
@@ -34,6 +34,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#b9d3c2',
 
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    marginTop: 15,
+  },
+  filterButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#eee',
+    padding: 10,
+  },
+  middleButton: {
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: '#ccc',
+  },
 });
 
 class QuestList extends React.Component {
@@ -43,7 +60,7 @@ class QuestList extends React.Component {
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
     this.state = {
-      dataSource: ds.cloneWithRows(props.sortedQuests),
+      dataSource: ds.cloneWithRows(props.quests),
       modalVisible: true,
       char_id: this.props.user.char_id,
     };
@@ -55,11 +72,11 @@ class QuestList extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.questsWithDistance !== this.props.questsWithDistance) {
+    if (nextProps.quests !== this.props.quests) {
       // var questsWithDistance = this.addDistanceToQuests(nextProps.quests);
       this.setState({
-        elements: nextProps.sortedQuests,
-        dataSource: this.state.dataSource.cloneWithRows(nextProps.sortedQuests),
+        elements: nextProps.quests,
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.quests),
       });
     }
   }
@@ -79,14 +96,27 @@ class QuestList extends React.Component {
         <View style={styles.container}>
           <View style={styles.createQuest}>
           {this.props.quests ?
-            <ListView
-              key={this.props.quests}
-              dataSource={this.state.dataSource}
-              renderRow={this.renderRow}
-              renderSeperator={this.renderSeperator}
-              enableEmptySections={true}
-              contentContainerStyle={styles.listView}
-            />
+            <View>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity onPress={() => this.props.setFilter('FILTER_ALL')} style={styles.filterButton}>
+                  <Text>All</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.setFilter('FILTER_ACTIVE')} style={[styles.filterButton, styles.middleButton]}>
+                  <Text>Active</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.setFilter('FILTER_COMPLETED')} style={styles.filterButton}>
+                  <Text>Completed</Text>
+                </TouchableOpacity>
+              </View>
+              <ListView
+                key={this.props.quests}
+                dataSource={this.state.dataSource}
+                renderRow={this.renderRow}
+                renderSeperator={this.renderSeperator}
+                enableEmptySections={true}
+                contentContainerStyle={styles.listView}
+              />
+            </View>
             : null }
           </View>
         </View>
@@ -99,6 +129,8 @@ class QuestList extends React.Component {
 QuestList.propTypes = {
   quests: React.PropTypes
     .arrayOf(React.PropTypes.object).isRequired,
+  setFilter: React.PropTypes.func.isRequired,
+  fetchQuests: React.PropTypes.func.isRequired,
 };
 
 export default QuestList;

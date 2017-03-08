@@ -101,3 +101,10 @@ export function updateLocation() {
       .then(result => dispatch(receiveLocation(result.coords)));
   };
 }
+
+export function setQuestFilter(filter) {
+  return {
+    type: 'SET_QUEST_FILTER',
+    filter,
+  };
+}

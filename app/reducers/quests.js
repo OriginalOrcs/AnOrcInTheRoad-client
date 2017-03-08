@@ -49,3 +49,12 @@ export const toggleQuest = (state = {}, action) => {
       return state;
   }
 };
+
+export const questFilter = (state = 'FILTER_ALL', action) => {
+  switch (action.type) {
+    case 'SET_QUEST_FILTER':
+      return action.filter;
+    default:
+      return state;
+  }
+};

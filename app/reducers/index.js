@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { quests, updateQuests, toggleQuest } from './quests';
+import { quests, updateQuests, toggleQuest, questFilter } from './quests';
 import user from './user';
 import { location, addWatcher } from './location';
 
@@ -9,6 +9,7 @@ const App = combineReducers({
   location: location,
   watcherSub: addWatcher,
   toggleQuest: toggleQuest,
+  questFilter: questFilter,
 });
 
 export default App;
