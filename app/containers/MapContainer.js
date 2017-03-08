@@ -21,6 +21,9 @@ const mapDispatchToProps = (dispatch) => {
         socket.emit('deactivate quest', char_id, quest_id);
       }
     },
+    fetchQuests: (charId) => {
+      socket.emit('get quests', charId);
+    },
   };
 };
 

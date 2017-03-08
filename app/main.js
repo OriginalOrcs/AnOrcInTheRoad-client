@@ -125,11 +125,16 @@ class AppContainer extends React.Component {
           require('./assets/images/orc-background.gif'),
           require('./assets/images/scroll.png'),
           require('./assets/images/quest-row.png'),
+          require('./assets/icons/gold-large.png'),
+          require('./assets/icons/silver-large.png'),
+          require('./assets/icons/bronze-large.png'),
+          require('./assets/images/quest-create.png'),
         ],
         fonts: [
           FontAwesome.font,
           {'livingst': require('./assets/fonts/Livingst.ttf')},
           {'luminari': require('./assets/fonts/Luminari.ttf')},
+          {'elixia': require('./assets/fonts/ELIXIA.ttf')}
         ],
       });
     } catch(e) {
@@ -144,7 +149,7 @@ class AppContainer extends React.Component {
   }
 
   render() {
-    if (!this.state.name) {
+   if (!this.state.name) {
       return (
         <View style={styles.container}>
           <Image source={require('./assets/images/orc-background.gif')} style={styles.backgroundImage}>

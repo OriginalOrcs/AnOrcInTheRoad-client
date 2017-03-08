@@ -79,7 +79,6 @@ class MapScroll extends React.Component {
             this.props.quests ?
             this.props.quests.map(quest =>
               <View style={styles.scrollQuests} key={quest.id}>
-                <Text style={styles.name}>{quest.name}</Text>
                 <View style={styles.level}>
                   <Image 
                     style={styles.activate}
@@ -87,9 +86,10 @@ class MapScroll extends React.Component {
                       : quest.experience > 10000 ? require('../assets/icons/silver.png')
                       : require('../assets/icons/bronze.png')}
                   />
-                  <Text style={styles.xp}>XP</Text><Text style={styles.experience}>{quest.experience}</Text>
-                  <Text style={styles.distance}>{'    ' + miles + ' Miles'}</Text>
+                  <Text style={styles.experience}>{' ' + quest.experience}</Text><Text style={styles.xp}>XP</Text>
+                  <Text style={styles.distance}>{'         ' + miles + ' Miles'}</Text>
                 </View>
+                <Text style={styles.name}>{quest.name}</Text>
                 { this.props.currentQuest.active ?
                   <View style={styles.directions}>
                     <TouchableOpacity onPress={() => {
@@ -119,6 +119,10 @@ class MapScroll extends React.Component {
   }
 }
 
+MapScroll.defaultProps = {
+  currentQuest: data[0],
+};
+
 let { height, width } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
@@ -137,17 +141,18 @@ const styles = StyleSheet.create({
   scrollQuests: {
     width: width,
     height: width/2,
-    marginTop: 43,
+    marginTop: 35,
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
   },
   name: {
-    fontSize: 30,
-    marginTop: 2,
+    fontSize: 45,
+    marginTop: 10,
     textAlign: 'center',
     flexDirection: 'row',
     color: 'black',
-    ...Font.style('luminari'),
+    ...Font.style('elixia'),
+    fontWeight: '900',
   },
   level: {
     alignItems: 'center',
@@ -157,11 +162,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     flexDirection: 'row',
     ...Font.style('luminari'),
+    fontWeight: '100',
   },
   experience: {
     fontSize: 20,
     flexDirection: 'row',
     ...Font.style('luminari'),
+    fontWeight: '100',
   },
   directions: {
     flexDirection: 'row',
@@ -176,6 +183,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     flexDirection: 'row',
     ...Font.style('luminari'),
+    fontWeight: '100',
   },
 });
 

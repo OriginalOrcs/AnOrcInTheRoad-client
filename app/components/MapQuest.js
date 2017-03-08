@@ -91,8 +91,11 @@ const styles = StyleSheet.create({
     //   fontSize: 22
     // },
   container: {
-    flex: 1,
+    flex: -1,
+    height: 300,
     backgroundColor: 'rgba(0,0,0,0)',
+    borderBottomColor: '#b9d3c2',
+    borderBottomWidth: 10,
   },
   map: {
     flex: 1,

@@ -8,9 +8,9 @@ import geolib from 'geolib';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F7F7F7',
+    paddingTop: 15,
+    backgroundColor: '#b9d3c2',
     flex: 1,
-    justifyContent: 'flex-start',
   },
   button: {
     height: 60,
@@ -28,6 +28,11 @@ const styles = StyleSheet.create({
   },
   createQuest: {
     paddingBottom: 20,
+    backgroundColor: '#b9d3c2',
+  },
+  listView: {
+    backgroundColor: '#b9d3c2',
+
   },
 });
 
@@ -48,7 +53,6 @@ class QuestList extends React.Component {
   componentDidMount() {
     this.props.fetchQuests(this.props.user.char_id);
   }
-
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.quests !== this.props.quests) {
@@ -76,7 +80,7 @@ class QuestList extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <View style={styles.createQuest}>
           <QuestCreate onSubmitQuest={this.props.onSubmitQuest} user={this.props.user} lat={this.props.lat} lng={this.props.lng} />
         </View>
@@ -89,6 +93,7 @@ class QuestList extends React.Component {
               renderRow={this.renderRow}
               renderSeperator={this.renderSeperator}
               enableEmptySections={true}
+              contentContainerStyle={styles.listView}
             />
             : null }
           </View>

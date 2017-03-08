@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import socket from '../socket/socket';
 import { Font } from 'exponent';
+import Layout from '../constants/Layout';
 
 
 class QuestRow extends React.Component {
@@ -67,19 +68,22 @@ class QuestRow extends React.Component {
     var distanceMiles = this.convertDistanceToMiles(this.props.dist);
     this.checkIfComplete(distanceMiles);
     return (
-      <TouchableHighlight onPress={() => this.handleSelect()} underlayColor='white'>
+      <TouchableHighlight onPress={() => this.handleSelect()} underlayColor='#b9d3c2'>
         <Image style={styles.background} source={require('../assets/images/quest-row.png')}>
-        <View style={[styles.container, this.state.isSelected ? { backgroundColor: '#0eb27e' } : {}]} >
-          <Text style={styles.title}>
-            {this.props.quest.name}
-          </Text>
-          {this.props.showDetails ?
-          <View>
-            {/*<Text style={styles.subtitle}>{this.props.quest.questType}</Text>*/}
-            <Text style={styles.label}>{distanceMiles} Miles</Text>
-            <Text style={styles.label}>Rewards: {this.props.quest.experience} EXP</Text>
+        <View style={[styles.wrapper, this.state.isSelected ? { backgroundColor: '#0eb27e', borderRadius: 7 } : {}]} >
+          <Image
+            style={styles.badges}
+            source={this.props.quest.experience > 20000 ? require('../assets/icons/gold-large.png')
+              : this.props.quest.experience > 10000 ? require('../assets/icons/silver-large.png')
+              : require('../assets/icons/bronze-large.png')}
+          />
+          <View style={styles.container}>
+            <Text style={styles.title}>{this.props.quest.name}</Text>
+            <View style={styles.details}>
+              <Text style={styles.experience}>Rewards: {this.props.quest.experience}</Text><Text style={styles.xp}>XP</Text>
+              <Text style={styles.distance}>{'            ' + distanceMiles + ' Miles'}</Text>
+            </View>
           </View>
-        : null}
         </View>
           </Image>
       </TouchableHighlight>
@@ -101,34 +105,78 @@ QuestRow.propTypes = {
 export default QuestRow;
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    marginLeft: 0,
+  },
   container: {
     backgroundColor: 'rgba(0,0,0,0)',
-    borderRadius: 10,
-    padding: 20,
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-    marginLeft: 20,
-    marginRight: 20,
+    marginTop: 12,
+    marginLeft: -10,
+    alignItems: 'center',
+    height: null,
+    width: Layout.window.width,
+    position: 'absolute',
+    justifyContent: 'center',
   },
   background: {
-    flex: -1,
+    backgroundColor: '#b9d3c2',
+    flex: 1,
+    width: null,
+    height: 130,
+    marginBottom: 10,
+    resizeMode: 'stretch',
   },
   title: {
-    fontSize: 30,
-    fontWeight: '600',
-     ...Font.style('luminari'),
+    fontSize: 45,
+    fontWeight: '900',
+    ...Font.style('elixia'),
+    textAlign: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    width: Layout.window.width,
+    height: null,
+    top: 0,
+    marginBottom: 20,
   },
-  subtitle: {
-    fontSize: 20,
+  details: {
+    flexDirection: 'row',
+    flex: 1,
+    marginLeft: 30,
+  },
+  xp: {
+    // textAlign: 'left',
+    fontSize: 12,
+    // alignItems: 'center',
+    ...Font.style('luminari'),
     fontWeight: '100',
-    color: 'gray',
-     ...Font.style('luminari'),
+
   },
-  label: {
+  experience: {
     fontSize: 20,
-    fontWeight: '300',
-     ...Font.style('luminari'),
+    // alignItems: 'center',
+    ...Font.style('luminari'),
+    fontWeight: '100',
+
+  },
+  directions: {
+    // alignItems: 'center',
+
+  },
+  badges: {
+    flexDirection: 'column',
+    // marginTop: 60,
+    marginLeft: 10,
+    top: 60,
+  },
+  spinner: {
+    marginTop: 20,
+  },
+  distance: {
+    fontSize: 20,
+    ...Font.style('luminari'),
+    fontWeight: '100',
   },
 });

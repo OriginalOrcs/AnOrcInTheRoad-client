@@ -29,7 +29,7 @@ export default class MapScreen extends React.Component {
     this.state = {
       quests: this.props.quests,
       showScroll: false,
-      currentQuest: this.props.quests[0], 
+      currentQuest: data[0], 
       questIndex: 0,
       mapRegion: {
         latitude: 37.757,
@@ -85,13 +85,12 @@ export default class MapScreen extends React.Component {
     this.setState({
       showScroll: !this.state.showScroll,
     });
-    const quests = this.state.quests
+    const quests = this.state.quests;
     quests.forEach((quest, i) => {
       if (quest.id === e.id) {
         this.setCurrentQuestView(quest, i);
       }
     });    
-
   }
 
   handleScroll(event) {
