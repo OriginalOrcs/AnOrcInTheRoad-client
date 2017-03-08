@@ -17,13 +17,6 @@ export const addQuest = (name, location, questType, experience, lat, lng, creato
   };
 };
 
-// export const toggleQuest = (id) => {
-//   return {
-//     type: 'TOGGLE_QUEST',
-//     id,
-//   };
-// };
-
 export const userLogin = (name, user_id) => {
   return {
     type: 'USER_LOGIN',
