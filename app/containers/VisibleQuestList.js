@@ -15,24 +15,36 @@ const addDistanceToQuests = (quests, myLat, myLng) => {
   return questsWithDistance;
 };
 
-const calculateDistance =(lat1, lng1, lat2, lng2, accuracy) => {
+const calculateDistance = (lat1, lng1, lat2, lng2, accuracy) => {
   const acc = accuracy || 20;
   var coord1 = { latitude: lat1, longitude: lng1 };
   var coord2 = { latitude: lat2, longitude: lng2 };
   return geolib.getDistance(coord1, coord2, acc);
 }
 
+const sortByDistance = (quests) => {
+  var byDist = quests.slice(0);
+  byDist.sort((a, b) => (
+    a.distance - b.distance
+  ));
+  console.log('byDist', byDist);
+  return byDist;
+}
+
 const mapStateToProps = (state) => {
   console.log('visible quest list state', state);
+  var questsWithDistance = addDistanceToQuests(state.quests, state.location.latitude, state.location.longitude);
   return {
     // quests: quests,
     // location: { latitude: 37.783712, longitude: -122.408914 },
-    questsWithDistance: addDistanceToQuests(state.quests, state.location.latitude, state.location.longitude),
+    questsWithDistance,
     quests: state.quests,
     lat: state.location.latitude,
     lng: state.location.longitude,
     watcherSub: state.watcherSub,
     user: state.user,
+    filteredQuests: filterQuests(questsWithDistance, state.questFilter),
+    sortedQuests: sortByDistance(questsWithDistance),
   };
 };
 
@@ -77,41 +89,32 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-// import { connect } from 'react-redux'
 // import { toggleTodo } from '../actions'
-// import TodoList from '../components/TodoList'
 
-// const filterQuests = (todos, filter) => {
-//   switch (filter) {
-//     case 'FILTER_ALL':
-//       return todos
-//     case 'FILTER_ACTIVE':
-//       return todos.filter(t => t.completed)
-//     case 'FILTER_COMPLETED':
-//       return todos.filter(t => !t.completed)
-//   }
-// }
+const filterQuests = (quests, filter) => {
+  switch (filter) {
+    case 'FILTER_ALL':
+      return quests
+    case 'FILTER_ACTIVE':
+      return todos.filter(t => t.completed)
+    case 'FILTER_COMPLETED':
+      return todos.filter(t => !t.completed)
+  }
+}
 
 // const mapStateToProps = (state) => {
 //   return {
-//     todos: getVisibleTodos(state.todos, state.visibilityFilter)
+//     todos: filterQuests(state.questsWithDistance, state.questFilter)
 //   }
 // }
 
 // const mapDispatchToProps = (dispatch) => {
 //   return {
-//     onTodoClick: (id) => {
+//     onQuestClick: (id) => {
 //       dispatch(toggleTodo(id))
 //     }
 //   }
 // }
-
-// const VisibleTodoList = connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(TodoList)
-
-// export default VisibleTodoList
 
 const VisibleQuestList = connect(
   mapStateToProps,

@@ -43,7 +43,7 @@ class QuestList extends React.Component {
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
     this.state = {
-      dataSource: ds.cloneWithRows(props.questsWithDistance),
+      dataSource: ds.cloneWithRows(props.sortedQuests),
       modalVisible: true,
       char_id: this.props.user.char_id,
     };
@@ -58,8 +58,8 @@ class QuestList extends React.Component {
     if (nextProps.questsWithDistance !== this.props.questsWithDistance) {
       // var questsWithDistance = this.addDistanceToQuests(nextProps.quests);
       this.setState({
-        elements: nextProps.questsWithDistance,
-        dataSource: this.state.dataSource.cloneWithRows(nextProps.questsWithDistance),
+        elements: nextProps.sortedQuests,
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.sortedQuests),
       });
     }
   }
