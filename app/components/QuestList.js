@@ -56,11 +56,20 @@ class QuestList extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.quests !== this.props.quests) {
+      var questsWithDistance = this.addDistanceToQuests(nextProps.quests);
       this.setState({
         elements: nextProps.quests,
-        dataSource: this.state.dataSource.cloneWithRows(nextProps.quests),
+        dataSource: this.state.dataSource.cloneWithRows(questsWithDistance),
       });
     }
+  }
+
+  addDistanceToQuests(quests) {
+    const questsWithDistance = quests.map((quest) => {
+      quest.distance = this.calculateDistance(this.props.lat, this.props.lng, quest.lat, quest.lng, 20);
+      return quest;
+    });
+    return questsWithDistance;
   }
 
 
@@ -72,9 +81,8 @@ class QuestList extends React.Component {
   }
  
   renderRow(quest) {
-    var dist = this.calculateDistance(this.props.lat, this.props.lng, quest.lat, quest.lng, 100);
     return (
-      <QuestRow quest={quest} showDetails={true} dist={dist} id={this.props.user.char_id} toggleQuest={this.props.toggleActiveQuest} />
+      <QuestRow quest={quest} showDetails={true} dist={quest.distance} id={this.props.user.char_id} toggleQuest={this.props.toggleActiveQuest} />
     );
   }
 
