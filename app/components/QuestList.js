@@ -43,7 +43,7 @@ class QuestList extends React.Component {
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
     this.state = {
-      dataSource: ds.cloneWithRows(props.quests),
+      dataSource: ds.cloneWithRows(props.questsWithDistance),
       modalVisible: true,
       char_id: this.props.user.char_id,
     };
@@ -55,29 +55,13 @@ class QuestList extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.quests !== this.props.quests) {
-      var questsWithDistance = this.addDistanceToQuests(nextProps.quests);
+    if (nextProps.questsWithDistance !== this.props.questsWithDistance) {
+      // var questsWithDistance = this.addDistanceToQuests(nextProps.quests);
       this.setState({
-        elements: nextProps.quests,
-        dataSource: this.state.dataSource.cloneWithRows(questsWithDistance),
+        elements: nextProps.questsWithDistance,
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.questsWithDistance),
       });
     }
-  }
-
-  addDistanceToQuests(quests) {
-    const questsWithDistance = quests.map((quest) => {
-      quest.distance = this.calculateDistance(this.props.lat, this.props.lng, quest.lat, quest.lng, 20);
-      return quest;
-    });
-    return questsWithDistance;
-  }
-
-
-  calculateDistance(lat1, lng1, lat2, lng2, accuracy) {
-    const acc = accuracy || 20;
-    var coord1 = { latitude: lat1, longitude: lng1 };
-    var coord2 = { latitude: lat2, longitude: lng2 };
-    return geolib.getDistance(coord1, coord2, acc);
   }
  
   renderRow(quest) {

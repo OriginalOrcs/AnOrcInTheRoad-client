@@ -7,11 +7,27 @@ import socket from '../socket/socket';
 import geolib from 'geolib';
 import { getLocationAsync, createLocationWatcher, removeLocationWatcher } from '../utilities/locations';
 
+const addDistanceToQuests = (quests, myLat, myLng) => {
+  const questsWithDistance = quests.map((quest) => {
+    quest.distance = calculateDistance(myLat, myLng, quest.lat, quest.lng, 20);
+    return quest;
+  });
+  return questsWithDistance;
+};
+
+const calculateDistance =(lat1, lng1, lat2, lng2, accuracy) => {
+  const acc = accuracy || 20;
+  var coord1 = { latitude: lat1, longitude: lng1 };
+  var coord2 = { latitude: lat2, longitude: lng2 };
+  return geolib.getDistance(coord1, coord2, acc);
+}
+
 const mapStateToProps = (state) => {
   console.log('visible quest list state', state);
   return {
     // quests: quests,
     // location: { latitude: 37.783712, longitude: -122.408914 },
+    questsWithDistance: addDistanceToQuests(state.quests, state.location.latitude, state.location.longitude),
     quests: state.quests,
     lat: state.location.latitude,
     lng: state.location.longitude,
