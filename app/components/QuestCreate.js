@@ -181,7 +181,7 @@ class QuestCreate extends React.Component {
       name: null,
       location: null,
       experience: null,
-      questType: null,
+      questType: 'addFetchQuest',
       item_id: null,
       creator_id: null,
       lat: null,
@@ -237,6 +237,7 @@ class QuestCreate extends React.Component {
   }
 
   createQuest() {
+    console.log('char id', this.props.user)
     const timestamp = Date.now();
     this.props.onSubmitQuest(
       this.state.name,
