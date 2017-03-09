@@ -2,10 +2,20 @@ import { connect } from 'react-redux';
 import MapScreen from '../screens/MapScreen';
 import socket from '../socket/socket';
 
+const modifyQuestProps = (quests) => {
+  const questsWithDistance = quests.map((quest) => {
+    if (quest.questType === 'addCryptoQuest') {
+      quest.lat = quest.created_lat;
+      quest.lng = quest.created_lng;
+    }
+    return quest;
+  });
+  return questsWithDistance;
+};
 
 const mapStateToProps = (state) => {
   return {
-    quests: state.quests,
+    quests: modifyQuestProps(state.quests),
     lat: state.location.latitude,
     lng: state.location.longitude,
     user: state.user,

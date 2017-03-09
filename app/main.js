@@ -81,66 +81,35 @@ class AppContainer extends React.Component {
     this._loadAssetsAsync();
   }
 
-  // _loginWithAuth0 = async () => {
-  //   const redirectionURL = `${auth0Domain}/authorize` + this._toQueryString({
-  //     client_id: auth0ClientId,
-  //     response_type: 'token',
-  //     scope: 'openid nickname user_id',
-  //     redirect_uri: redirectUri,
-  //     state: redirectUri,
-  //   });
-  //   console.log('REDIRECTION URL: ', redirectionURL)
-  //   Exponent.WebBrowser.openBrowserAsync(redirectionURL);
-  // }
+  _loginWithAuth0 = async () => {
+    const redirectionURL = `${auth0Domain}/authorize` + this._toQueryString({
+      client_id: auth0ClientId,
+      response_type: 'token',
+      scope: 'openid nickname user_id',
+      redirect_uri: redirectUri,
+      state: redirectUri,
+    });
+    console.log('REDIRECTION URL: ', redirectionURL)
+    Exponent.WebBrowser.openBrowserAsync(redirectionURL);
+  }
 
-  // _handleAuth0Redirect = async (event) => {
-  //   if (!event.url.includes('+/redirect')) {
-  //     return;
-  //   }
-  //   Exponent.WebBrowser.dismissBrowser();
-  //   const [, queryString] = event.url.split('#');
-  //   const responseObj = queryString.split('&').reduce((map, pair) => {
-  //     const [key, value] = pair.split('=');
-  //     map[key] = value; // eslint-disable-line
-  //     return map;
-  //   }, {});
-  //   const encodedToken = responseObj.id_token;
-  //   const decodedToken = jwtDecoder(encodedToken);
-  //   const name = decodedToken.nickname;
-  //   const user_id = decodedToken.user_id;
-  //   this.setState({name});
-  //   store.dispatch(userLogin(name, user_id));
-  // }
-
-    _loginWithAuth0 = async () => {
-  //   const redirectionURL = `${auth0Domain}/authorize` + this._toQueryString({
-  //     client_id: auth0ClientId,
-  //     response_type: 'token',
-  //     scope: 'openid nickname user_id',
-  //     redirect_uri: redirectUri,
-  //     state: redirectUri,
-  //   });
-  //   console.log('REDIRECTION URL: ', redirectionURL)
-  //   Exponent.WebBrowser.openBrowserAsync(redirectionURL);
-  // }
-
-  // _handleAuth0Redirect = async (event) => {
-  //   if (!event.url.includes('+/redirect')) {
-  //     return;
-  //   }
-  //   Exponent.WebBrowser.dismissBrowser();
-  //   const [, queryString] = event.url.split('#');
-  //   const responseObj = queryString.split('&').reduce((map, pair) => {
-  //     const [key, value] = pair.split('=');
-  //     map[key] = value; // eslint-disable-line
-  //     return map;
-  //   }, {});
-  //   const encodedToken = responseObj.id_token;
-  //   const decodedToken = jwtDecoder(encodedToken);
-  //   const name = decodedToken.nickname;
-  //   const user_id = decodedToken.user_id;
-    this.setState({name: 'Fawefwaef'});
-    store.dispatch(userLogin(this.state.name, 'auth0|58b734d372a566673da70e6a'));
+  _handleAuth0Redirect = async (event) => {
+    if (!event.url.includes('+/redirect')) {
+      return;
+    }
+    Exponent.WebBrowser.dismissBrowser();
+    const [, queryString] = event.url.split('#');
+    const responseObj = queryString.split('&').reduce((map, pair) => {
+      const [key, value] = pair.split('=');
+      map[key] = value; // eslint-disable-line
+      return map;
+    }, {});
+    const encodedToken = responseObj.id_token;
+    const decodedToken = jwtDecoder(encodedToken);
+    const name = decodedToken.nickname;
+    const user_id = decodedToken.user_id;
+    this.setState({name});
+    store.dispatch(userLogin(name, user_id));
   }
 
   _toQueryString(params) {

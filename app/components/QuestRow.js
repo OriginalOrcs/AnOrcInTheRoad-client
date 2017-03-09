@@ -50,7 +50,8 @@ class QuestRow extends React.Component {
   }
 
   checkIfComplete(distanceMiles) {
-    if (distanceMiles < 0.1 && this.state.isSelected && this.props.quest.complete) {
+
+    if (distanceMiles < 0.1 && this.state.isSelected && !this.props.quest.complete) {
       socket.emit('complete quest', this.props.id, this.props.quest.id);
       Alert.alert('Completed Quest!');
     }

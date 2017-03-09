@@ -15,9 +15,14 @@ const calculateDistance = (lat1, lng1, lat2, lng2, accuracy) => {
   return Math.floor(dist * 0.000621371 * 10)/10
 };
 
-const addDistanceToQuests = (quests, myLat, myLng) => {
+const modifyQuestProps = (quests, myLat, myLng) => {
   const questsWithDistance = quests.map((quest) => {
-    quest.distance = calculateDistance(myLat, myLng, quest.lat, quest.lng, 20);
+    if (quest.questType === 'addCryptoQuest') {
+      quest.distance = calculateDistance(myLat, myLng, quest.created_lat, quest.created_lng, 20);
+    } else {
+      quest.distance = calculateDistance(myLat, myLng, quest.lat, quest.lng, 20);
+    }
+    quest.experience = Math.floor((Date.now() - quest.timestamp) / 3600000) * 2;
     return quest;
   });
   return questsWithDistance;
@@ -40,16 +45,16 @@ const filterQuests = (quests, filter, charId) => {
     case 'FILTER_INACTIVE':
       return quests.filter(q => !q.active && q.complete === '0' && q.creator_id !== charId);
     case 'FILTER_COMPLETED':
-      return quests.filter(q => q.complete.toString() === charId && q.creator_id !== charId);
+      return quests.filter(q => q.complete === charId && q.creator_id !== charId);
     case 'FILTER_CREATED':
-      return quests.filter(q => q.creator_id === charId && q.complete.toString() === '0');
+      return quests.filter(q => q.creator_id === charId && q.complete === '0');
   }
 };
 
 const mapStateToProps = (state) => {
   console.log('visible quest list state', state);
-  const questsWithDistance = addDistanceToQuests(state.quests, state.location.latitude, state.location.longitude);
-  const filteredQuests = filterQuests(questsWithDistance, state.questFilter, state.user.char_id);
+  const augmentedQuests = modifyQuestProps(state.quests, state.location.latitude, state.location.longitude);
+  const filteredQuests = filterQuests(augmentedQuests, state.questFilter, state.user.char_id);
   return {
     quests: sortByDistance(filteredQuests),
     lat: state.location.latitude,

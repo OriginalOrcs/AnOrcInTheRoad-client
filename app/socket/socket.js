@@ -13,7 +13,7 @@ import { store } from '../main';
 // const socket = io('10.235.19.87:443');
 // const socket = io('http://10.6.20.234:3000');
 // const socket = io('http://10.234.135.15:3000');
-const socket = io('http://10.241.120.252:3000');
+// const socket = io('http://10.241.120.252:3000');
 
 socket.on('trigger update quests', () => {
   socket.emit('get quests', store.getState().user.char_id);
