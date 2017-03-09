@@ -38,17 +38,11 @@ class QuestRow extends React.Component {
     }
   }
 
-  getDistance(lat1, lng1, lat2, lng2) {
-    return this.props.calculateDistance({latitude: lat1, longitude: lng1}, {latitude: lat2, longitude: lng2});
-  }
-
-  convertDistanceToMiles(dist) {
-    return Math.floor(dist * 0.000621371 * 10)/10;
-  }
-
   handleSelect() {
-    this.setState({isSelected: !this.state.isSelected});
-    this.handleToggle();
+    if (this.props.quest.creator_id !== this.props.id) {
+      this.setState({isSelected: !this.state.isSelected});
+      this.handleToggle();
+    }
   }
 
   handleToggle() {
@@ -56,17 +50,16 @@ class QuestRow extends React.Component {
   }
 
   checkIfComplete(distanceMiles) {
-    if (distanceMiles < 0.1 && this.state.isSelected) {
-      console.log('quest completed: ', this.props.quest.id);
+
+    if (distanceMiles < 0.1 && this.state.isSelected && !this.props.quest.complete) {
       socket.emit('complete quest', this.props.id, this.props.quest.id);
       Alert.alert('Completed Quest!');
     }
   }
 
-
   render() {
-    var distanceMiles = this.convertDistanceToMiles(this.props.dist);
-    this.checkIfComplete(distanceMiles);
+    // var distanceMiles = this.convertDistanceToMiles(this.props.dist);
+    this.checkIfComplete(this.props.dist);
     return (
       <TouchableHighlight onPress={() => this.handleSelect()} underlayColor='#b9d3c2'>
         <Image style={styles.background} source={require('../assets/images/quest-row.png')}>
@@ -81,7 +74,7 @@ class QuestRow extends React.Component {
             <Text style={styles.title}>{this.props.quest.name}</Text>
             <View style={styles.details}>
               <Text style={styles.experience}>Rewards: {this.props.quest.experience}</Text><Text style={styles.xp}>XP</Text>
-              <Text style={styles.distance}>{'            ' + distanceMiles + ' Miles'}</Text>
+              <Text style={styles.distance}>{'            ' + this.props.dist + ' Miles'}</Text>
             </View>
           </View>
         </View>

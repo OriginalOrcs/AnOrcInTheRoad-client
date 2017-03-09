@@ -2,18 +2,21 @@ import Exponent from 'exponent';
 
 let nextQuestId = 0;
 
-export const addQuest = (name, location, questType, experience, lat, lng, creator_id, item_id) => {
+export const addQuest = (name, creator_id, lat, lng, crypto, created_lat, created_lng, timestamp, timestart, timestop, questType) => {
   return {
     type: 'ADD_QUEST',
     id: nextQuestId++,
     name,
-    location,
-    questType,
-    experience,
+    creator_id,
     lat,
     lng,
-    creator_id,
-    item_id,
+    crypto,
+    created_lat,
+    created_lng,
+    timestamp,
+    timestart,
+    timestop,
+    questType,
   };
 };
 
@@ -74,10 +77,10 @@ export const toggleQuest = (id, active) => {
   };
 };
 
-export const REQUEST_LOCATION = 'REQUEST_LOCATION'
-export const RECEIVE_LOCATION = 'RECEIVE_LOCATION'
-export const REQUEST_QUESTS = 'REQUEST_QUESTS'
-export const RECEIVE_QUESTS = 'RECEIVE_QUESTS'
+export const REQUEST_LOCATION = 'REQUEST_LOCATION';
+export const RECEIVE_LOCATION = 'RECEIVE_LOCATION';
+export const REQUEST_QUESTS = 'REQUEST_QUESTS';
+export const RECEIVE_QUESTS = 'RECEIVE_QUESTS';
 
 export function requestLocation() {
   return {

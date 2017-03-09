@@ -7,19 +7,25 @@ import socket from '../socket/socket';
 import geolib from 'geolib';
 import { getLocationAsync, createLocationWatcher, removeLocationWatcher } from '../utilities/locations';
 
-const addDistanceToQuests = (quests, myLat, myLng) => {
-  const questsWithDistance = quests.map((quest) => {
-    quest.distance = calculateDistance(myLat, myLng, quest.lat, quest.lng, 20);
-    return quest;
-  });
-  return questsWithDistance;
-};
-
 const calculateDistance = (lat1, lng1, lat2, lng2, accuracy) => {
   const acc = accuracy || 20;
   const coord1 = { latitude: lat1, longitude: lng1 };
   const coord2 = { latitude: lat2, longitude: lng2 };
-  return geolib.getDistance(coord1, coord2, acc);
+  const dist = geolib.getDistance(coord1, coord2, acc);
+  return Math.floor(dist * 0.000621371 * 10)/10
+};
+
+const modifyQuestProps = (quests, myLat, myLng) => {
+  const questsWithDistance = quests.map((quest) => {
+    if (quest.questType === 'addCryptoQuest') {
+      quest.distance = calculateDistance(myLat, myLng, quest.created_lat, quest.created_lng, 20);
+    } else {
+      quest.distance = calculateDistance(myLat, myLng, quest.lat, quest.lng, 20);
+    }
+    quest.experience = Math.floor((Date.now() - quest.timestamp) / 3600000) * 2;
+    return quest;
+  });
+  return questsWithDistance;
 };
 
 const sortByDistance = (quests) => {
@@ -30,37 +36,43 @@ const sortByDistance = (quests) => {
   return byDist;
 };
 
-const filterQuests = (quests, filter) => {
+const filterQuests = (quests, filter, charId) => {
   switch (filter) {
     case 'FILTER_ALL':
-      return quests;
+      return quests.filter(q => q.complete === '0' && q.creator_id !== charId);
     case 'FILTER_ACTIVE':
-      return quests.filter(q => q.active);
+      return quests.filter(q => q.active && q.complete === '0' && q.creator_id !== charId);
+    case 'FILTER_INACTIVE':
+      return quests.filter(q => !q.active && q.complete === '0' && q.creator_id !== charId);
     case 'FILTER_COMPLETED':
-      return quests.filter(q => q.complete);
+      return quests.filter(q => q.complete === charId && q.creator_id !== charId);
+    case 'FILTER_CREATED':
+      return quests.filter(q => q.creator_id === charId && q.complete === '0');
   }
 };
 
 const mapStateToProps = (state) => {
   console.log('visible quest list state', state);
-  var questsWithDistance = addDistanceToQuests(state.quests, state.location.latitude, state.location.longitude);
-  var filteredQuests = filterQuests(questsWithDistance, state.filter);
+  const augmentedQuests = modifyQuestProps(state.quests, state.location.latitude, state.location.longitude);
+  const filteredQuests = filterQuests(augmentedQuests, state.questFilter, state.user.char_id);
   return {
-    quests: sortByDistance(filterQuests(questsWithDistance, state.questFilter)),
+    quests: sortByDistance(filteredQuests),
     lat: state.location.latitude,
     lng: state.location.longitude,
     watcherSub: state.watcherSub,
     user: state.user,
-    filteredQuests: filterQuests(questsWithDistance, state.questFilter),
+    questType: state.questType,
   };
 };
+
+
 
 const mapDispatchToProps = (dispatch) => {
   console.log('VISIBLE QUEST PROPS', this.props);
   return {
-    onSubmitQuest: (name, location, questType, experience, latitude, longitude, creator_id, item_id) => {
-      const newQuest = addQuest(name, location, questType, experience, latitude, longitude, creator_id, item_id);
-      console.log('NEWSUBMITQUEST', newQuest);
+    onSubmitQuest: (name, creator_id, lat, lng, crypto, created_lat, created_lng, timestamp, timestart, timestop, questType) => {
+      const newQuest = addQuest(name, creator_id, lat, lng, crypto, created_lat, created_lng, timestamp, timestart, timestop, questType);
+      console.log('emitting submit quest', newQuest);
       socket.emit('create quest', newQuest);
     },
     pingLocation: () => {
@@ -88,7 +100,6 @@ const mapDispatchToProps = (dispatch) => {
       } else {
         socket.emit('deactivate quest', char_id, quest_id);
       }
-      // dispatch(toggleQuest(id));
     },
     fetchQuests: (charId) => {
       socket.emit('get quests', charId);
