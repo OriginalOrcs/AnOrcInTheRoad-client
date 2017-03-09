@@ -163,6 +163,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 180,
   },
+  container_2: {
+    backgroundColor: '#b9d3c2',
+    flex: 1,
+    justifyContent: 'flex-start',
+    padding: 35,
+  }
 });
 
 class QuestCreate extends React.Component {
@@ -324,7 +330,7 @@ class QuestCreate extends React.Component {
           style={styles.modal}
         >
           <Image style={styles.scroll} source={require('../assets/images/quest-create.png')} >
-            <View style={styles.container}>
+            <View style={styles.container_2}>
               <TextInput
                 style={styles.input}
                 onChangeText={(name) => this.setState({ name })}
