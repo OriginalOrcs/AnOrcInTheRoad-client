@@ -22,7 +22,7 @@ const modifyQuestProps = (quests, myLat, myLng) => {
     } else {
       quest.distance = calculateDistance(myLat, myLng, quest.lat, quest.lng, 20);
     }
-    quest.experience = Math.floor((Date.now() - quest.timestamp) / 3600000) * 2;
+    quest.experience = Math.floor((Date.now() - quest.timestamp) / 3600000) * 2 + 2;
     return quest;
   });
   return questsWithDistance;
@@ -45,7 +45,7 @@ const filterQuests = (quests, filter, charId) => {
     case 'FILTER_INACTIVE':
       return quests.filter(q => !q.active && q.complete === '0' && q.creator_id !== charId);
     case 'FILTER_COMPLETED':
-      return quests.filter(q => q.complete === charId && q.creator_id !== charId);
+      return quests.filter(q => parseInt(q.complete) === parseInt(charId) && parseInt(q.creator_id) !== parseInt(charId));
     case 'FILTER_CREATED':
       return quests.filter(q => q.creator_id === charId && q.complete === '0');
   }

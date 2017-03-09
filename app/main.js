@@ -51,7 +51,7 @@ import { Font } from 'exponent';
 
 let redirectUri;
 if (Exponent.Constants.manifest.xde) {
-  redirectUri = `exp://69-st6.rewhsu.app.exp.direct/+/redirect`;
+  redirectUri = `exp://6z-q7h.rewhsu.app.exp.direct/+/redirect`;
 } else {
     console.log('CONSTANTS MANIFEST ',Exponent.Constants.linkingUri)
   redirectUri = `${Exponent.Constants.linkingUri}/redirect`;
@@ -108,6 +108,8 @@ class AppContainer extends React.Component {
     const decodedToken = jwtDecoder(encodedToken);
     const name = decodedToken.nickname;
     const user_id = decodedToken.user_id;
+  // var name = 'Fawefwaef';
+  // var user_id = 'auth0|58b734d372a566673da70e6a'
     this.setState({name});
     store.dispatch(userLogin(name, user_id));
   }

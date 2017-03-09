@@ -98,14 +98,14 @@ class QuestList extends React.Component {
           {this.props.quests ?
             <View>
               <View style={styles.buttonContainer}>
-                <TouchableOpacity onPress={() => this.props.setFilter('FILTER_ALL')} style={styles.filterButton}>
-                  <Text>All</Text>
+                <TouchableOpacity onPress={() => this.props.setFilter('FILTER_INACTIVE')} style={styles.filterButton}>
+                  <Text>Nearby</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.props.setFilter('FILTER_ACTIVE')} style={[styles.filterButton, styles.middleButton]}>
                   <Text>Active</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.props.setFilter('FILTER_COMPLETED')} style={styles.filterButton}>
-                  <Text>Completed</Text>
+                <TouchableOpacity onPress={() => this.props.setFilter('FILTER_CREATED')} style={styles.filterButton}>
+                  <Text>Created</Text>
                 </TouchableOpacity>
               </View>
               <ListView
