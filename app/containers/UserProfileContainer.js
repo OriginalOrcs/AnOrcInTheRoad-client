@@ -7,6 +7,7 @@ const mapStateToProps = (state) => {
   return {
     selectedImage: null,
     user: state.user,
+    quests: state.quests,
   };
 };
 

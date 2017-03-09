@@ -115,7 +115,7 @@ class UserProfile extends React.Component {
         </Modal>
         <View style={styles.group}>
           <Text style={styles.heading}>
-            {this.props.users[0].name}
+            {this.props.user.name}
           </Text>
           <Text style={styles.subtitle}>
             {this.props.users[0].class}
@@ -126,37 +126,22 @@ class UserProfile extends React.Component {
         </View>
         <View style={styles.group}>
           <Text style={styles.label}>
-            Level: {this.props.users[0].level}
+            Level: {this.props.user.level}
           </Text>
           <Text style={styles.label}>
-            Experience: {this.props.users[0].experience}/{this.props.users[0].experienceToNext}
+            Experience: {this.props.user.experience}/{this.props.users[0].experienceToNext}
           </Text>
         </View>
         <View style={styles.group}>
           <Text style={styles.heading2}>Quest Stats</Text>
           <Text style={styles.label}>
-            Completed: {this.props.stats[0].quests.completed}
+            Completed: {this.props.quests.filter(q => q.complete).length}
           </Text>
           <Text style={styles.label}>
             Accepted: {this.props.stats[0].quests.accepted}
           </Text>
           <Text style={styles.label}>
             Created: {this.props.stats[0].quests.created}
-          </Text>
-        </View>
-        <View style={styles.group}>
-          <Text style={styles.heading2}>Item Stats</Text>
-          <Text style={styles.label}>
-            Total: {this.props.stats[0].items.total}
-          </Text>
-          <Text style={styles.label}>
-            Created: {this.props.stats[0].items.created}
-          </Text>
-          <Text style={styles.label}>
-            Discovered: {this.props.stats[0].items.quest_receive}
-          </Text>
-          <Text style={styles.label}>
-            Quested: {this.props.stats[0].items.quest_give}
           </Text>
         </View>
         <View style={styles.group}>
