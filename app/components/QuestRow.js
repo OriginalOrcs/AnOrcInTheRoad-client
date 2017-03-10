@@ -1,9 +1,9 @@
 import React from 'react';
-import { 
-  View, 
-  StyleSheet, 
-  Text, 
-  TouchableHighlight, 
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
   Alert,
   Image,
 } from 'react-native';
@@ -11,38 +11,48 @@ import socket from '../socket/socket';
 import { Font } from 'exponent';
 import Layout from '../constants/Layout';
 
-
 class QuestRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showDetails: false,
       isSelected: false,
-      test: false,
+      alertActive: false,
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log('NEXT PROPS from QROW: ', nextProps);
+  componentDidMount() {
+    this.checkIfCompleteAuto();
   }
 
   handleSelect() {
     if (this.props.quest.active) {
       socket.emit('deactivate quest', this.props.id, this.props.quest.id);
+      this.checkIfComplete();
     } else {
       socket.emit('activate quest', this.props.id, this.props.quest.id);
+      this.checkIfComplete();
     }
-    this.setState({ test: true });
   }
 
-  componentDidMount() {
-    this.checkIfComplete();
+  sendAlert() {
+    if (!this.state.alertActive) {
+      this.setState({ alertActive: true });
+      Alert.alert('Completed Quest!');
+    }
+    this.setState({ alertActive: false });
+  }
+
+  checkIfCompleteAuto() {
+    if (this.props.quest.active) {
+      this.checkIfComplete();
+    }
   }
 
   checkIfComplete() {
-    if (this.props.dist < 0.1 && this.props.quest.active) {
+    if (this.props.dist < 0.1) {
       socket.emit('complete quest', this.props.id, this.props.quest.id);
-      Alert.alert('Completed Quest!');
+      this.sendAlert();
     }
   }
 
