@@ -13,6 +13,7 @@ import {
   Modal,
   Animated,
   TouchableHighlight,
+  StatusBar,
 } from 'react-native';
 import { Components } from 'exponent';
 import Router from '../navigation/Router';
@@ -118,6 +119,7 @@ export default class MapScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+       <StatusBar hidden={true} />
         <Components.MapView
           style={{ flex: 1, backgroundColor: '#fff' }}
           initialRegion={this.state.mapRegion}

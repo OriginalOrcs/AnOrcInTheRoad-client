@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Modal, TouchableHighlight, TextInput, Slider, Picker, ScrollView, Image, TouchableOpacity, DatePickerIOS, Alert } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, TextInput, Slider, Picker, ScrollView, Image, DatePickerIOS, Alert } from 'react-native';
 import { Font } from 'exponent';
 import MapCreate from './MapQuest';
 import Layout from '../constants/Layout';
@@ -10,31 +10,129 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
   },
-  heading: {
-    fontSize: 30,
-    fontWeight: '300',
+    choose: {
+      fontSize: 30,
+      marginTop: 30,
+      textAlign: 'center',
+      flexDirection: 'row',
+      color: '#336A73',
+      ...Font.style('livingst'),
+      fontWeight: '900',
+      backgroundColor: 'rgba(0,0,0,0)',
+      padding: 5,
+    },
+  uniteButton: {
+      flex: 1,
+      flexDirection: 'row',
+      backgroundColor: '#336A73',
+      width: 140,
+      height: 45,
+      borderColor: '#b9d3c2',
+      borderWidth: 2,
+      marginTop: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 10,
+      alignSelf: 'center',
+    },
+  submitButton: {
+    // flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#828831',
+    width: 240,
+    height: 45,
+    borderColor: '#336A73',
+    borderWidth: 2,
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    alignSelf: 'center',
   },
-  heading2: {
-    fontSize: 20,
-    fontWeight: '200',
-  },
-  subtitle: {
-    fontSize: 12,
-    fontWeight: '100',
-    color: 'gray',
-  },
-  label: {
-    marginLeft: 20,
-    marginBottom: 0,
-    fontSize: 16,
-    backgroundColor: 'rgba(0,0,0,0)',
-    fontWeight: '200',
-     ...Font.style('luminari'),
-  },
-  image: {
-    width: 200,
-    height: 200,
-  },
+    closeButton: {
+     flexDirection: 'row',
+     backgroundColor: '#B4B4AC',
+     width: 140,
+     height: 40,
+     borderColor: '#336A73',
+     borderWidth: 2,
+     marginTop: 20,
+     justifyContent: 'center',
+     alignItems: 'center',
+     borderRadius: 10,
+     alignSelf: 'center',
+    },
+    buttonText: {
+      color: 'white',
+      fontSize: 23,
+      fontWeight: '400',
+      ...Font.style('livingst'),
+      borderRadius: 10,
+    },
+    input: {
+      marginTop: 50,
+      width: Layout.window.width / 1.5,
+      alignSelf: 'center',
+      height: 40,
+      borderColor: 'gray',
+      borderWidth: 1,
+      borderRadius: 5,
+      marginBottom: 10,
+      marginLeft: 20,
+      marginRight: 20,
+      paddingLeft: 10,
+      fontSize: 25,
+      ...Font.style('luminari'),
+    },
+    name: {
+      fontSize: 30,
+      // marginTop: 10,
+      textAlign: 'center',
+      flexDirection: 'row',
+      color: 'black',
+      ...Font.style('elixia'),
+      fontWeight: '900',
+      backgroundColor: 'rgba(0,0,0,0)',
+      // borderWidth: 1,
+      padding: 5,
+    },
+    row: {
+      borderWidth: 1,
+      borderColor: 'white',
+      backgroundColor: '#b9d3c2',
+    },
+    scrollView: {
+      flex: 0,
+      // backgroundColor: '#336A73',
+      marginTop: 20,
+      marginBottom: 50,
+      width: Layout.window.width,
+      alignSelf: 'center',
+    },
+    scrollBackground: {
+      height: Layout.window.height / 2,
+    },
+    selectedQuest: {
+      // position: 'absolute',
+      backgroundColor: 'rgba(0,0,0,0)',
+      ...Font.style('elixia'),
+      textAlign: 'center',
+      fontSize: 35,
+      top: 65,
+    },
+    questBox: {
+      bottom: 30,
+    },
+    below: {
+      flex: 1,
+      bottom: 45,
+      marginLeft: 105,
+      alignItems: 'center',
+      alignSelf: 'center',
+      position: 'absolute',
+    },
+
+  
   group: {
     paddingTop: 10,
     paddingBottom: 10,
@@ -64,49 +162,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
   },
-  submitButton: {
-    backgroundColor: '#0eb27e',
-    height: 60,
-    borderColor: '#05A5D1',
-    borderWidth: 2,
-    marginTop: 20,
-    marginLeft: 20,
-    marginRight: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-  closeButton: {
-    backgroundColor: '#333',
-    height: 60,
-    borderColor: '#05A5D1',
-    borderWidth: 2,
-    marginTop: 20,
-    marginLeft: 20,
-    marginRight: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-  buttonText: {
-    color: '#FAFAFA',
-    fontSize: 25,
-    fontWeight: '600',
-    ...Font.style('livingst'),
-    borderRadius: 10,
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 10,
-    marginLeft: 20,
-    marginRight: 20,
-    paddingLeft: 10,
-    fontSize: 28,
-    ...Font.style('luminari'),
-  },
   modal: {
     paddingTop: 30,
     paddingBottom: 50,
@@ -124,7 +179,7 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
     alignSelf: 'center',
-    // padding: 35,
+    height: Layout.window.height / 1.5,
   },
   slider: {
     width: Layout.window.width - 30,
@@ -168,7 +223,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     padding: 35,
-  }
+  },
+  time: {
+    alignSelf: 'center',
+    ...Font.style('elixia'),
+    fontSize: 25,
+    color: '#b9d3c2',
+  },
 });
 
 class QuestCreate extends React.Component {
@@ -325,23 +386,23 @@ class QuestCreate extends React.Component {
               </View>
             </View>
             <View style={styles.footer}>
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => this.setState({
                   detailsVisible: true,
                   modalVisible: false,
                 })}
-                style={styles.submitButton}
+                style={[styles.submitButton, {width: 160}]}
               >
                 <Text style={styles.buttonText}>Next</Text>
-              </TouchableHighlight>
-              <TouchableHighlight
+              </TouchableOpacity>
+              <TouchableOpacity
                 onPress={() => {
                   this.setModalVisible(false);
                 }}
                 style={styles.closeButton}
               >
                 <Text style={styles.buttonText}>Cancel</Text>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
           </Image>
         </Modal>
@@ -376,17 +437,17 @@ class QuestCreate extends React.Component {
               {this.state.questType === 'addSunDialQuest' ?
                 <View>
                   <View style={styles.buttonContainer}>
-                    <TouchableOpacity onPress={() => this.setSundialFilter('start')} style={styles.filterButton}>
-                      <Text>Start Time</Text>
+                    <TouchableOpacity onPress={() => this.setSundialFilter('start')} style={[styles.filterButton, {backgroundColor: '#b9d3c2'}]}>
+                      <Text style={{...Font.style('livingst'), fontSize: 20}}>Start Time</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.setSundialFilter('end')} style={[styles.filterButton, styles.middleButton]}>
-                      <Text>End Time</Text>
+                    <TouchableOpacity onPress={() => this.setSundialFilter('end')} style={[styles.filterButton, styles.middleButton, {backgroundColor: '#b9d3c2'}]}>
+                      <Text style={{...Font.style('livingst'), fontSize: 20}}>End Time</Text>
                     </TouchableOpacity>
                   </View>
                   <View>
                     {this.state.showStartTime ?
                       <View>
-                        <Text>Start Time</Text>
+                      <Text style={styles.time}>Start Time</Text>
                         <DatePickerIOS
                           date={this.state.startDate}
                           mode="time"
@@ -399,7 +460,7 @@ class QuestCreate extends React.Component {
                   <View>
                     {this.state.showEndTime ?
                       <View>
-                        <Text>End Time</Text>
+                        <Text style={styles.time}>End Time</Text>
                         <DatePickerIOS
                           date={this.state.endDate}
                           mode="time"
@@ -413,32 +474,32 @@ class QuestCreate extends React.Component {
               : null}
             </View>
             <View style={styles.footer}>
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => this.createQuest()}
                 style={styles.submitButton}
               >
                 <Text style={styles.buttonText}>Submit Quest</Text>
-              </TouchableHighlight>
-              <TouchableHighlight
+              </TouchableOpacity>
+              <TouchableOpacity
                 onPress={() => {
                   this.setState({detailsVisible: false});
                 }}
                 style={styles.closeButton}
               >
                 <Text style={styles.buttonText}>Cancel</Text>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
           </Image>
         </Modal>
         <View>
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() => {
               this.setState({ modalVisible: true });
             }}
-            style={styles.addButton}
+            style={styles.submitButton}
           >
             <Text style={styles.buttonText}>Create New Quest</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       </View>
     );

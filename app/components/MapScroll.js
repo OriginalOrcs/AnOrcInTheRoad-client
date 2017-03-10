@@ -81,7 +81,7 @@ class MapScroll extends React.Component {
               <View style={styles.scrollQuests} key={quest.id}>
                 <View style={styles.level}>
                   <Image 
-                    style={styles.activate}
+                    style={styles.shield}
                     source={quest.experience > 20000 ? require('../assets/icons/gold.png')
                       : quest.experience > 10000 ? require('../assets/icons/silver.png')
                       : require('../assets/icons/bronze.png')}
@@ -92,21 +92,21 @@ class MapScroll extends React.Component {
                 <Text style={styles.name}>{quest.name}</Text>
                 { this.props.currentQuest.active ?
                   <View style={styles.directions}>
-                    <TouchableOpacity onPress={() => {
+                    <TouchableOpacity style={styles.begin} onPress={() => {
                         this.googleDirections(
                           { lat: this.props.lat, lng: this.props.lng },
                           { lat: quest.lat, lng: quest.lng },
                         );
                       }}
                     >
-                      <Image source={require('../assets/buttons/begin-button.png')} />                  
+                       <Text style={styles.buttonText}>Begin Quest</Text>                  
                     </TouchableOpacity>
                   </View>     
                   : 
                     this.state.activate == 'loading' ?
                       <ActivityIndicator animating={true} color='white' style={styles.spinner}/>
-                      : <TouchableOpacity onPress={() => this.handleToggle()}>
-                          <Image style={styles.activate} source={require('../assets/buttons/activate-button.png')} />
+                      : <TouchableOpacity style={styles.activate} onPress={() => this.handleToggle()}>
+                          <Text style={styles.buttonText}>Activate Quest</Text>
                         </TouchableOpacity>
                 }
               </View>
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   directions: {
     flexDirection: 'row',
   },
-  activate: {
+  shield: {
     flexDirection: 'row',
   },
   spinner: {
@@ -184,6 +184,39 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     ...Font.style('luminari'),
     fontWeight: '100',
+  },
+  activate: {
+      flexDirection: 'row',
+      backgroundColor: '#828831',
+      width: 180,
+      height: 35,
+      borderColor: '#b9d3c2',
+      borderWidth: 2,
+      marginTop: 13,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 10,
+      alignSelf: 'center',
+    },
+  begin: {
+     flexDirection: 'row',
+     backgroundColor: '#336A73',
+     width: 180,
+     height: 35,
+     borderColor: '#b9d3c2',
+     borderWidth: 2,
+     marginTop: 13,
+     justifyContent: 'center',
+     alignItems: 'center',
+     borderRadius: 10,
+     alignSelf: 'center',
+    },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '400',
+    ...Font.style('livingst'),
+    borderRadius: 10,
   },
 });
 

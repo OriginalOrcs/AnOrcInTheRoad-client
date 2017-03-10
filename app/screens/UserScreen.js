@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  StatusBar,
 } from 'react-native';
 
 import { Font } from 'exponent';
@@ -26,10 +27,9 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+       <StatusBar hidden={true} />
         <Image source={require('../assets/images/quest-create.png')}>
         <ScrollView 
-          horizontal={false}
-          vertical={true}
           contentContainerStyle={styles.content}>
             <UserProfile style={styles.scroll} stats={stats} />
         </ScrollView>
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     justifyContent: 'flex-start',
+    marginBottom: 30,
   },
   scroll: {
     // flex: 1,
@@ -55,5 +56,6 @@ const styles = StyleSheet.create({
   content: {
     backgroundColor: 'rgba(0,0,0,0)',
     alignSelf: 'center',
+    paddingBottom: 30,
   },
 });

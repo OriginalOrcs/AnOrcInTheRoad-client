@@ -6,15 +6,16 @@ import Party from '../containers/PartyContainer';
 import PartyList from './PartyList'
 import { Font } from 'exponent';
 import socket from '../socket/socket';
+import Layout from '../constants/Layout';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgba(0,0,0,0)',
-    padding: 20,
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    margin: 20,
+    // margin: 20,
+    paddingBottom: 30,
   },
   backgroundImage: {
     justifyContent: 'flex-start',
@@ -23,10 +24,13 @@ const styles = StyleSheet.create({
   },
   heading: {
     ...Font.style('elixia'),
-    fontSize: 55,
+    fontSize: 65,
     fontWeight: '900',
-    alignSelf: 'center',
     textAlign: 'center',
+    alignSelf: 'center',
+    marginTop: 40,
+    width: Layout.window.width,
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   heading2: {
     ...Font.style('luminari'),
@@ -34,24 +38,56 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   subtitle: {
-    ...Font.style('luminari'),
-    fontSize: 20,
+    ...Font.style('livingst'),
+    fontSize: 23,
     fontWeight: '100',
-    color: 'gray',
+    color: '#B4B4AD',
     textAlign: 'center',
+    marginLeft: 95,
+    marginTop: 150,
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   titles: {
-    alignSelf: 'center',
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0)',
+    height: 170,
+    marginLeft: 60,
+    padding: 30,
+    paddingTop: 40,
   },
   group: {
-    marginLeft: 140,
-    marginTop: 40,
+    marginTop: 15,
+    marginLeft: -270,
+    flex: 1,
+    flexDirection: 'column',
+    alignSelf: 'center',
+    // backgroundColor: 'gray',
+    // width: Layout.window.width,
+    alignItems: 'center',
+    height: 40,
   },
-  label: {
-    ...Font.style('luminari'),
-    fontSize: 16,
+  xp: {
+    ...Font.style('livingst'),
+    fontSize: 23,
     fontWeight: '100',
     color: '#336A73',
+    flex: 1,
+    flexDirection: 'row',
+    position: 'absolute',
+    alignItems: 'center',
+    textAlign: 'center',
+  },
+  level: {
+    ...Font.style('livingst'),
+    fontSize: 23,
+    fontWeight: '100',
+    color: '#336A73',
+    flex: 1,
+    flexDirection: 'row',
+    position: 'absolute',
+    alignItems: 'center',
+    marginLeft: 190,
+    textAlign: 'center',
   },
   image: {
     width: 200,
@@ -61,15 +97,22 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     flex: 1,
     position: 'absolute',
-    // marginLeft: ,
-    marginTop: 60,
+    marginLeft: 25,
+    marginTop: 35,
   },
-  logoout: {
+  logout: {
     flex: 1,
     flexDirection: 'row',
     alignSelf: 'flex-end',
     justifyContent: 'flex-end',
-    bottom: 0,
+  },
+  bricks: {
+    flex: 1,
+    alignSelf: 'center',
+  },
+  headerImage: {
+    borderBottomWidth: 8,
+    borderBottomColor: '#336A73',
   },
 });
 
@@ -98,6 +141,7 @@ class UserProfile extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('comp will receive user prof: ', nextProps);
     if (nextProps.user) {
       this.setState({
         name: nextProps.user.name,
@@ -129,36 +173,35 @@ class UserProfile extends React.Component {
         >
           <CharacterCreate userid={this.state.user_id} handleCreateOrClose={this.handleCreateOrClose} onCreateCharacter={this.props.onCreateCharacter} />
         </Modal>
-        <View style={styles.titles}>
-          <Text style={styles.heading}>
-            {this.state.name}
-          </Text>
+        <View style={styles.headerImage}>
+        <Image style={styles.bricks} source={require('../assets/images/bricks.png')}> 
           <Text style={styles.subtitle}>
             {this.state.classType}
           </Text>
+        </Image>
         </View>
-        <View style={styles.group}>
-        </View>
-        <View style={styles.icon}>
-          {
-            this.state.classType === 'Ostentatious Orc' ?
-              <Image style={styles.icon} source={require('../assets/icons/goblin-small.png')} /> :
-            this.state.classType === 'Noble Knight' ?
-              <Image style={styles.icon} source={require('../assets/icons/knight-small.png')} /> :
-            this.state.classType === 'Wise Wizard' ?
-              <Image style={styles.icon} source={require('../assets/icons/wizard-small.png')} /> :
-            this.state.classType === 'Dignified Dwarf' ?
-              <Image style={styles.icon} source={require('../assets/icons/dwarf-small.png')} /> :
-            null
-          }
-        </View>
-        <View style={styles.group}>
-          <Text style={styles.label}>
-
-            Level: {this.state.level}
+          <View style={styles.icon}>
+            {
+              this.state.classType === 'Ostentatious Orc' ?
+                <Image style={styles.icon} source={require('../assets/icons/goblin-small.png')} /> :
+              this.state.classType === 'Noble Knight' ?
+                <Image style={styles.icon} source={require('../assets/icons/knight-small.png')} /> :
+              this.state.classType === 'Wise Wizard' ?
+                <Image style={styles.icon} source={require('../assets/icons/wizard-small.png')} /> :
+              this.state.classType === 'Dignified Dwarf' ?
+                <Image style={styles.icon} source={require('../assets/icons/dwarf-small.png')} /> :
+              null
+            }
+          </View>
+          <Text style={styles.heading}>
+            {this.state.name}
           </Text>
-          <Text style={styles.label}>
-            Experience: {this.state.experience}
+        <View style={styles.group}>
+          <Text style={styles.xp}>
+            {this.state.experience + '\nExperience'}
+          </Text>
+          <Text style={styles.level}>
+            {this.state.level + '\nLevel'}
           </Text>
         </View>
         <Party />

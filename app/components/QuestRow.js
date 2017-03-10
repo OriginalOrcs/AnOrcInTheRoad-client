@@ -71,7 +71,7 @@ class QuestRow extends React.Component {
             <Text style={styles.title}>{this.props.quest.name}</Text>
             <View style={styles.details}>
               <Text style={styles.experience}>Rewards: {this.props.quest.experience}</Text><Text style={styles.xp}>XP</Text>
-              <Text style={styles.distance}>{'            ' + this.props.dist + ' Miles'}</Text>
+              <Text style={styles.distance}>{'        ' + this.props.dist + ' Miles'}</Text>
             </View>
           </View>
         </View>
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginTop: 12,
     marginLeft: -10,
-    alignItems: 'center',
+    // alignItems: 'center',
     height: null,
     width: Layout.window.width,
     position: 'absolute',
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   details: {
     flexDirection: 'row',
     flex: 1,
-    marginLeft: 30,
+    marginLeft: 40,
   },
   xp: {
     // textAlign: 'left',
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     ...Font.style('luminari'),
     fontWeight: '100',
-
+    marginLeft: 40,
   },
   directions: {
     // alignItems: 'center',
@@ -168,5 +168,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     ...Font.style('luminari'),
     fontWeight: '100',
+    textAlign: 'right',
   },
 });
