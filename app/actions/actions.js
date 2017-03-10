@@ -28,13 +28,6 @@ export const userLogin = (name, user_id) => {
   };
 };
 
-export const updateCharId = (char_id) => {
-  return {
-    type: 'UPDATE_CHARID',
-    char_id,
-  };
-};
-
 export const userLogout = () => {
   return {
     type: 'USER_LOGOUT',
@@ -109,5 +102,31 @@ export function setQuestFilter(filter) {
   return {
     type: 'SET_QUEST_FILTER',
     filter,
+  };
+}
+
+export function updateParty(party) {
+  return {
+    type: 'UPDATE_PARTY',
+    party,
+  };
+}
+
+export function createInvite(invite) {
+  return {
+    type: 'CREATE_INVITE',
+    invite,
+  };
+}
+
+export function createParty() {
+  return {
+    type: 'CREATE_PARTY',
+  };
+}
+
+export function leaveParty() {
+  return {
+    type: 'LEAVE_PARTY',
   };
 }

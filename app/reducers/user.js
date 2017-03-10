@@ -10,16 +10,11 @@ const user = (state = {}, action) => {
     case 'USER_LOGOUT':
       return {};
 
-    case 'UPDATE_CHARID':
-      return {
-        ...state,
-        char_id: action.char_id,
-      };
-
     case 'CREATE_CHARACTER':
       return {
         name: action.name,
         user_id: action.user_id,
+        classType: action.classType,
       };
 
     case 'TRIGGER_UPDATE_CHARACTER':
@@ -29,6 +24,7 @@ const user = (state = {}, action) => {
         char_id: action.character.id,
         level: action.character.level,
         experience: action.character.experience,
+        classType: action.character.classType,
       };
 
     default:

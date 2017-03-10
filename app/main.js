@@ -51,9 +51,8 @@ import { Font } from 'exponent';
 
 let redirectUri;
 if (Exponent.Constants.manifest.xde) {
-  redirectUri = `exp://6z-q7h.rewhsu.app.exp.direct/+/redirect`;
+  redirectUri = `exp://pc-r7g.woobianca.app.exp.direct/+/redirect`;
 } else {
-    console.log('CONSTANTS MANIFEST ',Exponent.Constants.linkingUri)
   redirectUri = `${Exponent.Constants.linkingUri}/redirect`;
 }
 
@@ -89,7 +88,6 @@ class AppContainer extends React.Component {
       redirect_uri: redirectUri,
       state: redirectUri,
     });
-    console.log('REDIRECTION URL: ', redirectionURL)
     Exponent.WebBrowser.openBrowserAsync(redirectionURL);
   }
 
@@ -112,6 +110,7 @@ class AppContainer extends React.Component {
   // var user_id = 'auth0|58b734d372a566673da70e6a'
     this.setState({name});
     store.dispatch(userLogin(name, user_id));
+    socket.emit('get character', user_id);
   }
 
   _toQueryString(params) {
@@ -131,6 +130,14 @@ class AppContainer extends React.Component {
           require('./assets/icons/silver-large.png'),
           require('./assets/icons/bronze-large.png'),
           require('./assets/images/quest-create.png'),
+          require('./assets/icons/goblin-small.png'),
+          require('./assets/icons/knight-small.png'),
+          require('./assets/icons/wizard-small.png'),
+          require('./assets/icons/dwarf-small.png'),
+          require('./assets/icons/goblin-party.png'),
+          require('./assets/icons/knight-party.png'),
+          require('./assets/icons/wizard-party.png'),
+          require('./assets/icons/dwarf-party.png'),
         ],
         fonts: [
           FontAwesome.font,
@@ -154,6 +161,7 @@ class AppContainer extends React.Component {
    if (!this.state.name) {
       return (
         <View style={styles.container}>
+          <StatusBar hidden={true} />
           <Image source={require('./assets/images/orc-background.gif')} style={styles.backgroundImage}>
             <View style={styles.title}>
               <Image style={styles.titleImg} source={require('./assets/images/title.png')} />
@@ -206,7 +214,6 @@ const styles = StyleSheet.create({
   },
   statusBarUnderlay: {
     height: 24,
-    // backgroundColor: 'rgba(0,0,0,0.2)',
   },
   backgroundImage: {
     flex: 1,
