@@ -1,5 +1,18 @@
 import io from 'socket.io-client';
-import { updateQuests, triggerUpdateCharacter } from '../actions/actions';
+import { 
+  updateQuests,
+  triggerUpdateCharacter,
+  updateParty,
+  createInvite,
+  createParty,
+  leaveParty,
+  handleAlreadyInParty,
+  handleNotOnline,
+  handleReject,
+} from '../actions/actions';
+import {
+  Alert,
+} from 'react-native';
 
 import { store } from '../main';
 
@@ -7,8 +20,9 @@ import { store } from '../main';
 
 // const socket = io('http://10.7.24.210:3000');
 // const socket = io('http://169.254.86.190:3000')
-
 // const socket = io('http://10.6.20.151:3000')
+const socket = io('http://10.6.20.151:3000');
+
 // const socket = io('http://10.0.0.24:3000');
 // const socket = io('10.235.19.87:443');
 const socket = io('http://10.6.20.234:3000');
@@ -29,6 +43,46 @@ socket.on('update quests', (data) => {
 
 socket.on('update character', (char) => {
   store.dispatch(triggerUpdateCharacter(char));
+});
+
+socket.on('update party', (party) => {
+  if (party) {
+    store.dispatch(updateParty(party));
+  }
+  if (!party.length > 0) {
+    store.dispatch(leaveParty());
+  }
+});
+
+socket.on('party created', () => {
+  store.dispatch(createParty(true));
+});
+
+socket.on('party invite', (invite) => {
+  Alert.alert(
+    'New Invitation from ' + invite.inviter.name,
+    '',
+    [
+      { text: 'Join Quest', onPress: () => socket.emit('accept party invite', invite) },
+      { text: 'Deny Offer', onPress: () => socket.emit('reject party invite', invite) },
+    ],
+    { cancelable: false },
+  );
+});
+
+socket.on('reject user already in party', (invitee) => {
+  console.log('REJECT USER ALREADY IN PARTY');
+  Alert.alert('Sorry, they are already part of the quest!'); // << alerts not working
+});
+
+socket.on('reject user not online', (invitee) => {
+  console.log('REJECT USER NOT ONLINE');
+  Alert.alert('Sorry, ', invitee.name, ' is not online!'); // << alerts not working
+});
+
+socket.on('reject party invite', (invitee) => {
+  console.log('REJECTED PARTY INVITE', invitee);
+  Alert.alert('Sorry, ', invitee.name, ' was not found!'); // << alerts not working
 });
 
 

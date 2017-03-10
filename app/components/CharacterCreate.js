@@ -1,31 +1,44 @@
 import React from 'react';
 import { View, Text, StyleSheet, Modal, TouchableHighlight, TextInput, ScrollView, Slider, Picker, Image } from 'react-native';
 import { Font } from 'exponent';
+import Layout from '../constants/Layout';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F7F7F7',
+    backgroundColor: 'rgba(0,0,0,0)',
     flex: 1,
-    justifyContent: 'flex-start',
+    alignSelf: 'stretch',
+  },
+  scroll: {
+    flex: 1,
+    resizeMode: 'cover',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    paddingTop: 60,
+  },  
+  modal: {
+    flex: 1,
+    paddingTop: 10,
+    paddingBottom: 40,
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
   heading: {
     fontSize: 30,
     fontWeight: '300',
+    ...Font.style('luminari'),
   },
   heading2: {
     fontSize: 20,
     fontWeight: '200',
-  },
-  subtitle: {
-    fontSize: 12,
-    fontWeight: '100',
-    color: 'gray',
+    ...Font.style('luminari'),
   },
   label: {
     marginLeft: 20,
     marginBottom: 0,
     fontSize: 16,
     fontWeight: '200',
+    ...Font.style('luminari'),
   },
   image: {
     width: 100,
@@ -36,40 +49,20 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     marginLeft: 20,
   },
-  button: {
-    height: 60,
-    borderColor: '#05A5D1',
-    borderWidth: 2,
-    marginTop: 20,
-    marginLeft: 20,
-    marginRight: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    ...Font.style('luminari'),
-  },
-  addButton: {
-    backgroundColor: '#701616',
-    height: 60,
-    borderColor: '#05A5D1',
-    borderWidth: 2,
-    marginTop: 20,
-    marginLeft: 20,
-    marginRight: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   submitButton: {
-    backgroundColor: '#0eb27e',
+    backgroundColor: '#b9d3c2',
     height: 60,
     borderColor: '#05A5D1',
     borderWidth: 2,
-    marginTop: 20,
+    borderRadius: 20,
+    marginTop: 180,
     marginLeft: 20,
     marginRight: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
   closeButton: {
+    borderRadius: 10,
     backgroundColor: '#333',
     height: 60,
     borderColor: '#05A5D1',
@@ -85,28 +78,44 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: '600',
     ...Font.style('luminari'),
+    borderRadius: 10,
   },
   input: {
     height: 40,
+    width: Layout.window.width / 1.25,
+    alignSelf: 'center',
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 20,
-    marginLeft: 20,
-    marginRight: 20,
-    paddingLeft: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    fontSize: 20,
+    ...Font.style('luminari'),
   },
-  modal: {
-    paddingTop: 80,
-    paddingBottom: 50,
-  },
+
   picker: {
-    padding: 20,
+    padding: 50,
+    flex: 1,
+    marginTop: 80,
+  },
+  pickerItem: {
+    width: 10,
+    ...Font.style('luminari'),
   },
   title: {
-    fontSize: 30,
+    fontSize: 50,
     fontWeight: '300',
     marginBottom: 20,
-    marginLeft: 20,
+    alignSelf: 'center',
+    ...Font.style('elixia'),
+  },
+  icons: {
+    alignSelf: 'center',
+    flex: 1,
+  },
+  icon: {
+    flex: 1,
+    padding: 10,
+    alignItems: 'flex-end',
   },
 });
 
@@ -114,53 +123,54 @@ class CharacterCreate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false,
+      classType: 'orc',
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedImage !== this.props.selectedImage) {
-      this.setState({
-        selectedImage: nextProps.selectedImage,
-      });
-    }
-  }
-
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
   }
 
   render() {
     console.log('CHARACTER CREATE PROPS', this.props);
     return (
       <View style={styles.container}>
-  
-          <ScrollView contentContainerStyle={styles.modal}>
+        <Image style={styles.scroll} source={require('../assets/images/quest-create.png')}>
+          <View style={styles.modal}>
             <Text style={styles.title} >Create A Character</Text>
             <TextInput
               style={styles.input}
-              onChangeText={(name) => this.setState({ name })}
-              placeholder="Character Name"
+              onChangeText={name => this.setState({ name })}
+              placeholder=" Character Name"
               value={this.state.name}
               autoCorrect = {false}
+              maxLength = {15}
             />
+            <View style={styles.icons}>
+              {
+                this.state.classType === 'Ostentatious Orc' ?
+                  <Image itemStyle={styles.icon} source={require('../assets/icons/goblin-small.png')}/> :
+                this.state.classType === 'Noble Knight' ?
+                  <Image itemStyle={styles.icon} source={require('../assets/icons/knight-small.png')}/> :
+                this.state.classType === 'Wise Wizard' ?
+                  <Image itemStyle={styles.icon} source={require('../assets/icons/wizard-small.png')}/> :
+                this.state.classType === 'Dignified Dwarf' ?
+                  <Image itemStyle={styles.icon} source={require('../assets/icons/dwarf-small.png')}/> :
+                null
+              }
+            </View>
             <Picker
               selectedValue={this.state.classType}
-              onValueChange={(itemValue) => this.setState({ classType: itemValue })}
+              onValueChange={itemValue => this.setState({ classType: itemValue })}
               style={styles.picker}
             >
-              <Picker.Item label="Hardcore Orc" value="setClassOrc" />
-              <Picker.Item label="Puny Human" value="setClassHuman" />
-              <Picker.Item label="Delicate Elf" value="setClassElf" />
-              <Picker.Item label="Oafish Dwarf" value="setClassDwarf" />
+              <Picker.Item style={styles.pickerItem} label="Ostentatious Orc" value="Ostentatious Orc" />
+              <Picker.Item style={styles.pickerItem} label="Noble Knight" value="Noble Knight" />
+              <Picker.Item style={styles.pickerItem} label="Wise Wizard" value="Wise Wizard" />
+              <Picker.Item style={styles.pickerItem} label="Dignified Dwarf" value="Dignified Dwarf" />
             </Picker>
-            {/*<Image style={styles.image} source={require('../assets/images/3.png')} />*/}
             <TouchableHighlight
               onPress={() => {
                 this.props.onCreateCharacter(
                   this.props.userid,
                   this.state.name,
-                  // this.state.classType,
+                  this.state.classType,
                 );
                 this.props.handleCreateOrClose();
               }}
@@ -168,85 +178,9 @@ class CharacterCreate extends React.Component {
             >
               <Text style={styles.buttonText}>Create Character</Text>
             </TouchableHighlight>
-            <TouchableHighlight
-              onPress={() => {
-                this.props.handleCreateOrClose();
-              }}
-              style={styles.closeButton}
-            >
-              <Text style={styles.buttonText}>Close Menu</Text>
-            </TouchableHighlight>
-          </ScrollView>
-
-        <View>
-         
+          </View>
+          </Image>
         </View>
-      </View>
-
-
-
-
-      /*<View style={styles.container}>
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => { alert("Modal has been closed.") }}
-          style={styles.modal}
-        >
-          <ScrollView contentContainerStyle={styles.modal}>
-            <Text style={styles.title} >Create A Character</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={(name) => this.setState({ name })}
-              placeholder="Character Name"
-              value={this.state.name}
-            />
-            <Picker
-              selectedValue={this.state.classType}
-              onValueChange={(itemValue) => this.setState({ classType: itemValue })}
-              style={styles.picker}
-            >
-              <Picker.Item label="Hardcore Orc" value="setClassOrc" />
-              <Picker.Item label="Puny Human" value="setClassHuman" />
-              <Picker.Item label="Delicate Elf" value="setClassElf" />
-              <Picker.Item label="Oafish Dwarf" value="setClassDwarf" />
-            </Picker>
-            <Image style={styles.image} source={require('../assets/images/3.png')} />
-            <TouchableHighlight
-              onPress={() => {
-                this.props.onCreateCharacter(
-                  this.props.user.user_id,
-                  this.state.name,
-                  // this.state.classType,
-                );
-                this.setModalVisible(false);
-              }}
-              style={styles.submitButton}
-            >
-              <Text style={styles.buttonText}>Create Character</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              onPress={() => {
-                this.setModalVisible(!this.state.modalVisible);
-              }}
-              style={styles.closeButton}
-            >
-              <Text style={styles.buttonText}>Close Menu</Text>
-            </TouchableHighlight>
-          </ScrollView>
-        </Modal>
-        <View>
-          <TouchableHighlight
-            onPress={() => {
-              this.setModalVisible(true);
-            }}     
-            style={styles.addButton}
-          >
-            <Text style={styles.buttonText}>Create New Character</Text>
-          </TouchableHighlight>
-        </View>
-      </View> */
     );
   }
 }

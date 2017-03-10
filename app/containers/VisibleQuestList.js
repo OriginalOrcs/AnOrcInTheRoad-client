@@ -72,7 +72,6 @@ const mapStateToProps = (state) => {
 
 
 const mapDispatchToProps = (dispatch) => {
-  console.log('VISIBLE QUEST PROPS', this.props);
   return {
     onSubmitQuest: (name, creator_id, lat, lng, crypto, created_lat, created_lng, timestamp, timestart, timestop, questType) => {
       const newQuest = addQuest(name, creator_id, lat, lng, crypto, created_lat, created_lng, timestamp, timestart, timestop, questType);

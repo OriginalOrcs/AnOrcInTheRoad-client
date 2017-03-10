@@ -1,8 +1,10 @@
 {
+  "packagerPort": 19002,
+  "packagerPid": 5826,
+  "exponentServerPort": null,
+  "exponentServerNgrokUrl": null,
+  "packagerNgrokUrl": "https://packager.pc-r7g.woobianca.app.exp.direct",
+  "ngrokPid": 5846,
   "expoServerPort": 19000,
-  "packagerPort": 19007,
-  "packagerPid": 60110,
-  "expoServerNgrokUrl": "https://6z-q7h.rewhsu.app.exp.direct",
-  "packagerNgrokUrl": "https://packager.6z-q7h.rewhsu.app.exp.direct",
-  "ngrokPid": 60127
+  "expoServerNgrokUrl": "https://pc-r7g.woobianca.app.exp.direct"
 }

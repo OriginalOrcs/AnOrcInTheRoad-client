@@ -2,14 +2,14 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, Modal, Alert } from 'react-native';
 import Logout from '../containers/Logout';
 import CharacterCreate from './CharacterCreate';
+import Party from '../containers/PartyContainer';
+import PartyList from './PartyList'
 import { Font } from 'exponent';
 import socket from '../socket/socket';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#F7F7F7',
+    backgroundColor: 'rgba(0,0,0,0)',
     padding: 20,
     flex: 1,
     flexDirection: 'column',
@@ -17,14 +17,16 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   backgroundImage: {
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     flex: 1,
     resizeMode: 'stretch',
   },
   heading: {
-    ...Font.style('luminari'),
-    fontSize: 40,
-    fontWeight: '600',
+    ...Font.style('elixia'),
+    fontSize: 55,
+    fontWeight: '900',
+    alignSelf: 'center',
+    textAlign: 'center',
   },
   heading2: {
     ...Font.style('luminari'),
@@ -36,27 +38,38 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '100',
     color: 'gray',
+    textAlign: 'center',
+  },
+  titles: {
+    alignSelf: 'center',
+  },
+  group: {
+    marginLeft: 140,
+    marginTop: 40,
   },
   label: {
     ...Font.style('luminari'),
     fontSize: 16,
-    fontWeight: '200',
+    fontWeight: '100',
+    color: '#336A73',
   },
   image: {
     width: 200,
     height: 200,
   },
-  badgeName: {
-    ...Font.style('luminari'),
+  icon: {
+    alignItems: 'flex-start',
+    flex: 1,
+    position: 'absolute',
+    // marginLeft: ,
+    marginTop: 60,
   },
-  badge: {
-    width: 75,
-    height: 75,
-  },
-  group: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    marginLeft: 20,
+  logoout: {
+    flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'flex-end',
+    justifyContent: 'flex-end',
+    bottom: 0,
   },
 });
 
@@ -70,28 +83,29 @@ class UserProfile extends React.Component {
       char_id: null,
       level: null,
       experience: null,
+      classType: null,
     };
 
     this.handleCreateOrClose = this.handleCreateOrClose.bind(this);
   }
 
   componentDidMount() {
-    // socket.emit('get character', 'testing0 | 23298hsdfn24');
+    console.log('USER PROF DID MOUNT: ', this.props.user);
     socket.on('make character', () => {
+      console.log('ON MAKE CHAR', this.props.user);
       this.setState({ createCharVisible: true });
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('USER PROF COMP WILL RECEIVE PROPS: ', nextProps.user, this.props.user)
-    if (nextProps.user.user_id && nextProps.user.user_id !== this.props.user.user_id) {
-      socket.emit('get character', nextProps.user.user_id);
+    if (nextProps.user) {
       this.setState({
         name: nextProps.user.name,
         user_id: nextProps.user.user_id,
         char_id: nextProps.user.char_id,
         level: nextProps.user.level,
         experience: nextProps.user.experience,
+        classType: nextProps.user.classType,
       });
     }
     if (nextProps.user.user_id && nextProps.user.level !== this.props.user.level) {
@@ -100,11 +114,10 @@ class UserProfile extends React.Component {
   }
 
   handleCreateOrClose() {
-    this.setState({createCharVisible: false});
+    this.setState({ createCharVisible: false });
   }
 
   render() {
-    console.log('LOCAL STATE USER PROF: ', this.state);
     return (
       <View style={styles.container}>
         <Modal
@@ -116,54 +129,41 @@ class UserProfile extends React.Component {
         >
           <CharacterCreate userid={this.state.user_id} handleCreateOrClose={this.handleCreateOrClose} onCreateCharacter={this.props.onCreateCharacter} />
         </Modal>
-        <View style={styles.group}>
+        <View style={styles.titles}>
           <Text style={styles.heading}>
-            {this.props.user.name}
+            {this.state.name}
           </Text>
           <Text style={styles.subtitle}>
-            {this.props.users[0].class}
+            {this.state.classType}
           </Text>
         </View>
         <View style={styles.group}>
-          <Image style={styles.image} source={require('../assets/icons/app-icon.png')} />
+        </View>
+        <View style={styles.icon}>
+          {
+            this.state.classType === 'Ostentatious Orc' ?
+              <Image style={styles.icon} source={require('../assets/icons/goblin-small.png')} /> :
+            this.state.classType === 'Noble Knight' ?
+              <Image style={styles.icon} source={require('../assets/icons/knight-small.png')} /> :
+            this.state.classType === 'Wise Wizard' ?
+              <Image style={styles.icon} source={require('../assets/icons/wizard-small.png')} /> :
+            this.state.classType === 'Dignified Dwarf' ?
+              <Image style={styles.icon} source={require('../assets/icons/dwarf-small.png')} /> :
+            null
+          }
         </View>
         <View style={styles.group}>
           <Text style={styles.label}>
-            Level: {this.props.user.level}
+
+            Level: {this.state.level}
           </Text>
           <Text style={styles.label}>
-            Experience: {this.props.user.experience}/{this.props.users[0].experienceToNext}
+            Experience: {this.state.experience}
           </Text>
         </View>
-        <View style={styles.group}>
-          <Text style={styles.heading2}>Quest Stats</Text>
-          <Text style={styles.label}>
-            Completed: {this.props.quests.filter(q => q.complete).length}
-          </Text>
-          <Text style={styles.label}>
-            Accepted: {this.props.stats[0].quests.accepted}
-          </Text>
-          <Text style={styles.label}>
-            Created: {this.props.stats[0].quests.created}
-          </Text>
-        </View>
-        <View style={styles.group}>
-          <Text style={styles.heading2}>Acheivements</Text>
-          <Text style={styles.label}>
-            Total: {this.props.stats[0].acheivements.total}
-          </Text>
-          <Text style={styles.label}>Badges:</Text>
-          {this.props.stats[0].acheivements.badges.map((badge, index) => (
-            <View key={index}>
-              <Text style={styles.badgeName}>{badge.name}</Text>
-              {badge.name === 'Noob Strength' ?
-                <Image style={styles.badge} source={require('../assets/icons/badge-1.png')} />
-                : <Image style={styles.badge} source={require('../assets/images/badge-quest-master.png')} />
-              }
-            </View>
-          ))}
-        </View>
-        <Logout />
+        <Party />
+        <PartyList party={this.props.party} user={this.props.user} />
+        <Logout style={styles.logout}/>
       </View>
     );
   }
