@@ -3,6 +3,7 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  StatusBar,
 } from 'react-native';
 import QuestList from '../components/QuestList'
 import quests from '../constants/quests.json'
@@ -19,6 +20,7 @@ export default class QuestListScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+       <StatusBar hidden={true} />
       <ScrollView
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
         <VisibleQuestList />

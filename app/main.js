@@ -51,7 +51,7 @@ import { Font } from 'exponent';
 
 let redirectUri;
 if (Exponent.Constants.manifest.xde) {
-  redirectUri = `exp://pc-r7g.woobianca.app.exp.direct/+/redirect`;
+  redirectUri = `exp://rp-fqx.woobianca.app.exp.direct/+/redirect`;
 } else {
   redirectUri = `${Exponent.Constants.linkingUri}/redirect`;
 }
@@ -106,8 +106,6 @@ class AppContainer extends React.Component {
     const decodedToken = jwtDecoder(encodedToken);
     const name = decodedToken.nickname;
     const user_id = decodedToken.user_id;
-  // var name = 'Fawefwaef';
-  // var user_id = 'auth0|58b734d372a566673da70e6a'
     this.setState({name});
     store.dispatch(userLogin(name, user_id));
     socket.emit('get character', user_id);
@@ -124,11 +122,16 @@ class AppContainer extends React.Component {
       await cacheAssetsAsync({
         images: [
           require('./assets/images/orc-background.gif'),
+          require('./assets/buttons/login-button.png'),
+          require('./assets/images/title.png'),
           require('./assets/images/scroll.png'),
           require('./assets/images/quest-row.png'),
           require('./assets/icons/gold-large.png'),
           require('./assets/icons/silver-large.png'),
           require('./assets/icons/bronze-large.png'),
+          require('./assets/icons/gold.png'),
+          require('./assets/icons/silver.png'),
+          require('./assets/icons/bronze.png'),
           require('./assets/images/quest-create.png'),
           require('./assets/icons/goblin-small.png'),
           require('./assets/icons/knight-small.png'),
@@ -138,6 +141,12 @@ class AppContainer extends React.Component {
           require('./assets/icons/knight-party.png'),
           require('./assets/icons/wizard-party.png'),
           require('./assets/icons/dwarf-party.png'),
+          require('./assets/images/bricks.png'),
+          require('./assets/images/flag-active-small.png'),
+          require('./assets/images/flag-not-active-small.png'),
+          require('./assets/images/flag-active.png'),
+          require('./assets/images/flag-not-active.png'),
+
         ],
         fonts: [
           FontAwesome.font,
@@ -178,6 +187,7 @@ class AppContainer extends React.Component {
       return (
         <Provider store={store}>
           <View style={styles.container}>
+          <StatusBar hidden={true} />
             <NavigationProvider router={Router}>
               <StackNavigation id="root" initialRoute={Router.getRoute('rootNavigation')} />
             </NavigationProvider>

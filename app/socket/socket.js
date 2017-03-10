@@ -13,7 +13,7 @@ import {
 import {
   Alert,
 } from 'react-native';
-
+import partyMembers from '../constants/partyMembers';
 import { store } from '../main';
 
 // const socket = io('10.7.37.58:3000');
@@ -21,11 +21,11 @@ import { store } from '../main';
 // const socket = io('http://10.7.24.210:3000');
 // const socket = io('http://169.254.86.190:3000')
 // const socket = io('http://10.6.20.151:3000')
-const socket = io('http://10.6.20.151:3000');
-
-// const socket = io('http://10.0.0.24:3000');
+// const socket = io('http://10.6.20.151:3000');
+// const socket = io('http://172.20.10.2:3000');
+const socket = io('http://10.0.0.24:3000');
 // const socket = io('10.235.19.87:443');
-const socket = io('http://10.6.20.234:3000');
+// const socket = io('http://10.6.20.234:3000');
 // const socket = io('http://10.234.135.15:3000');
 // const socket = io('http://10.7.24.229:3000');
 // const socket = io('http://138.68.28.121:3000')
@@ -43,13 +43,18 @@ socket.on('update quests', (data) => {
 
 socket.on('update character', (char) => {
   store.dispatch(triggerUpdateCharacter(char));
+  socket.emit('get quests', char.id);
 });
 
 socket.on('update party', (party) => {
-  if (party) {
+  console.log('UPDATE PARTY BEFOREE:: ', party)
+  if (party.members) {
+    const newMembers = party.members.concat(partyMembers);
+    party = {...party, members: newMembers};
+    console.log('UPDATE PARTY :: ', party)
     store.dispatch(updateParty(party));
   }
-  if (!party.length > 0) {
+  if (party.members && !party.members.length) {
     store.dispatch(leaveParty());
   }
 });

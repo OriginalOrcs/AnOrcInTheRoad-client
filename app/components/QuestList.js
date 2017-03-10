@@ -5,12 +5,16 @@ import QuestCreate from './QuestCreate';
 import socket from '../socket/socket';
 import { updateQuests } from '../actions/actions'
 import geolib from 'geolib';
+import { Font } from 'exponent';
 
 const styles = StyleSheet.create({
   container: {
     paddingTop: 15,
     backgroundColor: '#b9d3c2',
     flex: 1,
+  },
+  container2: {
+
   },
   button: {
     height: 60,
@@ -41,15 +45,22 @@ const styles = StyleSheet.create({
   },
   filterButton: {
     flex: 1,
+    height: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#eee',
+    backgroundColor: '#d7e2e0',
     padding: 10,
+    borderRadius: 7,
   },
   middleButton: {
     borderLeftWidth: 1,
     borderRightWidth: 1,
     borderColor: '#ccc',
+  },
+  filters: {
+    ...Font.style('livingst'),
+    fontSize: 20,
+    color: 'rgba(0,0,0,0.75)',
   },
 });
 
@@ -93,19 +104,19 @@ class QuestList extends React.Component {
         <View style={styles.createQuest}>
           <QuestCreate onSubmitQuest={this.props.onSubmitQuest} user={this.props.user} lat={this.props.lat} lng={this.props.lng} />
         </View>
-        <View style={styles.container}>
+        <View style={styles.container2}>
           <View style={styles.createQuest}>
           {this.props.quests ?
             <View>
               <View style={styles.buttonContainer}>
                 <TouchableOpacity onPress={() => this.props.setFilter('FILTER_INACTIVE')} style={styles.filterButton}>
-                  <Text>Nearby</Text>
+                  <Text style={styles.filters}>Nearby</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.props.setFilter('FILTER_ACTIVE')} style={[styles.filterButton, styles.middleButton]}>
-                  <Text>Active</Text>
+                  <Text style={styles.filters}>Active</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.props.setFilter('FILTER_CREATED')} style={styles.filterButton}>
-                  <Text>Created</Text>
+                  <Text style={styles.filters}>Created</Text>
                 </TouchableOpacity>
               </View>
               <ListView

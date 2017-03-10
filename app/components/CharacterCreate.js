@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   submitButton: {
-    backgroundColor: '#b9d3c2',
+    backgroundColor: '#336A73',
     height: 60,
     borderColor: '#05A5D1',
     borderWidth: 2,
@@ -123,7 +123,7 @@ class CharacterCreate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      classType: 'orc',
+      classType: 'Ostentatious Orc',
     };
   }
 
