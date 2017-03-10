@@ -18,48 +18,35 @@ class QuestRow extends React.Component {
     this.state = {
       showDetails: false,
       isSelected: false,
+      test: false,
     };
-  }
-
-  componentDidMount() {
-    if (this.props.quest.active) {
-      this.setState({ isSelected: true });
-    } else {
-      this.setState({ isSelected: false });
-    }
   }
 
   componentWillReceiveProps(nextProps) {
     console.log('NEXT PROPS from QROW: ', nextProps);
-    if (nextProps.quest.active) {
-      this.setState({ isSelected: true });
-    } else {
-      this.setState({ isSelected: false });
-    }
   }
 
   handleSelect() {
-    if (this.props.quest.creator_id !== this.props.id) {
-      console.log('handling select', this.props.quest.creator_id, this.props.id)
-      this.setState({isSelected: !this.state.isSelected});
-      this.handleToggle();
+    if (this.props.quest.active) {
+      socket.emit('deactivate quest', this.props.id, this.props.quest.id);
+    } else {
+      socket.emit('activate quest', this.props.id, this.props.quest.id);
     }
+    this.setState({ test: true });
   }
 
-  handleToggle() {
-    this.props.toggleQuest(this.props.id, this.props.quest.id, this.state.isSelected);
+  componentDidMount() {
+    this.checkIfComplete();
   }
 
-  checkIfComplete(distanceMiles) {
-    if (distanceMiles < 0.1 && this.state.isSelected && this.props.quest.complete) {
+  checkIfComplete() {
+    if (this.props.dist < 0.1 && this.props.quest.active) {
       socket.emit('complete quest', this.props.id, this.props.quest.id);
       Alert.alert('Completed Quest!');
     }
   }
 
   render() {
-    // var distanceMiles = this.convertDistanceToMiles(this.props.dist);
-    this.checkIfComplete(this.props.dist);
     return (
       <TouchableHighlight onPress={() => this.handleSelect()} underlayColor='#b9d3c2'>
         <Image style={styles.background} source={require('../assets/images/quest-row.png')}>

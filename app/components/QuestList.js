@@ -72,8 +72,8 @@ class QuestList extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('questlist nextprops', nextProps);
     if (nextProps.quests !== this.props.quests) {
-      // var questsWithDistance = this.addDistanceToQuests(nextProps.quests);
       this.setState({
         elements: nextProps.quests,
         dataSource: this.state.dataSource.cloneWithRows(nextProps.quests),

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Modal, TouchableHighlight, TextInput, Slider, Picker, ScrollView, Image, TouchableOpacity, DatePickerIOS } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableHighlight, TextInput, Slider, Picker, ScrollView, Image, TouchableOpacity, DatePickerIOS, Alert } from 'react-native';
 import { Font } from 'exponent';
 import MapCreate from './MapQuest';
 import Layout from '../constants/Layout';
@@ -201,6 +201,23 @@ class QuestCreate extends React.Component {
     this.setEndDate = this.setEndDate.bind(this);
   }
 
+  validateInputs() {
+    if (!(this.state.name && this.props.user.char_id)) {
+      return false;
+    }
+    if (this.state.questType === 'addCryptoQuest') {
+      if (this.state.cryptoMessage === '') {
+        return false;
+      }
+    }
+    if (this.state.questType === 'addSunDialQuest') {
+      if (!this.state.startDate || !this.state.endDate) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   onRegionChange(coords) {
     console.log(coords);
     this.setState({
@@ -238,26 +255,30 @@ class QuestCreate extends React.Component {
 
   createQuest() {
     console.log('char id', this.props.user)
-    const timestamp = Date.now();
-    this.props.onSubmitQuest(
-      this.state.name,
-      this.props.user.char_id,
-      this.state.lat,
-      this.state.lng,
-      this.state.cryptoMessage,
-      this.props.lat,
-      this.props.lng,
-      timestamp,
-      this.state.startDate.getTime(),
-      this.state.endDate.getTime(),
-      this.state.questType,
-    );
-    // this.props.setDetailsVisible(false);
-    // this.props.setModalVisible(false);
-    this.setState({
-      detailsVisible: false,
-      modalVisible: false,
-    });
+    if (this.validateInputs()) {
+      const timestamp = Date();
+      this.props.onSubmitQuest(
+        this.state.name,
+        this.props.user.char_id,
+        this.state.lat,
+        this.state.lng,
+        this.state.cryptoMessage,
+        this.props.lat,
+        this.props.lng,
+        timestamp,
+        this.state.startDate.getTime(),
+        this.state.endDate.getTime(),
+        this.state.questType,
+      );
+      // this.props.setDetailsVisible(false);
+      // this.props.setModalVisible(false);
+      this.setState({
+        detailsVisible: false,
+        modalVisible: false,
+      });  
+    } else {
+      Alert.alert('Missing quest inputs');
+    }
   }
 
   setStartDate(date) {
