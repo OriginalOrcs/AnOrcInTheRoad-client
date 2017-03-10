@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Modal } from 'react-native';
+import { View, Text, StyleSheet, Image, Modal, Alert } from 'react-native';
 import Logout from '../containers/Logout';
 import CharacterCreate from './CharacterCreate';
 import { Font } from 'exponent';
@@ -93,6 +93,9 @@ class UserProfile extends React.Component {
         level: nextProps.user.level,
         experience: nextProps.user.experience,
       });
+    }
+    if (nextProps.user.user_id && nextProps.user.level !== this.props.user.level) {
+      Alert.alert('You have leveled up to level ' + nextProps.user.level);
     }
   }
 
