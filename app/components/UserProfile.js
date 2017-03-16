@@ -152,7 +152,7 @@ class UserProfile extends React.Component {
         classType: nextProps.user.classType,
       });
     }
-    if (nextProps.user.user_id && nextProps.user.level !== this.props.user.level) {
+    if (nextProps.user.user_id && nextProps.user.level !== this.props.user.level && nextProps.user.level !== 1) {
       Alert.alert('You have leveled up to level ' + nextProps.user.level);
     }
   }
