@@ -50,7 +50,7 @@ class QuestRow extends React.Component {
   }
 
   checkIfComplete() {
-    if (this.props.dist < 0.1) {
+    if (this.props.dist < 0.1 && this.props.id !== this.props.quest.creator_id) {
       socket.emit('complete quest', this.props.id, this.props.quest.id);
       this.sendAlert();
     }

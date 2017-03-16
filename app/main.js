@@ -51,7 +51,7 @@ import { Font } from 'exponent';
 
 let redirectUri;
 if (Exponent.Constants.manifest.xde) {
-  redirectUri = `exp://rp-fqx.woobianca.app.exp.direct/+/redirect`;
+  redirectUri = `exp://rp-fqx.rewhsu.app.exp.direct/+/redirect`;
 } else {
   redirectUri = `${Exponent.Constants.linkingUri}/redirect`;
 }

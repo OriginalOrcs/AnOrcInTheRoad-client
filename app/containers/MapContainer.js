@@ -15,7 +15,7 @@ const modifyQuestProps = (quests) => {
 
 const mapStateToProps = (state) => {
   return {
-    quests: modifyQuestProps(state.quests),
+    quests: modifyQuestProps(state.quests.filter(q => q.complete === '0')),
     lat: state.location.latitude,
     lng: state.location.longitude,
     user: state.user,
